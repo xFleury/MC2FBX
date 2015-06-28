@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B0FCC7A8-29ED-42A3-BACB-732A775AB4A3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MC2FBX</RootNamespace>
+    <AssemblyName>MC2FBX</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Endian.cs" />
+    <Compile Include="fNbt\Tags\NbtDouble.cs" />
+    <Compile Include="fNbt\Tags\NbtFloat.cs" />
+    <Compile Include="MinecraftBlock.cs" />
+    <Compile Include="MinecraftWorld.cs" />
+    <Compile Include="BlockTypes.cs" />
+    <Compile Include="Bounds.cs" />
+    <Compile Include="BoxExtractor.cs" />
+    <Compile Include="Coordinate.cs" />
+    <Compile Include="fNbt\ByteCountingStream.cs" />
+    <Compile Include="fNbt\InvalidReaderStateException.cs" />
+    <Compile Include="fNbt\NbtBinaryReader.cs" />
+    <Compile Include="fNbt\NbtCompression.cs" />
+    <Compile Include="fNbt\NbtFile.cs" />
+    <Compile Include="fNbt\NbtFormatException.cs" />
+    <Compile Include="fNbt\NbtParseState.cs" />
+    <Compile Include="fNbt\NbtReader.cs" />
+    <Compile Include="fNbt\NbtReaderNode.cs" />
+    <Compile Include="fNbt\NbtTagType.cs" />
+    <Compile Include="fNbt\TagSelector.cs" />
+    <Compile Include="fNbt\Tags\NbtByte.cs" />
+    <Compile Include="fNbt\Tags\NbtByteArray.cs" />
+    <Compile Include="fNbt\Tags\NbtCompound.cs" />
+    <Compile Include="fNbt\Tags\NbtInt.cs" />
+    <Compile Include="fNbt\Tags\NbtIntArray.cs" />
+    <Compile Include="fNbt\Tags\NbtList.cs" />
+    <Compile Include="fNbt\Tags\NbtLong.cs" />
+    <Compile Include="fNbt\Tags\NbtShort.cs" />
+    <Compile Include="fNbt\Tags\NbtString.cs" />
+    <Compile Include="fNbt\Tags\NbtTag.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PythonScript.cs" />
+    <Compile Include="Volume.cs" />
+    <None Include="WorldBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="fNbt\Docs\Changelog" />
+    <None Include="fNbt\Docs\LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fNbt\Docs\README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
