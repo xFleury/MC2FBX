@@ -176,13 +176,34 @@ namespace MC2Blender
         CoalBlock = 173
     }
 
-    struct MinecraftBlock
+    struct MinecraftBlock : IEquatable<MinecraftBlock>
     {
         public BlockID id;
         public byte data;
         public MinecraftBlock(BlockID id, byte data)
         {
             this.id = id; this.data = data;
+        }
+
+        public bool Equals(MinecraftBlock other)
+        {
+            return id == other.id && data == other.data;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is MinecraftBlock)
+                return Equals((MinecraftBlock)obj);
+            else return false;
+        }
+
+        public static bool operator ==(MinecraftBlock a, MinecraftBlock b) { return a.Equals(b); }
+
+        public static bool operator !=(MinecraftBlock a, MinecraftBlock b) { return !a.Equals(b); }
+
+        public override int GetHashCode()
+        {
+            return ((int)id << 8) | data;
         }
     }
 }

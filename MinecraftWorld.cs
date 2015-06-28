@@ -1,46 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using fNbt;
-using System.Diagnostics;
 using System.IO;
 
 namespace MC2Blender
 {
     class MinecraftWorld
     {
-        private struct LocationData
-        {
-            public int x;
-            public int z;
-            public int offset;
-            public byte sectorCount;
-            public LocationData(int x, int z, int offset, byte sectorCount)
-            {
-                this.x = x;
-                this.z = z;
-                this.offset = offset;
-                this.sectorCount = sectorCount;
-            }
-        }
+        public readonly Dictionary<Coordinate, MinecraftBlock> blocks = new Dictionary<Coordinate, MinecraftBlock>();
+        public readonly int boundaryWidth;
+        public readonly int boundaryHeight;
+        public readonly int boundaryLength;  
 
-        readonly Coordinate spawnLocation;
-        readonly Dictionary<Coordinate, MinecraftBlock[]> chunks = new Dictionary<Coordinate, MinecraftBlock[]>();
-        const int sectorSize = 1024 * 4;
+        private int offsetX;
+        private int offsetY;
+        private int offsetZ;       
 
-        const BlockID matchType = BlockID.Wool;
-        const int matchData = 14; //red
+        private readonly Coordinate spawnLocation;
+        private readonly Dictionary<Coordinate, MinecraftBlock[]> chunks = new Dictionary<Coordinate, MinecraftBlock[]>();
+        private const int sectorSize = 1024 * 4;
+        private const BlockID matchType = BlockID.Wool;
+        private const int matchData = 14; //red
 
         private Bounds ScanForBounds()
         {
             Console.WriteLine("Scanning {0} chunks for bounds.", chunks.Count);
             Bounds bounds = new Bounds();
-            int pairIdx = 0;
             int matchesFound = 0;
             foreach (KeyValuePair<Coordinate, MinecraftBlock[]> pair in chunks)
             {
-                pairIdx++;
-                //Console.Write("\r[{0}{1}]", "XXXX","......");
-
                 Coordinate chunkCoord = pair.Key;
                 MinecraftBlock[] blocks = pair.Value;
                 for (int blockIdx = 0; blockIdx < blocks.Length; blockIdx++)
@@ -59,6 +47,11 @@ namespace MC2Blender
             return bounds;
         }
 
+        public int AbsoluteCoordinatesToIndex(int x, int y, int z)
+        {
+            return (z + offsetZ) * 16 * 16 + (y + offsetY) * 16 + (x + offsetX);
+        }
+
         public MinecraftWorld(string path)
         {
             NbtTag levelDat = new NbtFile(Path.Combine(path, "level.dat")).RootTag["Data"];
@@ -71,12 +64,41 @@ namespace MC2Blender
             for (int idx = 0; idx < regionFiles.Length; idx++)
                 ParseRegion(regionFiles[idx]);
             Bounds bounds = ScanForBounds();
+            boundaryWidth = bounds.Width;
+            boundaryHeight = bounds.Height;
+            boundaryLength = bounds.Length;
+            offsetX = -bounds.minX;
+            offsetY = -bounds.minY;
+            offsetZ = -bounds.minZ;
+            Console.WriteLine("Extracting blocks within boundary.");
+            foreach (KeyValuePair<Coordinate, MinecraftBlock[]> pair in chunks)
+            {
+                Coordinate chunkCoord = pair.Key;
+                if (bounds.ContainsChunk(chunkCoord))
+                    for (int idx = 0; idx < pair.Value.Length; idx++)
+                        if(BlockTypeIsSupported(pair.Value[idx].id))
+                        {
+                            int absoluteX = chunkCoord.X * 16 + idx % 16;
+                            int absoluteY = chunkCoord.Y * 16 + (idx / 16) % 16;
+                            int absoluteZ = chunkCoord.Z * 16 + idx / (16 * 16);
+                            if (bounds.Contains(absoluteX, absoluteY, absoluteZ))
+                                blocks[new Coordinate(absoluteX + offsetX, absoluteZ+offsetZ, absoluteY+offsetY)] = pair.Value[idx];
+                        }
+            }
         }
 
-        private static int ToRelativeChunkPosition(int x, int y, int z)
+        private static bool BlockTypeIsSupported(BlockID blockID)
         {
-            return z * 32 * 32 + y * 32 + x;
+            return
+                blockID == BlockID.Dirt ||
+                blockID == BlockID.Grass;
         }
+
+
+        //private static int ToRelativeChunkPosition(int x, int y, int z)
+        //{
+        //    return z * 32 * 32 + y * 32 + x;
+        //}
 
         private byte MaskTo4Bit(byte[] array, int idx)
         {
@@ -133,6 +155,21 @@ namespace MC2Blender
                     }
                 }
                 Console.WriteLine("Parsed {0} ({1} chunks)", fileName, chunkCount);
+            }
+        }
+
+        private struct LocationData
+        {
+            public int x;
+            public int z;
+            public int offset;
+            public byte sectorCount;
+            public LocationData(int x, int z, int offset, byte sectorCount)
+            {
+                this.x = x;
+                this.z = z;
+                this.offset = offset;
+                this.sectorCount = sectorCount;
             }
         }
     }

@@ -6,51 +6,27 @@ namespace MC2Blender
 {
     class WorldBuilder
     {
-        private static BlockTypes[] TransparentBlocks = new BlockTypes[] { BlockTypes.Leaves };
+        private static BlockID[] TransparentBlocks = new BlockID[] { BlockID.Leaves };
+        private readonly PythonScript script = new PythonScript();
 
-        readonly Bounds bounds;
-        readonly MinecraftWorld world;
-        readonly PythonScript script = new PythonScript();
-
-        public WorldBuilder(MinecraftWorld world, Bounds bounds, string outputPath)
+        public WorldBuilder(MinecraftWorld world, string outputPath)
         {
-            this.world = world;
-            this.bounds = bounds;
-
-            Coordinate origin = bounds.GetOrigin();
-
-            /* Populate the rawWorld with block data. */
-            Console.WriteLine("Populating optimization grid");
-            Dictionary<Coordinate, BlockTypes> rawWorld = new Dictionary<Coordinate, BlockTypes>();
-            for (int x = bounds.minX; x <= bounds.maxX; ++x)
-                for (int z = bounds.minZ; z <= bounds.maxZ; ++z)
-                    for (int y = bounds.minY; y <= bounds.maxY; ++y)
-                    {
-                        int blockID = blockManager.GetID(x, y, z);
-                        switch (blockID)
-                        {
-                            case BlockID.Dirt:
-                            case BlockID.Grass:
-                                rawWorld.Add(new Coordinate(x - origin.X, z - origin.Z, y - origin.Y), (BlockTypes)blockID);
-                                break;
-                        }
-                    }
+            Dictionary<Coordinate, MinecraftBlock> rawWorld = world.blocks;
 
             /* We need to identify any bricks that are hidden from vision. */
             Console.WriteLine("Identifying invisible blocks");
             HashSet<Coordinate> invisibleBricks = new HashSet<Coordinate>();
-            foreach (KeyValuePair<Coordinate, BlockTypes> pair in rawWorld)
+            foreach (KeyValuePair<Coordinate, MinecraftBlock> pair in rawWorld)
                 if (IsInvisible(pair.Key, rawWorld))
                     invisibleBricks.Add(pair.Key);
-
             foreach (Coordinate coord in invisibleBricks)
                 rawWorld.Remove(coord);
+            Console.WriteLine("Identified {0} invisible bricks.", invisibleBricks.Count);
 
             /* Before we can start expanding cubes, we need to organize by block type. */
-
             int cubeNum = 0;
-            Dictionary<BlockTypes, HashSet<Coordinate>> organizedWorld = OrganizeRawWorld(rawWorld);
-            foreach (KeyValuePair<BlockTypes, HashSet<Coordinate>> pair in organizedWorld)
+            Dictionary<MinecraftBlock, HashSet<Coordinate>> organizedWorld = OrganizeRawWorld(rawWorld);
+            foreach (KeyValuePair<MinecraftBlock, HashSet<Coordinate>> pair in organizedWorld)
                 foreach (Volume volume in new BoxExtractor(pair.Value, invisibleBricks))
                     script.AddBlock(volume.Coord.X, volume.Coord.Y, volume.Coord.Z,
                         "Cube" + ++cubeNum, volume.Width, volume.Height, volume.Length);
@@ -59,10 +35,10 @@ namespace MC2Blender
             File.WriteAllText(outputPath, script.ToString());
         }
 
-        private static Dictionary<BlockTypes, HashSet<Coordinate>> OrganizeRawWorld(Dictionary<Coordinate, BlockTypes> rawWorld)
+        private static Dictionary<MinecraftBlock, HashSet<Coordinate>> OrganizeRawWorld(Dictionary<Coordinate, MinecraftBlock> rawWorld)
         {
-            Dictionary<BlockTypes, HashSet<Coordinate>> organizedWorld = new Dictionary<BlockTypes, HashSet<Coordinate>>();
-            foreach (KeyValuePair<Coordinate, BlockTypes> pair in rawWorld)
+            Dictionary<MinecraftBlock, HashSet<Coordinate>> organizedWorld = new Dictionary<MinecraftBlock, HashSet<Coordinate>>();
+            foreach (KeyValuePair<Coordinate, MinecraftBlock> pair in rawWorld)
             {
                 HashSet<Coordinate> coordinates;
                 if (organizedWorld.TryGetValue(pair.Value, out coordinates))
@@ -77,7 +53,7 @@ namespace MC2Blender
             return organizedWorld;
         }
 
-        private static bool IsInvisible(Coordinate coord, Dictionary<Coordinate, BlockTypes> rawWorld)
+        private static bool IsInvisible(Coordinate coord, Dictionary<Coordinate, MinecraftBlock> rawWorld)
         {
             bool isInvisible =
                 OpaqueBrickAt(coord.Offset(-1, 0, 0), rawWorld) &&
@@ -89,10 +65,10 @@ namespace MC2Blender
             return isInvisible;
         }
 
-        private static bool OpaqueBrickAt(Coordinate coord, Dictionary<Coordinate, BlockTypes> rawWorld)
+        private static bool OpaqueBrickAt(Coordinate coord, Dictionary<Coordinate, MinecraftBlock> rawWorld)
         {
-            BlockTypes blockType;
-            return rawWorld.TryGetValue(coord, out blockType) && Array.IndexOf(TransparentBlocks, blockType) == -1;
+            MinecraftBlock blockType;
+            return (rawWorld.TryGetValue(coord, out blockType)) && Array.IndexOf(TransparentBlocks, blockType.id) == -1;
         }
     }
 }

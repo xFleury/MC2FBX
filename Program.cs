@@ -13,8 +13,7 @@ namespace MC2Blender
             }
 
             MinecraftWorld world = new MinecraftWorld(args[0]);
-            //WorldBuilder worldBuilder = new WorldBuilder(world, FindBounds.Search(world), args[1]);
-            Console.ReadKey();
+            WorldBuilder worldBuilder = new WorldBuilder(world, args[1]);
         }
     }
 }

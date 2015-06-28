@@ -4,12 +4,27 @@ namespace MC2Blender
 {
     class Bounds
     {
+        const int chunkSize = 16;
+
         public int minX = int.MaxValue / 2;
         public int minY = int.MaxValue / 2;
         public int minZ = int.MaxValue / 2;
         public int maxX = int.MinValue / 2;
         public int maxY = int.MinValue / 2;
         public int maxZ = int.MinValue / 2;
+
+        public int Width { get { return maxX - minX; } }
+
+        public int Height { get { return maxY - minY; } }
+
+        public int Length { get { return maxZ - minZ; } }
+
+        public bool ContainsChunk(Coordinate chunkCoord)
+        {
+            return !(chunkCoord.X * chunkSize < minX || chunkCoord.X * chunkSize > maxX ||
+               chunkCoord.Y * chunkSize < minY || chunkCoord.Y * chunkSize > maxY ||
+               chunkCoord.Z * chunkSize < minZ || chunkCoord.Z * chunkSize > maxZ);
+        }
 
         public bool Contains(int x, int y, int z)
         {
