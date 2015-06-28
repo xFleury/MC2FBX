@@ -21,9 +21,10 @@ namespace MC2Blender
 
         public bool ContainsChunk(Coordinate chunkCoord)
         {
-            return !(chunkCoord.X * chunkSize < minX || chunkCoord.X * chunkSize > maxX ||
-               chunkCoord.Y * chunkSize < minY || chunkCoord.Y * chunkSize > maxY ||
-               chunkCoord.Z * chunkSize < minZ || chunkCoord.Z * chunkSize > maxZ);
+            return !(
+               chunkCoord.X * chunkSize + 16 < minX || chunkCoord.X * chunkSize > maxX ||
+               chunkCoord.Y * chunkSize + 16 < minY || chunkCoord.Y * chunkSize > maxY ||
+               chunkCoord.Z * chunkSize + 16 < minZ || chunkCoord.Z * chunkSize > maxZ);
         }
 
         public bool Contains(int x, int y, int z)
