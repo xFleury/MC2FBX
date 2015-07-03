@@ -27,9 +27,13 @@ namespace MC2Blender
             int cubeNum = 0;
             Dictionary<MinecraftBlock, HashSet<Coordinate>> organizedWorld = OrganizeRawWorld(rawWorld);
             foreach (KeyValuePair<MinecraftBlock, HashSet<Coordinate>> pair in organizedWorld)
-                foreach (Volume volume in new BoxExtractor(pair.Value, invisibleBricks))
+            {
+                List<Volume> volumes = new List<Volume>(new BoxExtractor(pair.Value, invisibleBricks));
+                foreach (Volume volume in volumes)
                     script.AddBlock(volume.Coord.X, volume.Coord.Y, volume.Coord.Z,
                         "Cube" + ++cubeNum, volume.Width, volume.Height, volume.Length);
+                script.CreateCollisionBoxes("dirt", volumes);
+            }
             Console.Write("\n");
 
             File.WriteAllText(outputPath, script.ToString());
