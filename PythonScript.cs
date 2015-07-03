@@ -48,6 +48,35 @@ namespace MC2Blender
                 "\tcount += 1\n");
         }
 
+        public void CreateBoxes(string name, List<Volume> volumes)
+        {
+            script.Append("cubes = [");
+            for (int idx = 0; idx < volumes.Count; idx++)
+            {
+                Volume volume = volumes[idx];
+                decimal deciX = volume.Width / 2.0m + volume.Coord.X;
+                decimal deciY = volume.Height / 2.0m + volume.Coord.Y;
+                decimal deciZ = volume.Length / 2.0m + volume.Coord.Z;
+
+                if (idx > 0) script.Append(", ");
+                script.Append(string.Format("Cube({0}, {1}, {2}, {3}, {4}, {5})",
+                    deciX, deciY, deciZ, volume.Width, volume.Height, volume.Length));
+            }
+            script.Append(
+                "]\n" +
+                "count = 0\n" +
+                "for cube in cubes:\n" +
+                "\tbpy.ops.mesh.primitive_cube_add(location = (cube.x, cube.y, cube.z), radius = 0.5)\n" +
+                "\tbpy.context.object.name = \"" + name + "\"\n" +
+                "\tbpy.context.active_object.scale = (cube.sx,cube.sy,cube.sz)\n" +
+                "\tif count > 0:\n" +
+                "\t\tbpy.context.scene.objects.active = bpy.data.objects['" + name + "']\n" + 
+                "\t\tbpy.data.objects['" + name + ".001'].select = True\n" +
+                "\t\tbpy.data.objects['" + name + "'].select = True\n" +
+                "\t\tbpy.ops.object.join()\n" + 
+                "\tcount += 1\n");
+        }
+
         public void AddBlock(int intX, int intY, int intZ, string strName,
             int spanX = 1, int spanY = 1, int spanZ = 1)
         {
