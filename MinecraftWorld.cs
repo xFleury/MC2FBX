@@ -76,22 +76,29 @@ namespace MC2Blender
                 Coordinate chunkCoord = pair.Key;
                 if (bounds.ContainsChunk(chunkCoord))
                     for (int idx = 0; idx < pair.Value.Length; idx++)
-                        if(BlockTypeIsSupported(pair.Value[idx].id))
+                        if (BlockTypeIsSupported(pair.Value[idx].id))
                         {
                             int absoluteX = chunkCoord.X * 16 + idx % 16;
-                            int absoluteY = chunkCoord.Y * 16 + (idx / 16) % 16;
-                            int absoluteZ = chunkCoord.Z * 16 + idx / (16 * 16);
+                            int absoluteZ = chunkCoord.Z * 16 + (idx / 16) % 16;
+                            int absoluteY = chunkCoord.Y * 16 + idx / (16 * 16);
                             if (bounds.Contains(absoluteX, absoluteY, absoluteZ))
-                                blocks[new Coordinate(absoluteX + offsetX, absoluteZ+offsetZ, absoluteY+offsetY)] = pair.Value[idx];
+                            {
+                                Coordinate blockCoord =
+                                    new Coordinate(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
+                                Console.WriteLine("Added block {0}", blockCoord);
+
+                                blocks[blockCoord] = pair.Value[idx];
+                            }
                         }
             }
         }
 
         private static bool BlockTypeIsSupported(BlockID blockID)
         {
-            return
-                blockID == BlockID.Dirt ||
-                blockID == BlockID.Grass;
+         return
+             blockID == BlockID.DiamondBlock;
+                //blockID == BlockID.Dirt ||
+                //blockID == BlockID.Grass;
         }
 
 
