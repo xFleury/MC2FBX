@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace MC2Blender
+namespace MC2FBX
 {
     static class Endian
     {

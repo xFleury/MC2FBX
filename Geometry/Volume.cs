@@ -2,14 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MC2Blender
+namespace MC2FBX
 {
-    /// <summary>Immutable coordinate.</summary>
     public struct Volume : IEquatable<Volume>, IEnumerable<Coordinate>
     {
         public readonly Coordinate Coord;
+        /// <summary>sX</summary>
         public readonly int Width;
+        /// <summary>sY</summary>
         public readonly int Height;
+        /// <summary>sZ</summary>
         public readonly int Length;
 
         public Volume(Coordinate coord, int width, int height, int length)

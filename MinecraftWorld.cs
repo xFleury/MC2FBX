@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using fNbt;
 using System.IO;
 
-namespace MC2Blender
+namespace MC2FBX
 {
     class MinecraftWorld
     {
-        public readonly Dictionary<Coordinate, MinecraftBlock> blocks = new Dictionary<Coordinate, MinecraftBlock>();
+        public readonly Dictionary<Coordinate, BlockType> blocks = new Dictionary<Coordinate, BlockType>();
         public readonly int boundaryWidth;
         public readonly int boundaryHeight;
         public readonly int boundaryLength;  
@@ -17,9 +17,9 @@ namespace MC2Blender
         private int offsetZ;       
 
         private readonly Coordinate spawnLocation;
-        private readonly Dictionary<Coordinate, MinecraftBlock[]> chunks = new Dictionary<Coordinate, MinecraftBlock[]>();
+        private readonly Dictionary<Coordinate, BlockType[]> chunks = new Dictionary<Coordinate, BlockType[]>();
         private const int sectorSize = 1024 * 4;
-        private const BlockID matchType = BlockID.Wool;
+        private const BlockIdentifier matchType = BlockIdentifier.Wool;
         private const int matchData = 14; //red
 
         private Bounds ScanForBounds()
@@ -27,10 +27,10 @@ namespace MC2Blender
             Console.WriteLine("Scanning {0} chunks for bounds.", chunks.Count);
             Bounds bounds = new Bounds();
             int matchesFound = 0;
-            foreach (KeyValuePair<Coordinate, MinecraftBlock[]> pair in chunks)
+            foreach (KeyValuePair<Coordinate, BlockType[]> pair in chunks)
             {
                 Coordinate chunkCoord = pair.Key;
-                MinecraftBlock[] blocks = pair.Value;
+                BlockType[] blocks = pair.Value;
                 for (int blockIdx = 0; blockIdx < blocks.Length; blockIdx++)
                     if (blocks[blockIdx].id == matchType && blocks[blockIdx].data == matchData)
                     {
@@ -71,7 +71,7 @@ namespace MC2Blender
             offsetY = -bounds.minY;
             offsetZ = -bounds.minZ;
             Console.WriteLine("Extracting blocks within boundary.");
-            foreach (KeyValuePair<Coordinate, MinecraftBlock[]> pair in chunks)
+            foreach (KeyValuePair<Coordinate, BlockType[]> pair in chunks)
             {
                 Coordinate chunkCoord = pair.Key;
                 if (bounds.ContainsChunk(chunkCoord))
@@ -85,20 +85,19 @@ namespace MC2Blender
                             {
                                 Coordinate blockCoord =
                                     new Coordinate(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
-                                Console.WriteLine("Added block {0}", blockCoord);
-
-                                blocks[blockCoord] = pair.Value[idx];
+                                blocks[blockCoord] = new BlockType(BlockIdentifier.Dirt, 0);// pair.Value[idx].data);
                             }
                         }
             }
         }
 
-        private static bool BlockTypeIsSupported(BlockID blockID)
+        private static bool BlockTypeIsSupported(BlockIdentifier blockID)
         {
          return
-             blockID == BlockID.DiamondBlock;
-                //blockID == BlockID.Dirt ||
-                //blockID == BlockID.Grass;
+            blockID == BlockIdentifier.Dirt ||
+            blockID == BlockIdentifier.Wood ||
+            blockID == BlockIdentifier.Leaves ||
+            blockID == BlockIdentifier.Grass;
         }
 
 
@@ -149,13 +148,13 @@ namespace MC2Blender
                     NbtList sections = levelTag["Sections"] as NbtList;
                     for (int sectionIdx = 0; sectionIdx < sections.Count; sectionIdx++)
                     {
-                        MinecraftBlock[] blocks = new MinecraftBlock[16 * 16 * 16];
+                        BlockType[] blocks = new BlockType[16 * 16 * 16];
                         NbtTag sectionTag = sections[sectionIdx];
                         int offsetY = sectionTag["Y"].ByteValue;
                         byte[] blockIDs = sectionTag["Blocks"].ByteArrayValue;
                         byte[] blockData = sectionTag["Data"].ByteArrayValue;
                         for (int blockIdx = 0; blockIdx < blockIDs.Length; blockIdx++)
-                            blocks[blockIdx] = new MinecraftBlock((BlockID)blockIDs[blockIdx], MaskTo4Bit(blockData, blockIdx));
+                            blocks[blockIdx] = new BlockType((BlockIdentifier)blockIDs[blockIdx], MaskTo4Bit(blockData, blockIdx));
                         Coordinate coord = new Coordinate(chunkX, offsetY, chunkZ);
                         chunks.Add(coord, blocks);
                         chunkCount++;

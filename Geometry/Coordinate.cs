@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2Blender
+namespace MC2FBX
 {
     /// <summary>Immutable coordinate.</summary>
     public struct Coordinate : IEquatable<Coordinate>

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MC2Blender
+namespace MC2FBX
 {
-    enum BlockID : byte
+    enum BlockIdentifier : byte
     {
         Air = 0,
         Stone = 1,
@@ -176,30 +172,37 @@ namespace MC2Blender
         CoalBlock = 173
     }
 
-    struct MinecraftBlock : IEquatable<MinecraftBlock>
+    struct BlockType : IEquatable<BlockType>
     {
-        public BlockID id;
+        private static BlockIdentifier[] nonOpaqueBlocks = new BlockIdentifier[] {
+            BlockIdentifier.Air, BlockIdentifier.Leaves, BlockIdentifier.Glass};
+
+
+        public BlockIdentifier id;
         public byte data;
-        public MinecraftBlock(BlockID id, byte data)
+
+        public bool IsOpaque { get { return Array.IndexOf(nonOpaqueBlocks, id) != -1; } }
+
+        public BlockType(BlockIdentifier id, byte data)
         {
             this.id = id; this.data = data;
         }
 
-        public bool Equals(MinecraftBlock other)
+        public bool Equals(BlockType other)
         {
             return id == other.id && data == other.data;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is MinecraftBlock)
-                return Equals((MinecraftBlock)obj);
+            if (obj is BlockType)
+                return Equals((BlockType)obj);
             else return false;
         }
 
-        public static bool operator ==(MinecraftBlock a, MinecraftBlock b) { return a.Equals(b); }
+        public static bool operator ==(BlockType a, BlockType b) { return a.Equals(b); }
 
-        public static bool operator !=(MinecraftBlock a, MinecraftBlock b) { return !a.Equals(b); }
+        public static bool operator !=(BlockType a, BlockType b) { return !a.Equals(b); }
 
         public override int GetHashCode()
         {

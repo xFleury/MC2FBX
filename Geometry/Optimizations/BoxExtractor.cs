@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MC2Blender
+namespace MC2FBX
 {
     /// <summary>Extracts the largest box within a volume.</summary>
     public class BoxExtractor : IEnumerable<Volume>

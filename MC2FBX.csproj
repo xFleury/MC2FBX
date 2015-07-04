@@ -43,11 +43,14 @@
     <Compile Include="Endian.cs" />
     <Compile Include="fNbt\Tags\NbtDouble.cs" />
     <Compile Include="fNbt\Tags\NbtFloat.cs" />
-    <Compile Include="MinecraftBlock.cs" />
+    <Compile Include="Geometry\Optimizations\FacedVolume.cs" />
+    <Compile Include="Geometry\Optimizations\Faces.cs" />
+    <Compile Include="Geometry\Optimizations\HiddenFaces.cs" />
+    <Compile Include="BlockType.cs" />
     <Compile Include="MinecraftWorld.cs" />
-    <Compile Include="Bounds.cs" />
-    <Compile Include="BoxExtractor.cs" />
-    <Compile Include="Coordinate.cs" />
+    <Compile Include="Geometry\Bounds.cs" />
+    <Compile Include="Geometry\Optimizations\BoxExtractor.cs" />
+    <Compile Include="Geometry\Coordinate.cs" />
     <Compile Include="fNbt\ByteCountingStream.cs" />
     <Compile Include="fNbt\InvalidReaderStateException.cs" />
     <Compile Include="fNbt\NbtBinaryReader.cs" />
@@ -72,7 +75,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PythonScript.cs" />
-    <Compile Include="Volume.cs" />
+    <Compile Include="Geometry\Volume.cs" />
     <Compile Include="WorldBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MC2Blender
+namespace MC2FBX
 {
     class PythonScript
     {
