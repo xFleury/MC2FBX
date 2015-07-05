@@ -4,6 +4,8 @@ namespace MC2FBX
 {
     static class HiddenFaces
     {
+        public static int totalHiddenFaces = 0;
+
         public static Dictionary<BlockType, List<FacedVolume>> DetectHiddenFaces(Dictionary<BlockType, List<Volume>> volumizedWorld,
             Dictionary<Coordinate, BlockType> rawBlocks)
         {
@@ -53,6 +55,7 @@ namespace MC2FBX
             for (int dY = 0; dY < height; dY++)
                 for (int dZ = 0; dZ < length; dZ++)
                     if (!blockCheck.Contains(coord.Offset(offsetX, dY, dZ))) return false;
+            totalHiddenFaces++;
             return true;
         }
 
@@ -61,6 +64,7 @@ namespace MC2FBX
             for (int dX = 0; dX < width; dX++)
                 for (int dY = 0; dY < height; dY++)
                     if (!blockCheck.Contains(coord.Offset(dX, dY, offsetZ))) return false;
+            totalHiddenFaces++;
             return true;
         }
 
@@ -69,6 +73,7 @@ namespace MC2FBX
             for (int dX = 0; dX < width; dX++)
                 for (int dZ = 0; dZ < length; dZ++)
                     if (!blockCheck.Contains(coord.Offset(dX, offsetY, dZ))) return false;
+            totalHiddenFaces++;
             return true;
         }
     }

@@ -181,7 +181,7 @@ namespace MC2FBX
         public BlockIdentifier id;
         public byte data;
 
-        public bool IsOpaque { get { return Array.IndexOf(nonOpaqueBlocks, id) != -1; } }
+        public bool IsOpaque { get { return Array.IndexOf(nonOpaqueBlocks, id) == -1; } }
 
         public BlockType(BlockIdentifier id, byte data)
         {

@@ -20,8 +20,6 @@ namespace MC2FBX
         {
             while (visibleBlocks.Count > 0)
             {
-                Console.Write("\rOptimizing [" + visibleBlocks.Count + " remaining]");
-
                 Volume limitedVolume = LargestVolume_OnlyVisible();
                 //KeyValuePair<int, Volume> noLimitVolume = LargestVolume_AnyVisibility();
 
