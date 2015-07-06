@@ -27,7 +27,7 @@ namespace MC2FBX
             Console.WriteLine("Extracting largest volumes.");
             Dictionary<BlockType, List<Volume>> volumizedWorld = new Dictionary<BlockType, List<Volume>>();
             foreach (KeyValuePair<BlockType, HashSet<CoordinateInt>> pair in OrganizeRawBlocks(rawBlocks))
-                volumizedWorld.Add(pair.Key, new List<Volume>(new BoxExtractor(pair.Value, invisibleBricks)));
+                volumizedWorld.Add(pair.Key, new List<Volume>(new LargestVolumeExtractor(pair.Value, invisibleBricks)));
 
             /* Scan for interior faces that we can remove. */
             Console.WriteLine("Identifying interior faces.");

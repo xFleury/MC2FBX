@@ -3,7 +3,7 @@
 namespace MC2FBX
 {
     [Flags]
-    enum Faces
+    enum Face
     {
         None = 0,
         PositiveX = 1,

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace MC2FBX
 {
-    /// <summary>Extracts the largest box within a volume.</summary>
-    public class BoxExtractor : IEnumerable<Volume>
+    /// <summary>Extracts the largest volume contigious volume within a hashset of blocks.</summary>
+    public class LargestVolumeExtractor : IEnumerable<Volume>
     {
         HashSet<CoordinateInt> visibleBlocks;
         HashSet<CoordinateInt> invisibleBlocks;
 
-        public BoxExtractor(HashSet<CoordinateInt> visibleBlocks, HashSet<CoordinateInt> invisibleBlocks)
+        public LargestVolumeExtractor(HashSet<CoordinateInt> visibleBlocks, HashSet<CoordinateInt> invisibleBlocks)
         {
             this.visibleBlocks = new HashSet<CoordinateInt>(visibleBlocks);
             this.invisibleBlocks = new HashSet<CoordinateInt>(invisibleBlocks);
@@ -26,7 +26,7 @@ namespace MC2FBX
                 //if (limitedVolume.TotalVolume >= noLimitVolume.Key)
                 //{
 
-                Iterators.CubesInVolume(limitedVolume, (CoordinateInt a) => { visibleBlocks.Remove(a); });
+                Iterators.BlocksInVolume(limitedVolume, (CoordinateInt a) => { visibleBlocks.Remove(a); });
 
                 yield return limitedVolume;
                 //}

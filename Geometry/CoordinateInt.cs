@@ -46,6 +46,11 @@ namespace MC2FBX
             return hash;
         }
 
+        public static explicit operator CoordinateDecimal (CoordinateInt coord)
+        {
+            return new CoordinateDecimal(coord.X, coord.Y, coord.Z);
+        }
+
         public static bool operator ==(CoordinateInt k1, CoordinateInt k2)
         {
             return k1.X == k2.X && k1.Y == k2.Y && k1.Z == k2.Z;

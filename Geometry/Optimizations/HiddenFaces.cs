@@ -21,8 +21,8 @@ namespace MC2FBX
                 for (int idx = 0; idx < pair.Value.Count; idx++)
                 {
                     Volume volume = pair.Value[idx];
-                    Faces faces = Faces.All ^ ObstructedFaces(volume, opaqueBlocks);
-                    faceVolumeList.Add(new FacedVolume(volume, faces));
+                    Face excludedFaces = ObstructedFaces(volume, opaqueBlocks);
+                    faceVolumeList.Add(new FacedVolume(volume, excludedFaces));
                 }
                 facedVolumes.Add(pair.Key, faceVolumeList);
             }
@@ -30,22 +30,22 @@ namespace MC2FBX
             return facedVolumes;
         }
 
-        private static Faces ObstructedFaces(Volume volume, HashSet<CoordinateInt> blockCheck)
+        private static Face ObstructedFaces(Volume volume, HashSet<CoordinateInt> blockCheck)
         {
-            Faces faces = Faces.None;
-            if (ObstructedScanXZ(volume.Coord, volume.Width, volume.Height, volume.Length, blockCheck))
-                faces |= Faces.PositiveX;
+            Face faces = Face.None;
             if (ObstructedScanYZ(volume.Coord, volume.Width, volume.Height, volume.Length, blockCheck))
-                faces |= Faces.PositiveY;
+                faces |= Face.PositiveX;
+            if (ObstructedScanXZ(volume.Coord, volume.Width, volume.Height, volume.Length, blockCheck))
+                faces |= Face.PositiveY;
             if (ObstructedScanXY(volume.Coord, volume.Width, volume.Height, volume.Length, blockCheck))
-                faces |= Faces.PositiveZ;
+                faces |= Face.PositiveZ;
 
-            if (ObstructedScanXZ(volume.Coord, volume.Width, volume.Coord.Y - 1, volume.Length, blockCheck))
-                faces |= Faces.NegativeX;
             if (ObstructedScanYZ(volume.Coord, volume.Coord.X - 1, volume.Height, volume.Length, blockCheck))
-                faces |= Faces.NegativeY;
+                faces |= Face.NegativeX;
+            if (ObstructedScanXZ(volume.Coord, volume.Width, volume.Coord.Y - 1, volume.Length, blockCheck))
+                faces |= Face.NegativeY;
             if (ObstructedScanXY(volume.Coord, volume.Width, volume.Height, volume.Coord.Z - 1, blockCheck))
-                faces |= Faces.NegativeZ;
+                faces |= Face.NegativeZ;
 
             return faces;
         }

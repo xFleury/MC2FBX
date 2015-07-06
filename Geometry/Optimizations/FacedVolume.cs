@@ -7,12 +7,12 @@ namespace MC2FBX
     struct FacedVolume
     {
         public readonly Volume volume;
-        public Faces faces;
+        public Face excludedFaces;
 
-        public FacedVolume(Volume volume, Faces faces)
+        public FacedVolume(Volume volume, Face excludedFaces)
         {
             this.volume = volume;
-            this.faces = faces;
+            this.excludedFaces = excludedFaces;
         }
     }
 }
