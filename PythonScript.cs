@@ -27,13 +27,13 @@ namespace MC2FBX
             for (int idx = 0; idx < volumes.Count; idx++)
             {
                 Volume volume = volumes[idx];
-                decimal deciX = volume.Width / 2.0m + volume.Coord.X;
-                decimal deciY = volume.Height / 2.0m + volume.Coord.Y;
-                decimal deciZ = volume.Length / 2.0m + volume.Coord.Z;
+                decimal deciX = volume.ScaleX / 2.0m + volume.Coord.X;
+                decimal deciY = volume.ScaleY / 2.0m + volume.Coord.Y;
+                decimal deciZ = volume.ScaleZ / 2.0m + volume.Coord.Z;
 
                 if (idx > 0) script.Append(", ");
                 script.Append(string.Format("Cube({0}, {1}, {2}, {3}, {4}, {5})",
-                    deciX, deciY, deciZ, volume.Width, volume.Height, volume.Length));
+                    deciX, deciY, deciZ, volume.ScaleX, volume.ScaleY, volume.ScaleZ));
             }
             script.Append(
                 "]\n" + 
@@ -54,13 +54,13 @@ namespace MC2FBX
             for (int idx = 0; idx < volumes.Count; idx++)
             {
                 Volume volume = volumes[idx];
-                decimal deciX = volume.Width / 2.0m + volume.Coord.X;
-                decimal deciY = volume.Height / 2.0m + volume.Coord.Y;
-                decimal deciZ = volume.Length / 2.0m + volume.Coord.Z;
+                decimal deciX = volume.ScaleX / 2.0m + volume.Coord.X;
+                decimal deciY = volume.ScaleY / 2.0m + volume.Coord.Y;
+                decimal deciZ = volume.ScaleZ / 2.0m + volume.Coord.Z;
 
                 if (idx > 0) script.Append(", ");
                 script.Append(string.Format("Cube({0}, {1}, {2}, {3}, {4}, {5})",
-                    deciX, deciY, deciZ, volume.Width, volume.Height, volume.Length));
+                    deciX, deciY, deciZ, volume.ScaleX, volume.ScaleY, volume.ScaleZ));
             }
             script.Append(
                 "]\n" +

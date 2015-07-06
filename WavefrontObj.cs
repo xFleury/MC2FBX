@@ -20,14 +20,26 @@ namespace MC2FBX
                 {
                     FacedVolume facedVolume = volumes[idx];
 
-                    Iterators.FacesInVolume(verticies.Count, facedVolume.excludedFaces, (FaceVerticies faceVerticies) =>
-                    {
-                        //facedVolume.volume.
-                    });
+                    Iterators.FacesInVolume(verticies.Count, facedVolume.excludedFaces, (Face face, FaceVerticies faceVerticies) =>
+                        { AppendTexturedFaces(pair.Key, facedVolume.volume, face, faceVerticies); });
 
                     Iterators.VerticiesInVolume(volumes[idx].volume,
                         (CoordinateDecimal a) => { verticies.Add(a); });
                 }
+            }
+        }
+
+        private void AppendTexturedFaces(BlockType blockType, Volume volume, Face face, FaceVerticies faceVerticies)
+        {
+            TexturedFace texturedFace = new TexturedFace(volume, face, faceVerticies);
+            List<TexturedFace> texturedFacesList;
+            if (texturedFaces.TryGetValue(blockType, out texturedFacesList))
+                texturedFacesList.Add(texturedFace);
+            else
+            {
+                texturedFacesList = new List<TexturedFace>();
+                texturedFacesList.Add(texturedFace);
+                texturedFaces.Add(blockType, texturedFacesList);
             }
         }
 

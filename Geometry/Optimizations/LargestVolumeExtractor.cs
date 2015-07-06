@@ -49,19 +49,19 @@ namespace MC2FBX
         private int CountVisibleVolume(Volume volume)
         {
             int totalVisible = 0;
-            for (int x = 0; x < volume.Width; x++)
-                for (int y = 0; y < volume.Height; y++)
-                    for (int z = 0; z < volume.Length; z++)
+            for (int x = 0; x < volume.ScaleX; x++)
+                for (int y = 0; y < volume.ScaleY; y++)
+                    for (int z = 0; z < volume.ScaleZ; z++)
                         if (CoordinateIsVisible(volume.Coord.Offset(x, y, z)))
                             totalVisible++;
             return totalVisible;
         }
 
-        private bool LargestVolume_Valid(CoordinateInt coord, int width, int height, int length, bool allowInvisible)
+        private bool LargestVolume_Valid(CoordinateInt coord, int lengthX, int lengthY, int lengthZ, bool allowInvisible)
         {
-            for (int gX = 0; gX < width; gX++)
-                for (int gY = 0; gY < height; gY++)
-                    for (int gZ = 0; gZ < length; gZ++)
+            for (int gX = 0; gX < lengthX; gX++)
+                for (int gY = 0; gY < lengthY; gY++)
+                    for (int gZ = 0; gZ < lengthZ; gZ++)
                         if (!SearchAllBlocks(coord.Offset(gX, gY, gZ), allowInvisible))
                             return false;
             return true;
@@ -82,14 +82,14 @@ namespace MC2FBX
                 for (int extentY = 0; extentY <= maxY; extentY++)
                     for (int extentZ = 0; extentZ <= maxZ; extentZ++)
                     {
-                        int width = extentX + 1;
-                        int height = extentY + 1;
-                        int length = extentZ + 1;
-                        if (LargestVolume_Valid(origin, width, height, length, allowInvisible))
+                        int lengthX = extentX + 1;
+                        int lengthY = extentY + 1;
+                        int lengthZ = extentZ + 1;
+                        if (LargestVolume_Valid(origin, lengthX, lengthY, lengthZ, allowInvisible))
                         {
-                            int totalVolume = width * height * length;
+                            int totalVolume = lengthX * lengthY * lengthZ;
                             if (totalVolume >= largestVolume.TotalVolume)
-                                largestVolume = new Volume(origin, width, height, length);
+                                largestVolume = new Volume(origin, lengthX, lengthY, lengthZ);
                         }
                         else
                             break;

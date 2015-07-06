@@ -7,30 +7,27 @@ namespace MC2FBX
     public struct Volume : IEquatable<Volume>
     {
         public readonly CoordinateInt Coord;
-        /// <summary>sX</summary>
-        public readonly int Width;
-        /// <summary>sY</summary>
-        public readonly int Height;
-        /// <summary>sZ</summary>
-        public readonly int Length;
+        public readonly int ScaleX;
+        public readonly int ScaleY;
+        public readonly int ScaleZ;
 
-        public Volume(CoordinateInt coord, int width, int height, int length)
+        public Volume(CoordinateInt coord, int scaleX, int scaleY, int scaleZ)
         {
             Coord = coord;
-            Width = width;
-            Height = height;
-            Length = length;
+            ScaleX = scaleX;
+            ScaleY = scaleY;
+            ScaleZ = scaleZ;
         }
 
-        public int TotalVolume { get { return Width * Height * Length; } }
+        public int TotalVolume { get { return ScaleX * ScaleY * ScaleZ; } }
 
         public bool Equals(Volume spawn)
         {
             return
                 Coord == spawn.Coord &&
-                Width == spawn.Width &&
-                Height == spawn.Height &&
-                Length == spawn.Length;
+                ScaleX == spawn.ScaleX &&
+                ScaleY == spawn.ScaleY &&
+                ScaleZ == spawn.ScaleZ;
         }
 
         public override bool Equals(Object o)
@@ -45,9 +42,9 @@ namespace MC2FBX
         {
             int hash = 23;
             hash = hash * 37 + Coord.GetHashCode();
-            hash = hash * 37 + Width;
-            hash = hash * 37 + Height;
-            hash = hash * 37 + Length;
+            hash = hash * 37 + ScaleX;
+            hash = hash * 37 + ScaleY;
+            hash = hash * 37 + ScaleZ;
             return hash;
         }
 
@@ -55,24 +52,24 @@ namespace MC2FBX
         {
             return
                 k1.Coord == k2.Coord &&
-                k1.Width == k2.Width &&
-                k1.Height == k2.Height &&
-                k1.Length == k2.Length;
+                k1.ScaleX == k2.ScaleX &&
+                k1.ScaleY == k2.ScaleY &&
+                k1.ScaleZ == k2.ScaleZ;
         }
 
         public static bool operator !=(Volume k1, Volume k2)
         {
             return
                 k1.Coord != k2.Coord ||
-                k1.Width != k2.Width ||
-                k1.Height != k2.Height ||
-                k1.Length != k2.Length;
+                k1.ScaleX != k2.ScaleX ||
+                k1.ScaleY != k2.ScaleY ||
+                k1.ScaleZ != k2.ScaleZ;
         }
 
         public override string ToString()
         {
             return string.Format("({0}, {1}x{2}x{3})",
-                Coord.ToString(), Width, Height, Length);
+                Coord.ToString(), ScaleX, ScaleY, ScaleZ);
         }
     }
 }
