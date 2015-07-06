@@ -2,35 +2,34 @@
 
 namespace MC2FBX
 {
-    /// <summary>Immutable coordinate.</summary>
-    public struct Coordinate : IEquatable<Coordinate>
+    public struct CoordinateInt : IEquatable<CoordinateInt>
     {
         public readonly int X;
         public readonly int Y;
         public readonly int Z;
 
-        public Coordinate(int x, int y, int z)
+        public CoordinateInt(int x, int y, int z)
         {
             X = x;
             Y = y;
             Z = z;
         }
 
-        public Coordinate Offset(int dx, int dy, int dz)
+        public CoordinateInt Offset(int dx, int dy, int dz)
         {
-            return new Coordinate(X + dx, Y + dy, Z + dz);
+            return new CoordinateInt(X + dx, Y + dy, Z + dz);
         }
 
-        public bool Equals(Coordinate spawn)
+        public bool Equals(CoordinateInt spawn)
         {
             return X == spawn.X && Y == spawn.Y && Z == spawn.Z;
         }
 
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
-            if (o is Coordinate)
+            if (o is CoordinateInt)
             {
-                return this == (Coordinate)o;
+                return this == (CoordinateInt)o;
             }
             else
             {
@@ -47,12 +46,12 @@ namespace MC2FBX
             return hash;
         }
 
-        public static bool operator ==(Coordinate k1, Coordinate k2)
+        public static bool operator ==(CoordinateInt k1, CoordinateInt k2)
         {
             return k1.X == k2.X && k1.Y == k2.Y && k1.Z == k2.Z;
         }
 
-        public static bool operator !=(Coordinate k1, Coordinate k2)
+        public static bool operator !=(CoordinateInt k1, CoordinateInt k2)
         {
             return k1.X != k2.X || k1.Y != k2.Y || k1.Z != k2.Z;
         }

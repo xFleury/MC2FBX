@@ -11,22 +11,22 @@ namespace MC2FBX
 
         public WorldBuilder(MinecraftWorld world, string outputPath)
         {
-            Dictionary<Coordinate, BlockType> rawBlocks = world.blocks;
+            Dictionary<CoordinateInt, BlockType> rawBlocks = world.blocks;
 
             /* We need to identify any bricks that are hidden from vision. */
             Console.WriteLine("Identifying invisible blocks.");
-            HashSet<Coordinate> invisibleBricks = new HashSet<Coordinate>();
-            foreach (KeyValuePair<Coordinate, BlockType> pair in rawBlocks)
+            HashSet<CoordinateInt> invisibleBricks = new HashSet<CoordinateInt>();
+            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
                 if (IsInvisible(pair.Key, rawBlocks))
                     invisibleBricks.Add(pair.Key);
-            foreach (Coordinate coord in invisibleBricks)
+            foreach (CoordinateInt coord in invisibleBricks)
                 rawBlocks.Remove(coord);
             Console.WriteLine("Identified {0} invisible bricks.", invisibleBricks.Count);
 
             /* Before we can start expanding cubes, we need to organize by block type. */
             Console.WriteLine("Extracting largest volumes.");
             Dictionary<BlockType, List<Volume>> volumizedWorld = new Dictionary<BlockType, List<Volume>>();
-            foreach (KeyValuePair<BlockType, HashSet<Coordinate>> pair in OrganizeRawBlocks(rawBlocks))
+            foreach (KeyValuePair<BlockType, HashSet<CoordinateInt>> pair in OrganizeRawBlocks(rawBlocks))
                 volumizedWorld.Add(pair.Key, new List<Volume>(new BoxExtractor(pair.Value, invisibleBricks)));
 
             /* Scan for interior faces that we can remove. */
@@ -46,17 +46,17 @@ namespace MC2FBX
             File.WriteAllText(outputPath, script.ToString());
         }
 
-        private static Dictionary<BlockType, HashSet<Coordinate>> OrganizeRawBlocks(Dictionary<Coordinate, BlockType> rawBlocks)
+        private static Dictionary<BlockType, HashSet<CoordinateInt>> OrganizeRawBlocks(Dictionary<CoordinateInt, BlockType> rawBlocks)
         {
-            Dictionary<BlockType, HashSet<Coordinate>> organizedWorld = new Dictionary<BlockType, HashSet<Coordinate>>();
-            foreach (KeyValuePair<Coordinate, BlockType> pair in rawBlocks)
+            Dictionary<BlockType, HashSet<CoordinateInt>> organizedWorld = new Dictionary<BlockType, HashSet<CoordinateInt>>();
+            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
             {
-                HashSet<Coordinate> coordinates;
+                HashSet<CoordinateInt> coordinates;
                 if (organizedWorld.TryGetValue(pair.Value, out coordinates))
                     coordinates.Add(pair.Key);
                 else
                 {
-                    coordinates = new HashSet<Coordinate>();
+                    coordinates = new HashSet<CoordinateInt>();
                     coordinates.Add(pair.Key);
                     organizedWorld.Add(pair.Value, coordinates);
                 }
@@ -64,7 +64,7 @@ namespace MC2FBX
             return organizedWorld;
         }
 
-        private static bool IsInvisible(Coordinate coord, Dictionary<Coordinate, BlockType> rawWorld)
+        private static bool IsInvisible(CoordinateInt coord, Dictionary<CoordinateInt, BlockType> rawWorld)
         {
             bool isInvisible =
                 OpaqueBrickAt(coord.Offset(-1, 0, 0), rawWorld) &&
@@ -76,7 +76,7 @@ namespace MC2FBX
             return isInvisible;
         }
 
-        private static bool OpaqueBrickAt(Coordinate coord, Dictionary<Coordinate, BlockType> rawWorld)
+        private static bool OpaqueBrickAt(CoordinateInt coord, Dictionary<CoordinateInt, BlockType> rawWorld)
         {
             BlockType blockType;
             return (rawWorld.TryGetValue(coord, out blockType)) && Array.IndexOf(TransparentBlocks, blockType.id) == -1;

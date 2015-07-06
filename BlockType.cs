@@ -177,7 +177,6 @@ namespace MC2FBX
         private static BlockIdentifier[] nonOpaqueBlocks = new BlockIdentifier[] {
             BlockIdentifier.Air, BlockIdentifier.Leaves, BlockIdentifier.Glass};
 
-
         public BlockIdentifier id;
         public byte data;
 
@@ -207,6 +206,18 @@ namespace MC2FBX
         public override int GetHashCode()
         {
             return ((int)id << 8) | data;
+        }
+
+        public override string ToString()
+        {
+            switch (id)
+            {
+                /* BlockIdentifier.Air.ToString() is reflection based, and would not survive obfuscation. */
+                case BlockIdentifier.Air: return "air";
+                case BlockIdentifier.Leaves: return "leaves";
+                case BlockIdentifier.Grass: return "grass";
+                default: throw new Exception("Unknown BlockIdentifier name.");
+            }
         }
     }
 }

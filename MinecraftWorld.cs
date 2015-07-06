@@ -7,7 +7,7 @@ namespace MC2FBX
 {
     class MinecraftWorld
     {
-        public readonly Dictionary<Coordinate, BlockType> blocks = new Dictionary<Coordinate, BlockType>();
+        public readonly Dictionary<CoordinateInt, BlockType> blocks = new Dictionary<CoordinateInt, BlockType>();
         public readonly int boundaryWidth;
         public readonly int boundaryHeight;
         public readonly int boundaryLength;  
@@ -16,8 +16,8 @@ namespace MC2FBX
         private int offsetY;
         private int offsetZ;       
 
-        private readonly Coordinate spawnLocation;
-        private readonly Dictionary<Coordinate, BlockType[]> chunks = new Dictionary<Coordinate, BlockType[]>();
+        private readonly CoordinateInt spawnLocation;
+        private readonly Dictionary<CoordinateInt, BlockType[]> chunks = new Dictionary<CoordinateInt, BlockType[]>();
         private const int sectorSize = 1024 * 4;
         private const BlockIdentifier matchType = BlockIdentifier.Wool;
         private const int matchData = 14; //red
@@ -27,9 +27,9 @@ namespace MC2FBX
             Console.WriteLine("Scanning {0} chunks for bounds.", chunks.Count);
             Bounds bounds = new Bounds();
             int matchesFound = 0;
-            foreach (KeyValuePair<Coordinate, BlockType[]> pair in chunks)
+            foreach (KeyValuePair<CoordinateInt, BlockType[]> pair in chunks)
             {
-                Coordinate chunkCoord = pair.Key;
+                CoordinateInt chunkCoord = pair.Key;
                 BlockType[] blocks = pair.Value;
                 for (int blockIdx = 0; blockIdx < blocks.Length; blockIdx++)
                     if (blocks[blockIdx].id == matchType && blocks[blockIdx].data == matchData)
@@ -56,7 +56,7 @@ namespace MC2FBX
         {
             NbtTag levelDat = new NbtFile(Path.Combine(path, "level.dat")).RootTag["Data"];
             string levelName = levelDat["LevelName"].StringValue;
-            spawnLocation = new Coordinate(
+            spawnLocation = new CoordinateInt(
                 levelDat["SpawnX"].IntValue,
                 levelDat["SpawnY"].IntValue,
                 levelDat["SpawnZ"].IntValue);
@@ -71,9 +71,9 @@ namespace MC2FBX
             offsetY = -bounds.minY;
             offsetZ = -bounds.minZ;
             Console.WriteLine("Extracting blocks within boundary.");
-            foreach (KeyValuePair<Coordinate, BlockType[]> pair in chunks)
+            foreach (KeyValuePair<CoordinateInt, BlockType[]> pair in chunks)
             {
-                Coordinate chunkCoord = pair.Key;
+                CoordinateInt chunkCoord = pair.Key;
                 if (bounds.ContainsChunk(chunkCoord))
                     for (int idx = 0; idx < pair.Value.Length; idx++)
                         if (BlockTypeIsSupported(pair.Value[idx].id))
@@ -83,8 +83,8 @@ namespace MC2FBX
                             int absoluteY = chunkCoord.Y * 16 + idx / (16 * 16);
                             if (bounds.Contains(absoluteX, absoluteY, absoluteZ))
                             {
-                                Coordinate blockCoord =
-                                    new Coordinate(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
+                                CoordinateInt blockCoord =
+                                    new CoordinateInt(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
                                 blocks[blockCoord] = new BlockType(BlockIdentifier.Dirt, 0);// pair.Value[idx].data);
                             }
                         }
@@ -155,7 +155,7 @@ namespace MC2FBX
                         byte[] blockData = sectionTag["Data"].ByteArrayValue;
                         for (int blockIdx = 0; blockIdx < blockIDs.Length; blockIdx++)
                             blocks[blockIdx] = new BlockType((BlockIdentifier)blockIDs[blockIdx], MaskTo4Bit(blockData, blockIdx));
-                        Coordinate coord = new Coordinate(chunkX, offsetY, chunkZ);
+                        CoordinateInt coord = new CoordinateInt(chunkX, offsetY, chunkZ);
                         chunks.Add(coord, blocks);
                         chunkCount++;
                     }

@@ -19,7 +19,7 @@ namespace MC2FBX
 
         public int Length { get { return maxZ - minZ; } }
 
-        public bool ContainsChunk(Coordinate chunkCoord)
+        public bool ContainsChunk(CoordinateInt chunkCoord)
         {
             return !(
                chunkCoord.X * chunkSize + 16 < minX || chunkCoord.X * chunkSize > maxX ||
@@ -32,9 +32,9 @@ namespace MC2FBX
             return !(x < minX || x > maxX || y < minY || y > maxY || z < minZ || z > maxZ);
         }
 
-        public Coordinate GetOrigin()
+        public CoordinateInt GetOrigin()
         {
-            return new Coordinate((maxX + minX) / 2, (maxY + minY) / 2, (maxZ + minZ) / 2);
+            return new CoordinateInt((maxX + minX) / 2, (maxY + minY) / 2, (maxZ + minZ) / 2);
         }
 
         public void AddPoint(int x, int y, int z)

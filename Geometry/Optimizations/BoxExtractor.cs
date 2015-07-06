@@ -7,13 +7,13 @@ namespace MC2FBX
     /// <summary>Extracts the largest box within a volume.</summary>
     public class BoxExtractor : IEnumerable<Volume>
     {
-        HashSet<Coordinate> visibleBlocks;
-        HashSet<Coordinate> invisibleBlocks;
+        HashSet<CoordinateInt> visibleBlocks;
+        HashSet<CoordinateInt> invisibleBlocks;
 
-        public BoxExtractor(HashSet<Coordinate> visibleBlocks, HashSet<Coordinate> invisibleBlocks)
+        public BoxExtractor(HashSet<CoordinateInt> visibleBlocks, HashSet<CoordinateInt> invisibleBlocks)
         {
-            this.visibleBlocks = new HashSet<Coordinate>(visibleBlocks);
-            this.invisibleBlocks = new HashSet<Coordinate>(invisibleBlocks);
+            this.visibleBlocks = new HashSet<CoordinateInt>(visibleBlocks);
+            this.invisibleBlocks = new HashSet<CoordinateInt>(invisibleBlocks);
         }
 
         public IEnumerator<Volume> GetEnumerator()
@@ -25,8 +25,9 @@ namespace MC2FBX
 
                 //if (limitedVolume.TotalVolume >= noLimitVolume.Key)
                 //{
-                foreach (Coordinate coord in limitedVolume)
-                    visibleBlocks.Remove(coord);
+
+                Iterators.CubesInVolume(limitedVolume, (CoordinateInt a) => { visibleBlocks.Remove(a); });
+
                 yield return limitedVolume;
                 //}
                 //else
@@ -43,7 +44,7 @@ namespace MC2FBX
 
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
-        private bool CoordinateIsVisible(Coordinate coord) { return visibleBlocks.Contains(coord); }
+        private bool CoordinateIsVisible(CoordinateInt coord) { return visibleBlocks.Contains(coord); }
 
         private int CountVisibleVolume(Volume volume)
         {
@@ -56,7 +57,7 @@ namespace MC2FBX
             return totalVisible;
         }
 
-        private bool LargestVolume_Valid(Coordinate coord, int width, int height, int length, bool allowInvisible)
+        private bool LargestVolume_Valid(CoordinateInt coord, int width, int height, int length, bool allowInvisible)
         {
             for (int gX = 0; gX < width; gX++)
                 for (int gY = 0; gY < height; gY++)
@@ -66,7 +67,7 @@ namespace MC2FBX
             return true;
         }
 
-        private Volume LargestVolume_Iterate(Coordinate origin, bool allowInvisible)
+        private Volume LargestVolume_Iterate(CoordinateInt origin, bool allowInvisible)
         {
             Volume largestVolume = new Volume();
 
@@ -99,7 +100,7 @@ namespace MC2FBX
         private Volume LargestVolume_OnlyVisible()
         {
             Volume largestVolume = new Volume();
-            foreach (Coordinate origin in visibleBlocks)
+            foreach (CoordinateInt origin in visibleBlocks)
             {
                 Volume volume = LargestVolume_Iterate(origin, false);
                 if (volume.TotalVolume >= largestVolume.TotalVolume)
@@ -112,9 +113,9 @@ namespace MC2FBX
         {
             Volume largestVolumeVisibleOrigin = new Volume();
             Volume largestVolumeInvisibleOrigin = new Volume();
-            foreach (Coordinate origin in visibleBlocks)
+            foreach (CoordinateInt origin in visibleBlocks)
                 largestVolumeVisibleOrigin = LargestVolume_Iterate(origin, true);
-            foreach (Coordinate origin in invisibleBlocks)
+            foreach (CoordinateInt origin in invisibleBlocks)
                 largestVolumeInvisibleOrigin = LargestVolume_Iterate(origin, true);
             int actualVolumeVisible = CountVisibleVolume(largestVolumeVisibleOrigin);
             int actualVolumeInvisible = CountVisibleVolume(largestVolumeInvisibleOrigin);
@@ -125,7 +126,7 @@ namespace MC2FBX
                 return new KeyValuePair<int, Volume>(actualVolumeInvisible, largestVolumeInvisibleOrigin);
         }
 
-        private bool SearchAllBlocks(Coordinate coord, bool allowInvisible)
+        private bool SearchAllBlocks(CoordinateInt coord, bool allowInvisible)
         {
             return visibleBlocks.Contains(coord) || (allowInvisible && invisibleBlocks.Contains(coord));
         }

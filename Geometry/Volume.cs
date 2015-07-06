@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace MC2FBX
 {
-    public struct Volume : IEquatable<Volume>, IEnumerable<Coordinate>
+    public struct Volume : IEquatable<Volume>
     {
-        public readonly Coordinate Coord;
+        public readonly CoordinateInt Coord;
         /// <summary>sX</summary>
         public readonly int Width;
         /// <summary>sY</summary>
@@ -14,23 +14,13 @@ namespace MC2FBX
         /// <summary>sZ</summary>
         public readonly int Length;
 
-        public Volume(Coordinate coord, int width, int height, int length)
+        public Volume(CoordinateInt coord, int width, int height, int length)
         {
             Coord = coord;
             Width = width;
             Height = height;
             Length = length;
         }
-
-        public IEnumerator<Coordinate> GetEnumerator()
-        {
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Height; y++)
-                    for (int z = 0; z < Length; z++)
-                        yield return Coord.Offset(x, y, z);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
         public int TotalVolume { get { return Width * Height * Length; } }
 

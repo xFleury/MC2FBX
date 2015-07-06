@@ -7,10 +7,10 @@ namespace MC2FBX
         public static int totalHiddenFaces = 0;
 
         public static Dictionary<BlockType, List<FacedVolume>> DetectHiddenFaces(Dictionary<BlockType, List<Volume>> volumizedWorld,
-            Dictionary<Coordinate, BlockType> rawBlocks)
+            Dictionary<CoordinateInt, BlockType> rawBlocks)
         {
-            HashSet<Coordinate> opaqueBlocks = new HashSet<Coordinate>();
-            foreach (KeyValuePair<Coordinate, BlockType> pair in rawBlocks)
+            HashSet<CoordinateInt> opaqueBlocks = new HashSet<CoordinateInt>();
+            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
                 if (pair.Value.IsOpaque)
                     opaqueBlocks.Add(pair.Key);
 
@@ -30,7 +30,7 @@ namespace MC2FBX
             return facedVolumes;
         }
 
-        private static Faces ObstructedFaces(Volume volume, HashSet<Coordinate> blockCheck)
+        private static Faces ObstructedFaces(Volume volume, HashSet<CoordinateInt> blockCheck)
         {
             Faces faces = Faces.None;
             if (ObstructedScanXZ(volume.Coord, volume.Width, volume.Height, volume.Length, blockCheck))
@@ -50,7 +50,7 @@ namespace MC2FBX
             return faces;
         }
 
-        private static bool ObstructedScanYZ(Coordinate coord, int offsetX, int height, int length, HashSet<Coordinate> blockCheck)
+        private static bool ObstructedScanYZ(CoordinateInt coord, int offsetX, int height, int length, HashSet<CoordinateInt> blockCheck)
         {
             for (int dY = 0; dY < height; dY++)
                 for (int dZ = 0; dZ < length; dZ++)
@@ -59,7 +59,7 @@ namespace MC2FBX
             return true;
         }
 
-        private static bool ObstructedScanXY(Coordinate coord, int width, int height, int offsetZ, HashSet<Coordinate> blockCheck)
+        private static bool ObstructedScanXY(CoordinateInt coord, int width, int height, int offsetZ, HashSet<CoordinateInt> blockCheck)
         {
             for (int dX = 0; dX < width; dX++)
                 for (int dY = 0; dY < height; dY++)
@@ -68,7 +68,7 @@ namespace MC2FBX
             return true;
         }
 
-        private static bool ObstructedScanXZ(Coordinate coord, int width, int offsetY, int length, HashSet<Coordinate> blockCheck)
+        private static bool ObstructedScanXZ(CoordinateInt coord, int width, int offsetY, int length, HashSet<CoordinateInt> blockCheck)
         {
             for (int dX = 0; dX < width; dX++)
                 for (int dZ = 0; dZ < length; dZ++)
