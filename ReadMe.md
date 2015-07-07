@@ -1,3 +1,3 @@
-# Minecraft to FilmBox (MC2FBX)
+# Minecraft to Unreal Engine (MC2UE)
 
-This tool allows sections of Minecraft maps to be imported into Unreal Editor. It includes collision volumes.
+This tool is designed to assist modders in importing Minecraft worlds into Unreal Engine powered games. This tool optimizes the geometry for Unreal Engine and generates custom collision volumes.
