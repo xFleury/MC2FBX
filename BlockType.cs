@@ -214,6 +214,9 @@ namespace MC2UE
             {
                 /* BlockIdentifier.Air.ToString() is reflection based, and would not survive obfuscation. */
                 case BlockIdentifier.Dirt: return "dirt";
+                case BlockIdentifier.StoneBrick: return "stonebrick";
+                case BlockIdentifier.BrickBlock: return "brick";
+                case BlockIdentifier.WoodPlank: return "plank";
                 case BlockIdentifier.Leaves: return "leaves";
                 case BlockIdentifier.Grass: return "grass";
                 default: throw new Exception("Unknown BlockIdentifier name.");

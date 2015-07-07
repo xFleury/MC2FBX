@@ -80,7 +80,7 @@ namespace MC2UE
                             {
                                 CoordinateInt blockCoord =
                                     new CoordinateInt(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
-                                blocks[blockCoord] = new BlockType(BlockIdentifier.Dirt, 0);// pair.Value[idx].data);
+                                blocks[blockCoord] = new BlockType(pair.Value[idx].id, 0);// pair.Value[idx].data);
                             }
                         }
             }
@@ -90,6 +90,9 @@ namespace MC2UE
         {
          return
             blockID == BlockIdentifier.Dirt ||
+            blockID == BlockIdentifier.WoodPlank ||
+            blockID == BlockIdentifier.StoneBrick ||
+            blockID == BlockIdentifier.BrickBlock ||
             blockID == BlockIdentifier.Wood ||
             blockID == BlockIdentifier.Leaves ||
             blockID == BlockIdentifier.Grass;

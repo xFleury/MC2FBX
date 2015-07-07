@@ -79,6 +79,7 @@ namespace MC2UE
 
             foreach (KeyValuePair<BlockType, List<TexturedFace>> pair in texturedFaces)
             {
+                sb.AppendLine("g " + pair.Key.ToString());
                 sb.AppendLine("usemtl " + pair.Key.ToString());
                 List<TexturedFace> listOfTexturedFaces = pair.Value;
                 for (int idx = 0; idx < listOfTexturedFaces.Count; idx++)
