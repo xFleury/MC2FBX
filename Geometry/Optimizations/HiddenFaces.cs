@@ -40,15 +40,12 @@ namespace MC2UE
             if (ObstructedScanXY(volume.Coord, volume.ScaleX, volume.ScaleY, volume.ScaleZ, blockCheck))
                 faces |= Face.PositiveZ;
 
-            if (ObstructedScanYZ(volume.Coord, volume.Coord.X - 1, volume.ScaleY, volume.ScaleZ, blockCheck))
+            if (ObstructedScanYZ(volume.Coord, - 1, volume.ScaleY, volume.ScaleZ, blockCheck))
                 faces |= Face.NegativeX;
-            if (ObstructedScanXZ(volume.Coord, volume.ScaleX, volume.Coord.Y - 1, volume.ScaleZ, blockCheck))
+            if (ObstructedScanXZ(volume.Coord, volume.ScaleX, - 1, volume.ScaleZ, blockCheck))
                 faces |= Face.NegativeY;
-            if (ObstructedScanXY(volume.Coord, volume.ScaleX, volume.ScaleY, volume.Coord.Z - 1, blockCheck))
+            if (ObstructedScanXY(volume.Coord, volume.ScaleX, volume.ScaleY, - 1, blockCheck))
                 faces |= Face.NegativeZ;
-
-            #warning Disabled hidden face detection until it is fixed.
-            faces = Face.None;
 
             return faces;
         }

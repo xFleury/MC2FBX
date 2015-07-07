@@ -43,7 +43,7 @@ namespace MC2UE
             /* front four verticies */
             if (!FastFlagCheck(exclusions, Face.PositiveX))
                 action(Face.PositiveX, new FaceVerticies(i+3, i+2, i+6, i+7));
-            if (!FastFlagCheck(exclusions, Face.PositiveY))
+            if (!FastFlagCheck(exclusions, Face.NegativeY))
                 action(Face.PositiveY, new FaceVerticies(i+0, i+1, i+2, i+3));
             if (!FastFlagCheck(exclusions, Face.PositiveZ))
                 action(Face.PositiveZ, new FaceVerticies(i+4, i+0, i+3, i+7));
@@ -51,7 +51,7 @@ namespace MC2UE
             /* back four verticies */
             if (!FastFlagCheck(exclusions, Face.NegativeX))
                 action(Face.NegativeX, new FaceVerticies(i+4, i+5, i+1, i+0));
-            if (!FastFlagCheck(exclusions, Face.NegativeY))
+            if (!FastFlagCheck(exclusions, Face.PositiveY))
                 action(Face.NegativeY, new FaceVerticies(i+7, i+6, i+5, i+4));
             if (!FastFlagCheck(exclusions, Face.NegativeZ))
                 action(Face.NegativeZ, new FaceVerticies(i+1, i+5, i+6, i+2));
