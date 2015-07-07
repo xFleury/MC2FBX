@@ -7,8 +7,8 @@
     <ProjectGuid>{B0FCC7A8-29ED-42A3-BACB-732A775AB4A3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MC2FBX</RootNamespace>
-    <AssemblyName>MC2FBX</AssemblyName>
+    <RootNamespace>MC2UE</RootNamespace>
+    <AssemblyName>MC2UE</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

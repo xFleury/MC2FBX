@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using fNbt;
 using System.IO;
 
-namespace MC2FBX
+namespace MC2UE
 {
     class MinecraftWorld
     {

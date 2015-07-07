@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MC2FBX
+namespace MC2UE
 {
     class WavefrontObj
     {

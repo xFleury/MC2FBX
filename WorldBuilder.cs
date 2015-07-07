@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace MC2FBX
+namespace MC2UE
 {
     class WorldBuilder
     {

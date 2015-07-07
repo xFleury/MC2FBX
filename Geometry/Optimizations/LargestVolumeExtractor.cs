@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MC2FBX
+namespace MC2UE
 {
     /// <summary>Extracts the largest volume contigious volume within a hashset of blocks.</summary>
     public class LargestVolumeExtractor : IEnumerable<Volume>
