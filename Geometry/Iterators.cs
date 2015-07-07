@@ -13,48 +13,48 @@ namespace MC2UE
                         action(volume.Coord.Offset(x, y, z));
         }
 
-        public static void VerticiesInVolume(Volume volume, Action<CoordinateDecimal> action)
+        public static void VerticesInVolume(Volume volume, Action<CoordinateDecimal> action)
         {
-            VerticiesInVolume((CoordinateDecimal)volume.Coord, volume.ScaleX, volume.ScaleY, volume.ScaleZ, action);
+            VerticesInVolume((CoordinateDecimal)volume.Coord, volume.ScaleX, volume.ScaleY, volume.ScaleZ, action);
         }
 
-        /// <summary>Verticies in a volume.</summary>
-        public static void VerticiesInVolume(CoordinateDecimal coord, decimal width, decimal height, decimal length, Action<CoordinateDecimal> action)
+        /// <summary>Vertices in a volume.</summary>
+        public static void VerticesInVolume(CoordinateDecimal coord, decimal width, decimal height, decimal length, Action<CoordinateDecimal> action)
         {
-            /* front four verticies */
+            /* front four vertices */
             action(coord.Offset(0m, 0m, length));
             action(coord);
             action(coord.Offset(width, 0m, 0m));
             action(coord.Offset(width, 0m, length));
 
 
-            /* back four verticies */
+            /* back four vertices */
             action(coord.Offset(0m, height, length));
             action(coord.Offset(0m, height, 0m));
             action(coord.Offset(width, height, 0m));
             action(coord.Offset(width, height, length));
         }
 
-        /// <summary>Verticies in a volume.</summary>
-        public static void FacesInVolume(int startIndexOfVerticies, Face exclusions, Action<Face, FaceVerticies> action)
+        /// <summary>Vertices in a volume.</summary>
+        public static void FacesInVolume(int startIndexOfVertices, Face exclusions, Action<Face, FaceVertices> action)
         {
-            int i = startIndexOfVerticies;
+            int i = startIndexOfVertices;
 
-            /* front four verticies */
+            /* front four vertices */
             if (!FastFlagCheck(exclusions, Face.PositiveX))
-                action(Face.PositiveX, new FaceVerticies(i+3, i+2, i+6, i+7));
+                action(Face.PositiveX, new FaceVertices(i+3, i+2, i+6, i+7));
             if (!FastFlagCheck(exclusions, Face.NegativeY))
-                action(Face.PositiveY, new FaceVerticies(i+0, i+1, i+2, i+3));
+                action(Face.PositiveY, new FaceVertices(i+0, i+1, i+2, i+3));
             if (!FastFlagCheck(exclusions, Face.PositiveZ))
-                action(Face.PositiveZ, new FaceVerticies(i+4, i+0, i+3, i+7));
+                action(Face.PositiveZ, new FaceVertices(i+4, i+0, i+3, i+7));
 
-            /* back four verticies */
+            /* back four vertices */
             if (!FastFlagCheck(exclusions, Face.NegativeX))
-                action(Face.NegativeX, new FaceVerticies(i+4, i+5, i+1, i+0));
+                action(Face.NegativeX, new FaceVertices(i+4, i+5, i+1, i+0));
             if (!FastFlagCheck(exclusions, Face.PositiveY))
-                action(Face.NegativeY, new FaceVerticies(i+7, i+6, i+5, i+4));
+                action(Face.NegativeY, new FaceVertices(i+7, i+6, i+5, i+4));
             if (!FastFlagCheck(exclusions, Face.NegativeZ))
-                action(Face.NegativeZ, new FaceVerticies(i+1, i+5, i+6, i+2));
+                action(Face.NegativeZ, new FaceVertices(i+1, i+5, i+6, i+2));
         }
 
         private static bool FastFlagCheck(Face exclusion, Face flag) { return (exclusion & flag) != 0; }

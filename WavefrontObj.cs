@@ -7,8 +7,8 @@ namespace MC2UE
 {
     class WavefrontObj
     {
-        private readonly List<CoordinateDecimal> verticies = new List<CoordinateDecimal>();
-        private readonly Dictionary<string, FaceVerticies[]> collisionBoxes = new Dictionary<string, FaceVerticies[]>();
+        private readonly List<CoordinateDecimal> vertices = new List<CoordinateDecimal>();
+        private readonly Dictionary<string, FaceVertices[]> collisionBoxes = new Dictionary<string, FaceVertices[]>();
         private readonly Dictionary<BlockType, List<TexturedFace>> texturedFaces = new Dictionary<BlockType, List<TexturedFace>>();
         private readonly TextureCoordinateDictionary textureCoordinates = new TextureCoordinateDictionary();
 
@@ -21,19 +21,19 @@ namespace MC2UE
                 {
                     FacedVolume facedVolume = volumes[idx];
 
-                    Iterators.FacesInVolume(verticies.Count, facedVolume.excludedFaces, (Face face, FaceVerticies faceVerticies) =>
-                        { AppendTexturedFaces(pair.Key, facedVolume.volume, face, faceVerticies); });
+                    Iterators.FacesInVolume(vertices.Count, facedVolume.excludedFaces, (Face face, FaceVertices faceVertices) =>
+                        { AppendTexturedFaces(pair.Key, facedVolume.volume, face, faceVertices); });
                     
-                    Iterators.VerticiesInVolume(volumes[idx].volume,
-                        (CoordinateDecimal a) => { verticies.Add(a); });
+                    Iterators.VerticesInVolume(volumes[idx].volume,
+                        (CoordinateDecimal a) => { vertices.Add(a); });
                 }
             }
             Console.WriteLine(textureCoordinates.mappingList.Count + " unique texture coordinates.");
         }
 
-        private void AppendTexturedFaces(BlockType blockType, Volume volume, Face face, FaceVerticies faceVerticies)
+        private void AppendTexturedFaces(BlockType blockType, Volume volume, Face face, FaceVertices faceVertices)
         {
-            TexturedFace texturedFace = new TexturedFace(volume, face, faceVerticies);
+            TexturedFace texturedFace = new TexturedFace(volume, face, faceVertices);
             List<TexturedFace> texturedFacesList;
             if (texturedFaces.TryGetValue(blockType, out texturedFacesList))
                 texturedFacesList.Add(texturedFace);
@@ -46,12 +46,12 @@ namespace MC2UE
             textureCoordinates.EnsureExists(texturedFace.textureMapping);
         }
 
-        private void AppendVerticies(List<FacedVolume> volumes)
+        private void AppendVertices(List<FacedVolume> volumes)
         {
             for (int idx = 0; idx < volumes.Count; idx++)
             {
                 Volume volume = volumes[idx].volume;
-                verticies.Add(new CoordinateDecimal(
+                vertices.Add(new CoordinateDecimal(
                     volume.Coord.X, volume.Coord.Y, volume.Coord.Z));
             }
         }
@@ -61,9 +61,9 @@ namespace MC2UE
             const int maxDecimalPlaces = 6;
 
             StringBuilder sb = new StringBuilder();
-            for (int idx = 0; idx < verticies.Count; idx++)
+            for (int idx = 0; idx < vertices.Count; idx++)
             {
-                CoordinateDecimal coord = verticies[idx];
+                CoordinateDecimal coord = vertices[idx];
                 sb.AppendLine(string.Format("v {0:0.0} {1:0.0} {2:0.0}", 
                     Math.Round(coord.X, maxDecimalPlaces),
                     Math.Round(coord.Y, maxDecimalPlaces), 
@@ -94,10 +94,10 @@ namespace MC2UE
                         out texIndex1, out texIndex2, out texIndex3, out texIndex4);
 
                     sb.AppendLine(string.Format("f {0}/{4} {1}/{5} {2}/{6} {3}/{7}",
-                        1 + texturedFace.faceVerticies.index1,
-                        1 + texturedFace.faceVerticies.index2,
-                        1 + texturedFace.faceVerticies.index3,
-                        1 + texturedFace.faceVerticies.index4,
+                        1 + texturedFace.faceVertices.index1,
+                        1 + texturedFace.faceVertices.index2,
+                        1 + texturedFace.faceVertices.index3,
+                        1 + texturedFace.faceVertices.index4,
                         1 + texIndex1,
                         1 + texIndex2,
                         1 + texIndex3,

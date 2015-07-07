@@ -5,12 +5,12 @@ namespace MC2UE
 {
     class TexturedFace
     {
-        public FaceVerticies faceVerticies;
+        public FaceVertices faceVertices;
         public Size textureMapping;
 
-        public TexturedFace(Volume volume, Face face, FaceVerticies faceVerticies)
+        public TexturedFace(Volume volume, Face face, FaceVertices faceVertices)
         {
-            this.faceVerticies = faceVerticies;
+            this.faceVertices = faceVertices;
 
             switch (face)
             {

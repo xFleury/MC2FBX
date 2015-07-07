@@ -45,7 +45,8 @@
     <Compile Include="fNbt\Tags\NbtDouble.cs" />
     <Compile Include="fNbt\Tags\NbtFloat.cs" />
     <Compile Include="Geometry\CoordinateDecimal.cs" />
-    <Compile Include="Geometry\FaceVerticies.cs" />
+    <Compile Include="Geometry\FaceVertices.cs" />
+    <Compile Include="Geometry\Optimizations\DuplicateVertices.cs" />
     <Compile Include="Geometry\Optimizations\FacedVolume.cs" />
     <Compile Include="Geometry\Face.cs" />
     <Compile Include="Geometry\Optimizations\HiddenFaces.cs" />
