@@ -12,13 +12,13 @@ namespace MC2UE
         private readonly Dictionary<int, int> mappingDY = new Dictionary<int, int>();
         private readonly Dictionary<Size, int> mappingDXY = new Dictionary<Size, int>();
 
-        /// <summary>Remember to add +1 to the index when writing OBJ.</summary>
         public void GetMapping(Size mappingSize, out int index1, out int index2, out int index3, out int index4)
         {
-            index1 = 0;
-            index2 = mappingDY[mappingSize.Height];
-            index3 = mappingDXY[mappingSize];
-            index4 = mappingDX[mappingSize.Width];
+            /* UV mapping has 0,0 the bottom-left, but we defined it top-left. */
+            index1 = mappingDY[mappingSize.Height];
+            index2 = 0;
+            index3 = mappingDX[mappingSize.Width];
+            index4 = mappingDXY[mappingSize];
         }
 
         public void EnsureExists(Size mappingSize)

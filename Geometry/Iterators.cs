@@ -22,16 +22,17 @@ namespace MC2UE
         public static void VerticiesInVolume(CoordinateDecimal coord, decimal width, decimal height, decimal length, Action<CoordinateDecimal> action)
         {
             /* front four verticies */
+            action(coord.Offset(0m, 0m, length));
             action(coord);
-            action(coord.Offset(0m, height, 0m));
-            action(coord.Offset(width, height, 0m));
             action(coord.Offset(width, 0m, 0m));
+            action(coord.Offset(width, 0m, length));
+
 
             /* back four verticies */
-            action(coord.Offset(0m, 0m, length));
             action(coord.Offset(0m, height, length));
+            action(coord.Offset(0m, height, 0m));
+            action(coord.Offset(width, height, 0m));
             action(coord.Offset(width, height, length));
-            action(coord.Offset(width, 0m, length));
         }
 
         /// <summary>Verticies in a volume.</summary>
