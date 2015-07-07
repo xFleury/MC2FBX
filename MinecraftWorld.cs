@@ -16,7 +16,6 @@ namespace MC2UE
         private int offsetY;
         private int offsetZ;       
 
-        private readonly CoordinateInt spawnLocation;
         private readonly Dictionary<CoordinateInt, BlockType[]> chunks = new Dictionary<CoordinateInt, BlockType[]>();
         private const int sectorSize = 1024 * 4;
         private const BlockIdentifier matchType = BlockIdentifier.Wool;
@@ -56,10 +55,6 @@ namespace MC2UE
         {
             NbtTag levelDat = new NbtFile(Path.Combine(path, "level.dat")).RootTag["Data"];
             string levelName = levelDat["LevelName"].StringValue;
-            spawnLocation = new CoordinateInt(
-                levelDat["SpawnX"].IntValue,
-                levelDat["SpawnY"].IntValue,
-                levelDat["SpawnZ"].IntValue);
             string[] regionFiles = Directory.GetFiles(Path.Combine(path, "region"), "*.mca");
             for (int idx = 0; idx < regionFiles.Length; idx++)
                 ParseRegion(regionFiles[idx]);
@@ -99,13 +94,7 @@ namespace MC2UE
             blockID == BlockIdentifier.Leaves ||
             blockID == BlockIdentifier.Grass;
         }
-
-
-        //private static int ToRelativeChunkPosition(int x, int y, int z)
-        //{
-        //    return z * 32 * 32 + y * 32 + x;
-        //}
-
+            
         private byte MaskTo4Bit(byte[] array, int idx)
         {
             if (idx % 2 == 0)
@@ -117,9 +106,6 @@ namespace MC2UE
         private void ParseRegion(string regionPath)
         {
             string fileName = Path.GetFileName(regionPath);
-            string[] regionCoords = Path.GetFileNameWithoutExtension(regionPath).Split('.');
-            //int regionX = int.Parse(regionCoords[1]);
-            //int regionZ = int.Parse(regionCoords[2]);
             int chunkCount = 0;
 
             using (BinaryReader binaryReader = new BinaryReader(File.Open(regionPath, FileMode.Open)))
