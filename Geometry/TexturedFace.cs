@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Drawing;
 
 namespace MC2UE
 {
     class TexturedFace
     {
         public FaceVerticies faceVerticies;
-        public int mappingWidth;
-        public int mappingHeight;
+        public Size textureMapping;
 
         public TexturedFace(Volume volume, Face face, FaceVerticies faceVerticies)
         {
@@ -16,20 +16,17 @@ namespace MC2UE
             {
                 case Face.PositiveX:
                 case Face.NegativeX:
-                    mappingWidth = volume.ScaleY;
-                    mappingHeight = volume.ScaleZ;
+                    textureMapping = new Size(volume.ScaleY, volume.ScaleZ);
                     break;
 
                 case Face.PositiveY:
                 case Face.NegativeY:
-                    mappingWidth = volume.ScaleX;
-                    mappingHeight = volume.ScaleZ;
+                    textureMapping = new Size(volume.ScaleX, volume.ScaleZ);
                     break;
 
                 case Face.PositiveZ:
                 case Face.NegativeZ:
-                    mappingWidth = volume.ScaleX;
-                    mappingHeight = volume.ScaleY;
+                    textureMapping = new Size(volume.ScaleX, volume.ScaleY);
                     break;
 
                 default: throw new Exception("Unknown texture face.");
