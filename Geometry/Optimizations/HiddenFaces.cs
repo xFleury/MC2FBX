@@ -47,6 +47,9 @@ namespace MC2FBX
             if (ObstructedScanXY(volume.Coord, volume.ScaleX, volume.ScaleY, volume.Coord.Z - 1, blockCheck))
                 faces |= Face.NegativeZ;
 
+            #warning Disabled hidden face detection until it is fixed.
+            faces = Face.None;
+
             return faces;
         }
 

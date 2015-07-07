@@ -7,7 +7,6 @@ namespace MC2FBX
     class WorldBuilder
     {
         private static BlockIdentifier[] TransparentBlocks = new BlockIdentifier[] { BlockIdentifier.Leaves };
-        private readonly PythonScript script = new PythonScript();
 
         public WorldBuilder(MinecraftWorld world, string outputPath)
         {
@@ -34,7 +33,8 @@ namespace MC2FBX
             Dictionary<BlockType, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
             Console.WriteLine("Identified {0} interior faces.", HiddenFaces.totalHiddenFaces);
 
-
+            /* Export the geometry to Wavefront's OBJ format. */
+            WavefrontObj objFile = new WavefrontObj(facedVolumizedWorld);
 
             //foreach (Volume volume in volumes)
             //    script.AddBlock(volume.Coord.X, volume.Coord.Y, volume.Coord.Z,
@@ -43,7 +43,7 @@ namespace MC2FBX
             //script.CreateBoxes("dirt", volumes);
             Console.Write("\n");
 
-            File.WriteAllText(outputPath, script.ToString());
+            File.WriteAllText(outputPath, objFile.ToString());
         }
 
         private static Dictionary<BlockType, HashSet<CoordinateInt>> OrganizeRawBlocks(Dictionary<CoordinateInt, BlockType> rawBlocks)

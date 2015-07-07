@@ -213,7 +213,7 @@ namespace MC2FBX
             switch (id)
             {
                 /* BlockIdentifier.Air.ToString() is reflection based, and would not survive obfuscation. */
-                case BlockIdentifier.Air: return "air";
+                case BlockIdentifier.Dirt: return "dirt";
                 case BlockIdentifier.Leaves: return "leaves";
                 case BlockIdentifier.Grass: return "grass";
                 default: throw new Exception("Unknown BlockIdentifier name.");
