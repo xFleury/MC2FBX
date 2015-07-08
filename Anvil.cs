@@ -5,7 +5,8 @@ using System.IO;
 
 namespace MC2UE
 {
-    class MinecraftWorld
+    /// <summary>Minecraft's Anvil region file format.</summary>
+    class Anvil
     {
         public readonly Dictionary<CoordinateInt, Block> blocks = new Dictionary<CoordinateInt, Block>();
         public readonly int boundaryWidth;
@@ -51,7 +52,7 @@ namespace MC2UE
             return (z + offsetZ) * 16 * 16 + (y + offsetY) * 16 + (x + offsetX);
         }
 
-        public MinecraftWorld(string path)
+        public Anvil(string path)
         {
             NbtTag levelDat = new NbtFile(Path.Combine(path, "level.dat")).RootTag["Data"];
             string levelName = levelDat["LevelName"].StringValue;
