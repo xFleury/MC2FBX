@@ -32,7 +32,7 @@ namespace MC2UE
             Console.WriteLine("Identifying interior faces.");
             Dictionary<BlockType, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
             Console.WriteLine("Identified {0} interior faces.", HiddenFaces.totalHiddenFaces);
-
+            
             /* Export the geometry to Wavefront's OBJ format. */
             WavefrontObj objFile = new WavefrontObj(facedVolumizedWorld);
 

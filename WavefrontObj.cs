@@ -29,6 +29,10 @@ namespace MC2UE
                 }
             }
             Console.WriteLine(textureCoordinates.mappingList.Count + " unique texture coordinates.");
+
+            Console.WriteLine("Detecting duplicate vertices.");
+            int duplicatesRemoved = DuplicateVertices.DetectAndErase(vertices, collisionBoxes, texturedFaces);
+            Console.WriteLine(duplicatesRemoved + " duplicate vertices removed.");
         }
 
         private void AppendTexturedFaces(BlockType blockType, Volume volume, Face face, FaceVertices faceVertices)
