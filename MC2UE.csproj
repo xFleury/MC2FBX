@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anvil.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Endian.cs" />
     <Compile Include="fNbt\Tags\NbtDouble.cs" />
@@ -55,7 +56,6 @@
     <Compile Include="Minecraft\Block.cs" />
     <Compile Include="Geometry\TexturedFace.cs" />
     <Compile Include="Geometry\Iterators.cs" />
-    <Compile Include="MinecraftWorld.cs" />
     <Compile Include="Geometry\Bounds.cs" />
     <Compile Include="Geometry\Optimizations\LargestVolumeExtractor.cs" />
     <Compile Include="Geometry\CoordinateInt.cs" />
@@ -86,7 +86,6 @@
     <Compile Include="Geometry\Volume.cs" />
     <Compile Include="TextureCoordinateDictionary.cs" />
     <Compile Include="WavefrontObj.cs" />
-    <Compile Include="WorldBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

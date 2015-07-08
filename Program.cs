@@ -16,7 +16,7 @@ namespace MC2UE
                 return;
             }
 
-            MinecraftWorld world = new MinecraftWorld(args[0]);
+            Anvil world = new Anvil(args[0]);
             Dictionary<CoordinateInt, Block> rawBlocks = world.blocks;
 
             /* We need to identify any bricks that are hidden from vision. */
