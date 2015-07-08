@@ -72,7 +72,7 @@ namespace MC2UE
                 List<FacedVolume> volumes = pair.Value;
                 for (int idx = 0; idx < volumes.Count; idx++)
                     #warning Potential for collision meshes to be far from visual mesh!
-                    MakeCollisionUBX(pair.Key.ToString() + string.Format("_{0:00}", idx), volumes[idx].volume, vertices, collisionBoxes);
+                    MakeCollisionUBX("UBX_" + pair.Key.ToString() + string.Format("_{0:00}", idx), volumes[idx].volume, vertices, collisionBoxes);
             }
 
             /* Export the geometry to Wavefront's OBJ format. */
@@ -93,12 +93,12 @@ namespace MC2UE
                     
             Iterators.VerticesInVolume(((CoordinateDecimal)volume.Coord).Offset(
                 collisionPadding, collisionPadding, collisionPadding),
-                volume.ScaleX - collisionPadding, 
-                volume.ScaleY - collisionPadding,
-                volume.ScaleZ - collisionPadding,
+                volume.ScaleX - 2*collisionPadding, 
+                volume.ScaleY - 2*collisionPadding,
+                volume.ScaleZ - 2*collisionPadding,
                 (CoordinateDecimal a) => { vertices.Add(a); });
 
-
+            collisionBoxes.Add(name, listOfFaceVertices);
         }
 
         private static void AppendTexturedFaces(Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces, 

@@ -34,7 +34,7 @@ namespace MC2UE
             for (int idx = 0; idx < vertices.Count; idx++)
             {
                 CoordinateDecimal coord = vertices[idx];
-                sb.AppendLine(string.Format("v {0:0.0} {1:0.0} {2:0.0}", 
+                sb.AppendLine(string.Format("v {0:0.0#####} {1:0.0#####} {2:0.0#####}", 
                     Math.Round(coord.X, maxDecimalPlaces),
                     Math.Round(coord.Y, maxDecimalPlaces), 
                     Math.Round(coord.Z, maxDecimalPlaces)));
@@ -43,7 +43,7 @@ namespace MC2UE
             for (int idx = 0; idx < textureCoordinates.mappingList.Count; idx++)
             {
                 Point point = textureCoordinates.mappingList[idx];
-                sb.AppendLine(string.Format("vt {0:0.0} {1:0.0}", 
+                sb.AppendLine(string.Format("vt {0:0.0#####} {1:0.0#####}", 
                     point.X, point.Y));
             }
 
