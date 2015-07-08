@@ -6,16 +6,16 @@ namespace MC2UE
     {
         public static int totalHiddenFaces = 0;
 
-        public static Dictionary<BlockType, List<FacedVolume>> DetectHiddenFaces(Dictionary<BlockType, List<Volume>> volumizedWorld,
-            Dictionary<CoordinateInt, BlockType> rawBlocks)
+        public static Dictionary<Block, List<FacedVolume>> DetectHiddenFaces(Dictionary<Block, List<Volume>> volumizedWorld,
+            Dictionary<CoordinateInt, Block> rawBlocks)
         {
             HashSet<CoordinateInt> opaqueBlocks = new HashSet<CoordinateInt>();
-            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
+            foreach (KeyValuePair<CoordinateInt, Block> pair in rawBlocks)
                 if (pair.Value.IsOpaque)
                     opaqueBlocks.Add(pair.Key);
 
-            Dictionary<BlockType, List<FacedVolume>> facedVolumes = new Dictionary<BlockType, List<FacedVolume>>();
-            foreach (KeyValuePair<BlockType, List<Volume>> pair in volumizedWorld)
+            Dictionary<Block, List<FacedVolume>> facedVolumes = new Dictionary<Block, List<FacedVolume>>();
+            foreach (KeyValuePair<Block, List<Volume>> pair in volumizedWorld)
             {
                 List<FacedVolume> faceVolumeList = new List<FacedVolume>();
                 for (int idx = 0; idx < pair.Value.Count; idx++)

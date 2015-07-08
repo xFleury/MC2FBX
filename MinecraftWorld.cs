@@ -7,7 +7,7 @@ namespace MC2UE
 {
     class MinecraftWorld
     {
-        public readonly Dictionary<CoordinateInt, BlockType> blocks = new Dictionary<CoordinateInt, BlockType>();
+        public readonly Dictionary<CoordinateInt, Block> blocks = new Dictionary<CoordinateInt, Block>();
         public readonly int boundaryWidth;
         public readonly int boundaryHeight;
         public readonly int boundaryLength;  
@@ -16,7 +16,7 @@ namespace MC2UE
         private int offsetY;
         private int offsetZ;       
 
-        private readonly Dictionary<CoordinateInt, BlockType[]> chunks = new Dictionary<CoordinateInt, BlockType[]>();
+        private readonly Dictionary<CoordinateInt, Block[]> chunks = new Dictionary<CoordinateInt, Block[]>();
         private const int sectorSize = 1024 * 4;
         private const BlockIdentifier matchType = BlockIdentifier.Wool;
         private const int matchData = 14; //red
@@ -26,10 +26,10 @@ namespace MC2UE
             Console.WriteLine("Scanning {0} chunks for bounds.", chunks.Count);
             Bounds bounds = new Bounds();
             int matchesFound = 0;
-            foreach (KeyValuePair<CoordinateInt, BlockType[]> pair in chunks)
+            foreach (KeyValuePair<CoordinateInt, Block[]> pair in chunks)
             {
                 CoordinateInt chunkCoord = pair.Key;
-                BlockType[] blocks = pair.Value;
+                Block[] blocks = pair.Value;
                 for (int blockIdx = 0; blockIdx < blocks.Length; blockIdx++)
                     if (blocks[blockIdx].id == matchType && blocks[blockIdx].data == matchData)
                     {
@@ -66,7 +66,7 @@ namespace MC2UE
             offsetY = -bounds.minY;
             offsetZ = -bounds.minZ;
             Console.WriteLine("Extracting blocks within boundary.");
-            foreach (KeyValuePair<CoordinateInt, BlockType[]> pair in chunks)
+            foreach (KeyValuePair<CoordinateInt, Block[]> pair in chunks)
             {
                 CoordinateInt chunkCoord = pair.Key;
                 if (bounds.ContainsChunk(chunkCoord))
@@ -80,7 +80,7 @@ namespace MC2UE
                             {
                                 CoordinateInt blockCoord =
                                     new CoordinateInt(absoluteX + offsetX, absoluteZ + offsetZ, absoluteY + offsetY);
-                                blocks[blockCoord] = new BlockType(pair.Value[idx].id, 0);// pair.Value[idx].data);
+                                blocks[blockCoord] = new Block(pair.Value[idx].id, 0);// pair.Value[idx].data);
                             }
                         }
             }
@@ -137,13 +137,13 @@ namespace MC2UE
                     NbtList sections = levelTag["Sections"] as NbtList;
                     for (int sectionIdx = 0; sectionIdx < sections.Count; sectionIdx++)
                     {
-                        BlockType[] blocks = new BlockType[16 * 16 * 16];
+                        Block[] blocks = new Block[16 * 16 * 16];
                         NbtTag sectionTag = sections[sectionIdx];
                         int offsetY = sectionTag["Y"].ByteValue;
                         byte[] blockIDs = sectionTag["Blocks"].ByteArrayValue;
                         byte[] blockData = sectionTag["Data"].ByteArrayValue;
                         for (int blockIdx = 0; blockIdx < blockIDs.Length; blockIdx++)
-                            blocks[blockIdx] = new BlockType((BlockIdentifier)blockIDs[blockIdx], MaskTo4Bit(blockData, blockIdx));
+                            blocks[blockIdx] = new Block((BlockIdentifier)blockIDs[blockIdx], MaskTo4Bit(blockData, blockIdx));
                         CoordinateInt coord = new CoordinateInt(chunkX, offsetY, chunkZ);
                         chunks.Add(coord, blocks);
                         chunkCount++;

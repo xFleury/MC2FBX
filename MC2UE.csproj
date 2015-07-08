@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Endian.cs" />
     <Compile Include="fNbt\Tags\NbtDouble.cs" />
     <Compile Include="fNbt\Tags\NbtFloat.cs" />
@@ -50,7 +51,8 @@
     <Compile Include="Geometry\Optimizations\FacedVolume.cs" />
     <Compile Include="Geometry\Face.cs" />
     <Compile Include="Geometry\Optimizations\HiddenFaces.cs" />
-    <Compile Include="BlockType.cs" />
+    <Compile Include="Minecraft\BlockIdentifier.cs" />
+    <Compile Include="Minecraft\Block.cs" />
     <Compile Include="Geometry\TexturedFace.cs" />
     <Compile Include="Geometry\Iterators.cs" />
     <Compile Include="MinecraftWorld.cs" />

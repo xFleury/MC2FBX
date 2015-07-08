@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MC2UE
+﻿namespace MC2UE
 {
     enum BlockIdentifier : byte
     {
@@ -170,57 +168,5 @@ namespace MC2UE
         Carpet = 171,
         HardenedClay = 172,
         CoalBlock = 173
-    }
-
-    struct BlockType : IEquatable<BlockType>
-    {
-        private static BlockIdentifier[] nonOpaqueBlocks = new BlockIdentifier[] {
-            BlockIdentifier.Air, BlockIdentifier.Leaves, BlockIdentifier.Glass};
-
-        public BlockIdentifier id;
-        public byte data;
-
-        public bool IsOpaque { get { return Array.IndexOf(nonOpaqueBlocks, id) == -1; } }
-
-        public BlockType(BlockIdentifier id, byte data)
-        {
-            this.id = id; this.data = data;
-        }
-
-        public bool Equals(BlockType other)
-        {
-            return id == other.id && data == other.data;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is BlockType)
-                return Equals((BlockType)obj);
-            else return false;
-        }
-
-        public static bool operator ==(BlockType a, BlockType b) { return a.Equals(b); }
-
-        public static bool operator !=(BlockType a, BlockType b) { return !a.Equals(b); }
-
-        public override int GetHashCode()
-        {
-            return ((int)id << 8) | data;
-        }
-
-        public override string ToString()
-        {
-            switch (id)
-            {
-                /* BlockIdentifier.Air.ToString() is reflection based, and would not survive obfuscation. */
-                case BlockIdentifier.Dirt: return "dirt";
-                case BlockIdentifier.StoneBrick: return "stonebrick";
-                case BlockIdentifier.BrickBlock: return "brick";
-                case BlockIdentifier.WoodPlank: return "plank";
-                case BlockIdentifier.Leaves: return "leaves";
-                case BlockIdentifier.Grass: return "grass";
-                default: throw new Exception("Unknown BlockIdentifier name.");
-            }
-        }
     }
 }

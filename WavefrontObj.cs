@@ -9,12 +9,12 @@ namespace MC2UE
     {
         private readonly List<CoordinateDecimal> vertices = new List<CoordinateDecimal>();
         private readonly Dictionary<string, FaceVertices[]> collisionBoxes = new Dictionary<string, FaceVertices[]>();
-        private readonly Dictionary<BlockType, List<TexturedFace>> texturedFaces = new Dictionary<BlockType, List<TexturedFace>>();
+        private readonly Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces = new Dictionary<BlockFaceTexture, List<TexturedFace>>();
         private readonly TextureCoordinateDictionary textureCoordinates = new TextureCoordinateDictionary();
 
-        public WavefrontObj(Dictionary<BlockType, List<FacedVolume>> facedVolumizedWorld)
+        public WavefrontObj(Dictionary<Block, List<FacedVolume>> facedVolumizedWorld)
         {
-            foreach (KeyValuePair<BlockType, List<FacedVolume>> pair in facedVolumizedWorld)
+            foreach (KeyValuePair<Block, List<FacedVolume>> pair in facedVolumizedWorld)
             {
                 List<FacedVolume> volumes = pair.Value;
                 for (int idx = 0; idx < volumes.Count; idx++)
@@ -35,17 +35,19 @@ namespace MC2UE
             Console.WriteLine(duplicatesRemoved + " duplicate vertices removed.");
         }
 
-        private void AppendTexturedFaces(BlockType blockType, Volume volume, Face face, FaceVertices faceVertices)
+        private void AppendTexturedFaces(Block blockType, Volume volume, Face face, FaceVertices faceVertices)
         {
+            BlockFaceTexture blockFaceTexture = blockType.GetFaceTexture(face);
+
             TexturedFace texturedFace = new TexturedFace(volume, face, faceVertices);
             List<TexturedFace> texturedFacesList;
-            if (texturedFaces.TryGetValue(blockType, out texturedFacesList))
+            if (texturedFaces.TryGetValue(blockFaceTexture, out texturedFacesList))
                 texturedFacesList.Add(texturedFace);
             else
             {
                 texturedFacesList = new List<TexturedFace>();
                 texturedFacesList.Add(texturedFace);
-                texturedFaces.Add(blockType, texturedFacesList);
+                texturedFaces.Add(blockFaceTexture, texturedFacesList);
             }
             textureCoordinates.EnsureExists(texturedFace.textureMapping);
         }
@@ -81,7 +83,7 @@ namespace MC2UE
                     point.X, point.Y));
             }
 
-            foreach (KeyValuePair<BlockType, List<TexturedFace>> pair in texturedFaces)
+            foreach (KeyValuePair<BlockFaceTexture, List<TexturedFace>> pair in texturedFaces)
             {
                 sb.AppendLine("g " + pair.Key.ToString());
                 sb.AppendLine("usemtl " + pair.Key.ToString());

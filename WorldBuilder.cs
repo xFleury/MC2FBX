@@ -10,12 +10,12 @@ namespace MC2UE
 
         public WorldBuilder(MinecraftWorld world, string outputPath)
         {
-            Dictionary<CoordinateInt, BlockType> rawBlocks = world.blocks;
+            Dictionary<CoordinateInt, Block> rawBlocks = world.blocks;
 
             /* We need to identify any bricks that are hidden from vision. */
             Console.WriteLine("Identifying invisible blocks.");
             HashSet<CoordinateInt> invisibleBricks = new HashSet<CoordinateInt>();
-            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
+            foreach (KeyValuePair<CoordinateInt, Block> pair in rawBlocks)
                 if (IsInvisible(pair.Key, rawBlocks))
                     invisibleBricks.Add(pair.Key);
             foreach (CoordinateInt coord in invisibleBricks)
@@ -24,13 +24,13 @@ namespace MC2UE
 
             /* Before we can start expanding cubes, we need to organize by block type. */
             Console.WriteLine("Extracting largest volumes.");
-            Dictionary<BlockType, List<Volume>> volumizedWorld = new Dictionary<BlockType, List<Volume>>();
-            foreach (KeyValuePair<BlockType, HashSet<CoordinateInt>> pair in OrganizeRawBlocks(rawBlocks))
+            Dictionary<Block, List<Volume>> volumizedWorld = new Dictionary<Block, List<Volume>>();
+            foreach (KeyValuePair<Block, HashSet<CoordinateInt>> pair in OrganizeRawBlocks(rawBlocks))
                 volumizedWorld.Add(pair.Key, new List<Volume>(new LargestVolumeExtractor(pair.Value, invisibleBricks)));
 
             /* Scan for interior faces that we can remove. */
             Console.WriteLine("Identifying interior faces.");
-            Dictionary<BlockType, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
+            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
             Console.WriteLine("Identified {0} interior faces.", HiddenFaces.totalHiddenFaces);
             
             /* Export the geometry to Wavefront's OBJ format. */
@@ -46,10 +46,10 @@ namespace MC2UE
             File.WriteAllText(outputPath, objFile.ToString());
         }
 
-        private static Dictionary<BlockType, HashSet<CoordinateInt>> OrganizeRawBlocks(Dictionary<CoordinateInt, BlockType> rawBlocks)
+        private static Dictionary<Block, HashSet<CoordinateInt>> OrganizeRawBlocks(Dictionary<CoordinateInt, Block> rawBlocks)
         {
-            Dictionary<BlockType, HashSet<CoordinateInt>> organizedWorld = new Dictionary<BlockType, HashSet<CoordinateInt>>();
-            foreach (KeyValuePair<CoordinateInt, BlockType> pair in rawBlocks)
+            Dictionary<Block, HashSet<CoordinateInt>> organizedWorld = new Dictionary<Block, HashSet<CoordinateInt>>();
+            foreach (KeyValuePair<CoordinateInt, Block> pair in rawBlocks)
             {
                 HashSet<CoordinateInt> coordinates;
                 if (organizedWorld.TryGetValue(pair.Value, out coordinates))
@@ -64,7 +64,7 @@ namespace MC2UE
             return organizedWorld;
         }
 
-        private static bool IsInvisible(CoordinateInt coord, Dictionary<CoordinateInt, BlockType> rawWorld)
+        private static bool IsInvisible(CoordinateInt coord, Dictionary<CoordinateInt, Block> rawWorld)
         {
             bool isInvisible =
                 OpaqueBrickAt(coord.Offset(-1, 0, 0), rawWorld) &&
@@ -76,9 +76,9 @@ namespace MC2UE
             return isInvisible;
         }
 
-        private static bool OpaqueBrickAt(CoordinateInt coord, Dictionary<CoordinateInt, BlockType> rawWorld)
+        private static bool OpaqueBrickAt(CoordinateInt coord, Dictionary<CoordinateInt, Block> rawWorld)
         {
-            BlockType blockType;
+            Block blockType;
             return (rawWorld.TryGetValue(coord, out blockType)) && Array.IndexOf(TransparentBlocks, blockType.id) == -1;
         }
     }
