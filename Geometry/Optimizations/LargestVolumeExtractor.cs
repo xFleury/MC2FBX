@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace MC2UE
 {
     /// <summary>Extracts the largest volume contigious volume within a hashset of blocks.</summary>
-    public class LargestVolumeExtractor : IEnumerable<Volume>
+    class LargestVolumeExtractor : IEnumerable<Volume>
     {
         HashSet<CoordinateInt> visibleBlocks;
         HashSet<CoordinateInt> invisibleBlocks;
@@ -20,6 +20,7 @@ namespace MC2UE
         {
             while (visibleBlocks.Count > 0)
             {
+                Console.Write("\r" + visibleBlocks.Count + " remaining.");
                 Volume limitedVolume = LargestVolume_OnlyVisible();
                 //KeyValuePair<int, Volume> noLimitVolume = LargestVolume_AnyVisibility();
 
@@ -40,6 +41,7 @@ namespace MC2UE
                 //    yield return noLimitVolume.Value;
                 //}
             }
+            Console.Write(Environment.NewLine);
         }
 
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }

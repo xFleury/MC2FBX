@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anvil.cs" />
+    <Compile Include="FastPixelEditor.cs" />
+    <Compile Include="Heightmap.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Endian.cs" />
     <Compile Include="fNbt\Tags\NbtDouble.cs" />

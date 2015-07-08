@@ -7,7 +7,7 @@ namespace fNbt
 {
     /// <summary> Represents a reader that provides fast, non-cached, forward-only access to NBT data.
     /// Each instance of NbtReader reads one complete file. </summary>
-    public class NbtReader
+    class NbtReader
     {
         NbtParseState state = NbtParseState.AtStreamBeginning;
         readonly NbtBinaryReader reader;
