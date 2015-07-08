@@ -4,8 +4,7 @@ namespace MC2UE
 {
     static class DuplicateVertices
     {        
-        public static int DetectAndErase(List<CoordinateDecimal> vertices, Dictionary<string, FaceVertices[]> collisionBoxes,
-            Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces)
+        public static int DetectAndErase(List<CoordinateDecimal> vertices, Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces)
         {            
             List<int> translationIndex = new List<int>();
             List<int> translationOffset = new List<int>();
@@ -36,9 +35,9 @@ namespace MC2UE
                 for (int idx = 0; idx < pair.Value.Count; idx++)
                     UpdateFaceVertices(translationIndex, translationOffset, ref pair.Value[idx].faceVertices);
 
-            foreach (KeyValuePair<string, FaceVertices[]> pair in collisionBoxes)
-                for (int idx = 0; idx < pair.Value.Length; idx++)
-                    UpdateFaceVertices(translationIndex, translationOffset, ref pair.Value[idx]);
+//            foreach (KeyValuePair<string, FaceVertices[]> pair in collisionBoxes)
+//                for (int idx = 0; idx < pair.Value.Length; idx++)
+//                    UpdateFaceVertices(translationIndex, translationOffset, ref pair.Value[idx]);
 
             int duplicatesRemoved = 0;
             for (int idx = 0; idx < translationLocked.Count; idx++)

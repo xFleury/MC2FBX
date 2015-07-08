@@ -7,60 +7,24 @@ namespace MC2UE
 {
     class WavefrontObj
     {
-        private readonly List<CoordinateDecimal> vertices = new List<CoordinateDecimal>();
-        private readonly Dictionary<string, FaceVertices[]> collisionBoxes = new Dictionary<string, FaceVertices[]>();
-        private readonly Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces = new Dictionary<BlockFaceTexture, List<TexturedFace>>();
-        private readonly TextureCoordinateDictionary textureCoordinates = new TextureCoordinateDictionary();
+        private readonly List<CoordinateDecimal> vertices;
+        private readonly Dictionary<string, List<FaceVertices>> collisionBoxes;
+        private readonly Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces;
+        private readonly TextureCoordinateDictionary textureCoordinates;
 
-        public WavefrontObj(Dictionary<Block, List<FacedVolume>> facedVolumizedWorld)
+        public WavefrontObj(
+            List<CoordinateDecimal> vertices,
+            Dictionary<string, List<FaceVertices>> collisionBoxes,
+            Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces,
+            TextureCoordinateDictionary textureCoordinates,
+            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld)
         {
-            foreach (KeyValuePair<Block, List<FacedVolume>> pair in facedVolumizedWorld)
-            {
-                List<FacedVolume> volumes = pair.Value;
-                for (int idx = 0; idx < volumes.Count; idx++)
-                {
-                    FacedVolume facedVolume = volumes[idx];
-
-                    Iterators.FacesInVolume(vertices.Count, facedVolume.excludedFaces, (Face face, FaceVertices faceVertices) =>
-                        { AppendTexturedFaces(pair.Key, facedVolume.volume, face, faceVertices); });
-                    
-                    Iterators.VerticesInVolume(volumes[idx].volume,
-                        (CoordinateDecimal a) => { vertices.Add(a); });
-                }
-            }
-            Console.WriteLine(textureCoordinates.mappingList.Count + " unique texture coordinates.");
-
-            Console.WriteLine("Detecting duplicate vertices.");
-            int duplicatesRemoved = DuplicateVertices.DetectAndErase(vertices, collisionBoxes, texturedFaces);
-            Console.WriteLine(duplicatesRemoved + " duplicate vertices removed.");
+            this.vertices = vertices;
+            this.collisionBoxes = collisionBoxes;
+            this.texturedFaces = texturedFaces;
+            this.textureCoordinates = textureCoordinates;
         }
 
-        private void AppendTexturedFaces(Block blockType, Volume volume, Face face, FaceVertices faceVertices)
-        {
-            BlockFaceTexture blockFaceTexture = blockType.GetFaceTexture(face);
-
-            TexturedFace texturedFace = new TexturedFace(volume, face, faceVertices);
-            List<TexturedFace> texturedFacesList;
-            if (texturedFaces.TryGetValue(blockFaceTexture, out texturedFacesList))
-                texturedFacesList.Add(texturedFace);
-            else
-            {
-                texturedFacesList = new List<TexturedFace>();
-                texturedFacesList.Add(texturedFace);
-                texturedFaces.Add(blockFaceTexture, texturedFacesList);
-            }
-            textureCoordinates.EnsureExists(texturedFace.textureMapping);
-        }
-
-        private void AppendVertices(List<FacedVolume> volumes)
-        {
-            for (int idx = 0; idx < volumes.Count; idx++)
-            {
-                Volume volume = volumes[idx].volume;
-                vertices.Add(new CoordinateDecimal(
-                    volume.Coord.X, volume.Coord.Y, volume.Coord.Z));
-            }
-        }
 
         public override string ToString()
         {
@@ -81,6 +45,24 @@ namespace MC2UE
                 Point point = textureCoordinates.mappingList[idx];
                 sb.AppendLine(string.Format("vt {0:0.0} {1:0.0}", 
                     point.X, point.Y));
+            }
+
+            foreach (KeyValuePair<string, List<FaceVertices>> pair in collisionBoxes)
+            {
+                sb.AppendLine("g " + pair.Key);
+                List<FaceVertices> listOfTexturedFaces = pair.Value;
+                for (int idx = 0; idx < listOfTexturedFaces.Count; idx++)
+                {
+                    FaceVertices faceVertices = listOfTexturedFaces[idx];
+
+
+                    sb.AppendLine(string.Format("f {0} {1} {2} {3}",
+                        1 + faceVertices.index1,
+                        1 + faceVertices.index2,
+                        1 + faceVertices.index3,
+                        1 + faceVertices.index4
+                    ));
+                }
             }
 
             foreach (KeyValuePair<BlockFaceTexture, List<TexturedFace>> pair in texturedFaces)
@@ -111,6 +93,8 @@ namespace MC2UE
                     ));
                 }
             }
+
+
                 
             return sb.ToString();
         }
