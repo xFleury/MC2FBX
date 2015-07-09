@@ -16,11 +16,7 @@ namespace MC2UE
                 return;
             }
 
-            Dictionary<CoordinateInt, Block> rawBlocks;
-            if (Heightmap.IsHeightMap(args[0]))
-                rawBlocks = Heightmap.ConvertToBlocks(args[0], new Block(BlockIdentifier.Grass, 0));
-            else
-                rawBlocks = new Anvil(args[0]).blocks;
+            Dictionary<CoordinateInt, Block> rawBlocks = new Anvil(args[0]).blocks;
 
             /* We need to identify any bricks that are hidden from vision. */
             Console.WriteLine("Identifying invisible blocks.");

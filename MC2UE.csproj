@@ -41,9 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Anvil.cs" />
-    <Compile Include="FastPixelEditor.cs" />
-    <Compile Include="Heightmap.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Endian.cs" />
     <Compile Include="fNbt\Tags\NbtDouble.cs" />
@@ -88,6 +85,7 @@
     <Compile Include="Geometry\Volume.cs" />
     <Compile Include="TextureCoordinateDictionary.cs" />
     <Compile Include="WavefrontObj.cs" />
+    <Compile Include="Minecraft\Anvil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
