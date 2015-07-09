@@ -22,6 +22,7 @@ namespace MC2UE
             switch (id)
             {
                 case BlockIdentifier.Dirt: return BlockFaceTexture.Dirt;
+                case BlockIdentifier.Cobblestone: return BlockFaceTexture.Cobblestone;
                 case BlockIdentifier.WoodPlank: return BlockFaceTexture.WoodPlank;
                 case BlockIdentifier.StoneBrick: return BlockFaceTexture.StoneBrick;
                 case BlockIdentifier.Grass:

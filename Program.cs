@@ -16,8 +16,17 @@ namespace MC2UE
                 return;
             }
 
-            Dictionary<CoordinateInt, Block> rawBlocks = new Anvil(args[0]).blocks;
+            Anvil anvil = new Anvil(args[0]);
+            Console.WriteLine("Defining new chunk boundaries.");
+            ChunkDivisor chunkDivisor = new ChunkDivisor(args[1]);
+            foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
+                chunkDivisor.Add(pair.Key, pair.Value);
+            foreach (KeyValuePair<string, Dictionary<CoordinateInt, Block>> pair in chunkDivisor)
+                ProcessBlocks(pair.Key, pair.Value);
+        }
 
+        private static void ProcessBlocks(string outputPath, Dictionary<CoordinateInt, Block> rawBlocks)
+        {
             /* We need to identify any bricks that are hidden from vision. */
             Console.WriteLine("Identifying invisible blocks.");
             HashSet<CoordinateInt> invisibleBricks = new HashSet<CoordinateInt>();
@@ -35,6 +44,7 @@ namespace MC2UE
                 volumizedWorld.Add(pair.Key, new List<Volume>(new LargestVolumeExtractor(pair.Value, invisibleBricks)));
 
             /* Scan for interior faces that we can remove. */
+            HiddenFaces.totalHiddenFaces = 0;
             Console.WriteLine("Identifying interior faces.");
             Dictionary<Block, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
             Console.WriteLine("Identified {0} interior faces.", HiddenFaces.totalHiddenFaces);
@@ -78,7 +88,7 @@ namespace MC2UE
             WavefrontObj objFile = new WavefrontObj(vertices, collisionBoxes, texturedFaces, textureCoordinates, facedVolumizedWorld);
 
             /* Save the OBJ file to the specified destination. */
-            File.WriteAllText(args[1], objFile.ToString());
+            File.WriteAllText(outputPath, objFile.ToString());
         }
 
         private static void MakeCollisionUBX(string name, Volume volume, List<CoordinateDecimal> vertices,

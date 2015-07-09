@@ -91,6 +91,7 @@ namespace MC2UE
         {
          return
             blockID == BlockIdentifier.Dirt ||
+            blockID == BlockIdentifier.Cobblestone ||
             blockID == BlockIdentifier.WoodPlank ||
             blockID == BlockIdentifier.StoneBrick ||
             blockID == BlockIdentifier.BrickBlock ||
