@@ -5,7 +5,7 @@ namespace MC2UE
     struct Block : IEquatable<Block>
     {
         private static BlockIdentifier[] nonOpaqueBlocks = new BlockIdentifier[] {
-            BlockIdentifier.Air, BlockIdentifier.Leaves, BlockIdentifier.Glass};
+            BlockIdentifier.Air, BlockIdentifier.Glass};
 
         public BlockIdentifier id;
         public byte data;
@@ -22,6 +22,8 @@ namespace MC2UE
             switch (id)
             {
                 case BlockIdentifier.Dirt: return BlockFaceTexture.Dirt;
+                case BlockIdentifier.Wood: return BlockFaceTexture.Wood;
+                case BlockIdentifier.Leaves: return BlockFaceTexture.Leaves;
                 case BlockIdentifier.Cobblestone: return BlockFaceTexture.Cobblestone;
                 case BlockIdentifier.WoodPlank: return BlockFaceTexture.WoodPlank;
                 case BlockIdentifier.StoneBrick: return BlockFaceTexture.StoneBrick;

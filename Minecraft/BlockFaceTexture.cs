@@ -6,7 +6,9 @@
         Grass_Top,
         Grass_Side,
         Dirt,
+        Leaves,
         Cobblestone,
+        Wood,
         WoodPlank,
     }
 }
