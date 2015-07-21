@@ -87,6 +87,10 @@ namespace MC2UE
                         int lengthX = extentX + 1;
                         int lengthY = extentY + 1;
                         int lengthZ = extentZ + 1;
+
+                        /* Don't bother considering this volume if it won't get used. */
+                        if (lengthX * lengthY * lengthZ <= largestVolume.TotalVolume) continue;
+
                         if (LargestVolume_Valid(origin, lengthX, lengthY, lengthZ, allowInvisible))
                         {
                             int totalVolume = lengthX * lengthY * lengthZ;
