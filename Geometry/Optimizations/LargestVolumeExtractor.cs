@@ -61,9 +61,9 @@ namespace MC2UE
 
         private bool LargestVolume_Valid(CoordinateInt coord, int lengthX, int lengthY, int lengthZ, bool allowInvisible)
         {
-            for (int gX = 0; gX < lengthX; gX++)
-                for (int gY = 0; gY < lengthY; gY++)
-                    for (int gZ = 0; gZ < lengthZ; gZ++)
+            for (int gZ = lengthZ-1; gZ >= 0; gZ--)
+                for (int gY = lengthY - 1; gY >= 0; gY--)
+                    for (int gX = lengthX - 1; gX >= 0; gX--)
                         if (!SearchAllBlocks(coord.Offset(gX, gY, gZ), allowInvisible))
                             return false;
             return true;
@@ -80,9 +80,9 @@ namespace MC2UE
             int maxZ = 0;
             while (SearchAllBlocks(origin.Offset(0, 0, maxZ), allowInvisible)) maxZ++;
 
-            for (int extentX = 0; extentX <= maxX; extentX++)
-                for (int extentY = 0; extentY <= maxY; extentY++)
-                    for (int extentZ = 0; extentZ <= maxZ; extentZ++)
+            for (int extentZ = maxZ; extentZ >= 0; extentZ--)
+                for (int extentY = maxY; extentY >= 0; extentY--)
+                    for (int extentX = maxX; extentX >= 0; extentX--)
                     {
                         int lengthX = extentX + 1;
                         int lengthY = extentY + 1;
@@ -97,8 +97,8 @@ namespace MC2UE
                             if (totalVolume >= largestVolume.TotalVolume)
                                 largestVolume = new Volume(origin, lengthX, lengthY, lengthZ);
                         }
-                        else
-                            break;
+                        //else
+                          //  break;
                     }
             return largestVolume;
         }
