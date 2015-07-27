@@ -17,12 +17,12 @@ namespace MC2UE
             }
 
             Anvil anvil = new Anvil(args[0]);
-            Console.WriteLine("Defining new chunk boundaries.");
-            ChunkDivisor chunkDivisor = new ChunkDivisor(args[1]);
-            foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
-                chunkDivisor.Add(pair.Key, pair.Value);
-            foreach (KeyValuePair<string, Dictionary<CoordinateInt, Block>> pair in chunkDivisor)
-                ProcessBlocks(pair.Key, pair.Value);
+            //Console.WriteLine("Defining new chunk boundaries.");
+            //ChunkDivisor chunkDivisor = new ChunkDivisor(args[1]);
+            //foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
+            //    chunkDivisor.Add(pair.Key, pair.Value);
+            //foreach (KeyValuePair<string, Dictionary<CoordinateInt, Block>> pair in chunkDivisor)
+            ProcessBlocks(args[1], anvil.blocks);
         }
 
         private static void ProcessBlocks(string outputPath, Dictionary<CoordinateInt, Block> rawBlocks)
