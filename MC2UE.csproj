@@ -82,7 +82,6 @@
     <Compile Include="fNbt\Tags\NbtTag.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PythonScript.cs" />
     <Compile Include="Geometry\Volume.cs" />
     <Compile Include="TextureCoordinateDictionary.cs" />
     <Compile Include="WavefrontObj.cs" />
