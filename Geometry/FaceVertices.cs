@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MC2UE
+namespace MC2UE.Geometry
 {
     /// <summary>A convex co-planar face defined by four counter-clockwise vertices</summary>
     struct FaceVertices

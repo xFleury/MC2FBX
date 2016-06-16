@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace fNbt
+namespace MC2UE.Nbt
 {
     // Class used to count bytes read-from/written-to non-seekable streams.
     internal class ByteCountingStream : Stream

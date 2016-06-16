@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace fNbt
+namespace MC2UE.Nbt.Tags
 {
     /// <summary> A tag containing a single string. String is stored in UTF-8 encoding. </summary>
     public sealed class NbtString : NbtTag

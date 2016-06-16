@@ -1,6 +1,6 @@
+using MC2UE.Nbt.Tags;
 
-
-namespace fNbt
+namespace MC2UE.Nbt
 {
     /// <summary> Delegate used to skip loading certain tags of an NBT stream/file. 
     /// The callback should return "true" for any tag that should be read,and "false" for any tag that should be skipped. </summary>

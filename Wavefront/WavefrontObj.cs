@@ -2,8 +2,10 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
+using MC2UE.Geometry;
+using MC2UE.Geometry.Optimizations;
 
-namespace MC2UE
+namespace MC2UE.Wavefront
 {
     class WavefrontObj
     {

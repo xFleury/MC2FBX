@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using fNbt;
 using System.IO;
+using MC2UE.Nbt;
+using MC2UE.Nbt.Tags;
+using MC2UE.Geometry;
 
 namespace MC2UE
 {

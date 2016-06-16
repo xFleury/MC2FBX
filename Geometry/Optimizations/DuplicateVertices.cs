@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MC2UE
+namespace MC2UE.Geometry.Optimizations
 {
     static class DuplicateVertices
     {        

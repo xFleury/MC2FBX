@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace fNbt
+namespace MC2UE.Nbt
 {
     /// <summary> Exception thrown when a format violation is detected while
     /// parsing or serializing an NBT file. </summary>

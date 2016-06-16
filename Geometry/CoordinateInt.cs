@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2UE
+namespace MC2UE.Geometry
 {
     public struct CoordinateInt : IEquatable<CoordinateInt>
     {

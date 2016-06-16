@@ -1,48 +1,48 @@
 ﻿using System;
 using System.Text;
 
-namespace fNbt
+namespace MC2UE.Nbt.Tags
 {
-    /// <summary> A tag containing a single byte. </summary>
-    public sealed class NbtByte : NbtTag
+    /// <summary> A tag containing a single signed 16-bit integer. </summary>
+    public sealed class NbtShort : NbtTag
     {
-        /// <summary> Type of this tag (Byte). </summary>
+        /// <summary> Type of this tag (Short). </summary>
         public override NbtTagType TagType
         {
-            get { return NbtTagType.Byte; }
+            get { return NbtTagType.Short; }
         }
 
-        /// <summary> Value/payload of this tag (a single byte). </summary>
-        public byte Value { get; set; }
+        /// <summary> Value/payload of this tag (a single signed 16-bit integer). </summary>
+        public short Value { get; set; }
 
-        /// <summary> Creates an unnamed NbtByte tag with the default value of 0. </summary>
-        public NbtByte() { }
+        /// <summary> Creates an unnamed NbtShort tag with the default value of 0. </summary>
+        public NbtShort() { }
 
-        /// <summary> Creates an unnamed NbtByte tag with the given value. </summary>
+        /// <summary> Creates an unnamed NbtShort tag with the given value. </summary>
         /// <param name="value"> Value to assign to this tag. </param>
-        public NbtByte(byte value)
+        public NbtShort(short value)
             : this(null, value)
         { }
 
-        /// <summary> Creates an NbtByte tag with the given name and the default value of 0. </summary>
+        /// <summary> Creates an NbtShort tag with the given name and the default value of 0. </summary>
         /// <param name="tagName"> Name to assign to this tag. May be <c>null</c>. </param>
-        public NbtByte(string tagName)
+        public NbtShort(string tagName)
             : this(tagName, 0)
         { }
 
-        /// <summary> Creates an NbtByte tag with the given name and value. </summary>
+        /// <summary> Creates an NbtShort tag with the given name and value. </summary>
         /// <param name="tagName"> Name to assign to this tag. May be <c>null</c>. </param>
         /// <param name="value"> Value to assign to this tag. </param>
-        public NbtByte(string tagName, byte value)
+        public NbtShort(string tagName, short value)
         {
             name = tagName;
             Value = value;
         }
 
-        /// <summary> Creates a copy of given NbtByte tag. </summary>
+        /// <summary> Creates a copy of given NbtShort tag. </summary>
         /// <param name="other"> Tag to copy. May not be <c>null</c>. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="other"/> is <c>null</c>. </exception>
-        public NbtByte(NbtByte other)
+        public NbtShort(NbtShort other)
         {
             if (other == null) throw new ArgumentNullException("other");
             name = other.name;
@@ -53,21 +53,21 @@ namespace fNbt
         {
             if (readStream.Selector != null && !readStream.Selector(this))
             {
-                readStream.ReadByte();
+                readStream.ReadInt16();
                 return false;
             }
-            Value = readStream.ReadByte();
+            Value = readStream.ReadInt16();
             return true;
         }
 
         internal override void SkipTag(NbtBinaryReader readStream)
         {
-            readStream.ReadByte();
+            readStream.ReadInt16();
         }
 
         public override object Clone()
         {
-            return new NbtByte(this);
+            return new NbtShort(this);
         }
 
         internal override void PrettyPrint(StringBuilder sb, string indentString, int indentLevel)
@@ -76,7 +76,7 @@ namespace fNbt
             {
                 sb.Append(indentString);
             }
-            sb.Append("TAG_Byte");
+            sb.Append("TAG_Short");
             if (!String.IsNullOrEmpty(Name))
             {
                 sb.AppendFormat("(\"{0}\")", Name);

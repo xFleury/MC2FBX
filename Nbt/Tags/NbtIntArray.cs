@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace fNbt
+namespace MC2UE.Nbt.Tags
 {
     /// <summary> A tag containing an array of signed 32-bit integers. </summary>
     public sealed class NbtIntArray : NbtTag

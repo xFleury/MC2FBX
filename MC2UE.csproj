@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChunkDivisor.cs" />
+    <Compile Include="Minecraft\ChunkDivisor.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
-    <Compile Include="Endian.cs" />
-    <Compile Include="fNbt\Tags\NbtDouble.cs" />
-    <Compile Include="fNbt\Tags\NbtFloat.cs" />
+    <Compile Include="Minecraft\Endian.cs" />
+    <Compile Include="Nbt\Tags\NbtDouble.cs" />
+    <Compile Include="Nbt\Tags\NbtFloat.cs" />
     <Compile Include="Geometry\CoordinateDecimal.cs" />
     <Compile Include="Geometry\FaceVertices.cs" />
     <Compile Include="Geometry\Optimizations\DuplicateVertices.cs" />
@@ -59,41 +59,40 @@
     <Compile Include="Geometry\Bounds.cs" />
     <Compile Include="Geometry\Optimizations\LargestVolumeExtractor.cs" />
     <Compile Include="Geometry\CoordinateInt.cs" />
-    <Compile Include="fNbt\ByteCountingStream.cs" />
-    <Compile Include="fNbt\InvalidReaderStateException.cs" />
-    <Compile Include="fNbt\NbtBinaryReader.cs" />
-    <Compile Include="fNbt\NbtCompression.cs" />
-    <Compile Include="fNbt\NbtFile.cs" />
-    <Compile Include="fNbt\NbtFormatException.cs" />
-    <Compile Include="fNbt\NbtParseState.cs" />
-    <Compile Include="fNbt\NbtReader.cs" />
-    <Compile Include="fNbt\NbtReaderNode.cs" />
-    <Compile Include="fNbt\NbtTagType.cs" />
-    <Compile Include="fNbt\TagSelector.cs" />
-    <Compile Include="fNbt\Tags\NbtByte.cs" />
-    <Compile Include="fNbt\Tags\NbtByteArray.cs" />
-    <Compile Include="fNbt\Tags\NbtCompound.cs" />
-    <Compile Include="fNbt\Tags\NbtInt.cs" />
-    <Compile Include="fNbt\Tags\NbtIntArray.cs" />
-    <Compile Include="fNbt\Tags\NbtList.cs" />
-    <Compile Include="fNbt\Tags\NbtLong.cs" />
-    <Compile Include="fNbt\Tags\NbtShort.cs" />
-    <Compile Include="fNbt\Tags\NbtString.cs" />
-    <Compile Include="fNbt\Tags\NbtTag.cs" />
+    <Compile Include="Nbt\ByteCountingStream.cs" />
+    <Compile Include="Nbt\InvalidReaderStateException.cs" />
+    <Compile Include="Nbt\NbtBinaryReader.cs" />
+    <Compile Include="Nbt\NbtCompression.cs" />
+    <Compile Include="Nbt\NbtFile.cs" />
+    <Compile Include="Nbt\NbtFormatException.cs" />
+    <Compile Include="Nbt\NbtParseState.cs" />
+    <Compile Include="Nbt\NbtReader.cs" />
+    <Compile Include="Nbt\NbtReaderNode.cs" />
+    <Compile Include="Nbt\NbtTagType.cs" />
+    <Compile Include="Nbt\TagSelector.cs" />
+    <Compile Include="Nbt\Tags\NbtByte.cs" />
+    <Compile Include="Nbt\Tags\NbtByteArray.cs" />
+    <Compile Include="Nbt\Tags\NbtCompound.cs" />
+    <Compile Include="Nbt\Tags\NbtInt.cs" />
+    <Compile Include="Nbt\Tags\NbtIntArray.cs" />
+    <Compile Include="Nbt\Tags\NbtList.cs" />
+    <Compile Include="Nbt\Tags\NbtLong.cs" />
+    <Compile Include="Nbt\Tags\NbtShort.cs" />
+    <Compile Include="Nbt\Tags\NbtString.cs" />
+    <Compile Include="Nbt\Tags\NbtTag.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\Volume.cs" />
-    <Compile Include="TextureCoordinateDictionary.cs" />
-    <Compile Include="WavefrontObj.cs" />
+    <Compile Include="Wavefront\TextureCoordinateDictionary.cs" />
+    <Compile Include="Wavefront\WavefrontObj.cs" />
     <Compile Include="Minecraft\Anvil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="fNbt\Docs\Changelog" />
-    <None Include="fNbt\Docs\LICENSE" />
+    <None Include="Nbt\Docs\LICENSE %28fNbt%29" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fNbt\Docs\README.txt" />
+    <Content Include="Nbt\Docs\README %28fNbt%29.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

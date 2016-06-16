@@ -1,48 +1,48 @@
 ﻿using System;
 using System.Text;
 
-namespace fNbt
+namespace MC2UE.Nbt.Tags
 {
-    /// <summary> A tag containing a single signed 32-bit integer. </summary>
-    public sealed class NbtInt : NbtTag
+    /// <summary> A tag containing a single-precision floating point number. </summary>
+    public sealed class NbtFloat : NbtTag
     {
-        /// <summary> Type of this tag (Int). </summary>
+        /// <summary> Type of this tag (Float). </summary>
         public override NbtTagType TagType
         {
-            get { return NbtTagType.Int; }
+            get { return NbtTagType.Float; }
         }
 
-        /// <summary> Value/payload of this tag (a single signed 32-bit integer). </summary>
-        public int Value { get; set; }
+        /// <summary> Value/payload of this tag (a single-precision floating point number). </summary>
+        public float Value { get; set; }
 
-        /// <summary> Creates an unnamed NbtInt tag with the default value of 0. </summary>
-        public NbtInt() { }
+        /// <summary> Creates an unnamed NbtFloat tag with the default value of 0f. </summary>
+        public NbtFloat() { }
 
-        /// <summary> Creates an unnamed NbtInt tag with the given value. </summary>
+        /// <summary> Creates an unnamed NbtFloat tag with the given value. </summary>
         /// <param name="value"> Value to assign to this tag. </param>
-        public NbtInt(int value)
+        public NbtFloat(float value)
             : this(null, value)
         { }
 
-        /// <summary> Creates an NbtInt tag with the given name and the default value of 0. </summary>
+        /// <summary> Creates an NbtFloat tag with the given name and the default value of 0f. </summary>
         /// <param name="tagName"> Name to assign to this tag. May be <c>null</c>. </param>
-        public NbtInt(string tagName)
+        public NbtFloat(string tagName)
             : this(tagName, 0)
         { }
 
-        /// <summary> Creates an NbtInt tag with the given name and value. </summary>
+        /// <summary> Creates an NbtFloat tag with the given name and value. </summary>
         /// <param name="tagName"> Name to assign to this tag. May be <c>null</c>. </param>
         /// <param name="value"> Value to assign to this tag. </param>
-        public NbtInt(string tagName, int value)
+        public NbtFloat(string tagName, float value)
         {
             name = tagName;
             Value = value;
         }
 
-        /// <summary> Creates a copy of given NbtInt tag. </summary>
+        /// <summary> Creates a copy of given NbtFloat tag. </summary>
         /// <param name="other"> Tag to copy. May not be <c>null</c>. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="other"/> is <c>null</c>. </exception>
-        public NbtInt(NbtInt other)
+        public NbtFloat(NbtFloat other)
         {
             if (other == null) throw new ArgumentNullException("other");
             name = other.name;
@@ -53,21 +53,21 @@ namespace fNbt
         {
             if (readStream.Selector != null && !readStream.Selector(this))
             {
-                readStream.ReadInt32();
+                readStream.ReadSingle();
                 return false;
             }
-            Value = readStream.ReadInt32();
+            Value = readStream.ReadSingle();
             return true;
         }
 
         internal override void SkipTag(NbtBinaryReader readStream)
         {
-            readStream.ReadInt32();
+            readStream.ReadSingle();
         }
 
         public override object Clone()
         {
-            return new NbtInt(this);
+            return new NbtFloat(this);
         }
 
         internal override void PrettyPrint(StringBuilder sb, string indentString, int indentLevel)
@@ -76,7 +76,7 @@ namespace fNbt
             {
                 sb.Append(indentString);
             }
-            sb.Append("TAG_Int");
+            sb.Append("TAG_Float");
             if (!String.IsNullOrEmpty(Name))
             {
                 sb.AppendFormat("(\"{0}\")", Name);

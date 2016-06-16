@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace fNbt
+namespace MC2UE.Nbt.Tags
 {
     /// <summary> Base class for different kinds of named binary tags. </summary>
     public abstract class NbtTag : ICloneable

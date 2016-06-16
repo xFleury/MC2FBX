@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using MC2UE.Geometry;
+using MC2UE.Geometry.Optimizations;
+using MC2UE.Wavefront;
 
 namespace MC2UE
 {

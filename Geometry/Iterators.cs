@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2UE
+namespace MC2UE.Geometry
 {
     static class Iterators
     {

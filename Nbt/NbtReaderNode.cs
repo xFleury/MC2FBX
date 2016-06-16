@@ -1,4 +1,4 @@
-﻿namespace fNbt
+﻿namespace MC2UE.Nbt
 {
     // Represents state of a node in the NBT file tree, used by NbtReader
     internal sealed class NbtReaderNode
