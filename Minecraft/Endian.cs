@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace MC2UE
+namespace NbtToObj
 {
     static class Endian
     {

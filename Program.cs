@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using MC2UE.Geometry;
-using MC2UE.Geometry.Optimizations;
-using MC2UE.Wavefront;
+using NbtToObj.Geometry;
+using NbtToObj.Geometry.Optimizations;
+using NbtToObj.Wavefront;
 
-namespace MC2UE
+namespace NbtToObj
 {
     class Program
     {

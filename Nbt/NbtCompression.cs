@@ -1,4 +1,4 @@
-﻿namespace MC2UE.Nbt
+﻿namespace NbtToObj.Nbt
 {
     /// <summary> Compression method used for loading/saving NBT files. </summary>
     public enum NbtCompression

@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using MC2UE.Nbt.Tags;
+using NbtToObj.Nbt.Tags;
 
-namespace MC2UE.Nbt
+namespace NbtToObj.Nbt
 {
     /// <summary> Represents a complete NBT file. </summary>
     public sealed class NbtFile

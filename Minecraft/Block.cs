@@ -1,7 +1,7 @@
 ﻿using System;
-using MC2UE.Geometry;
+using NbtToObj.Geometry;
 
-namespace MC2UE
+namespace NbtToObj
 {    
     struct Block : IEquatable<Block>
     {

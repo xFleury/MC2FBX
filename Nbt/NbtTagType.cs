@@ -1,4 +1,4 @@
-﻿namespace MC2UE.Nbt
+﻿namespace NbtToObj.Nbt
 {
     /// <summary> Enumeration of named binary tag types, and their corresponding codes. </summary>
     public enum NbtTagType : byte

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace MC2UE.Nbt.Tags
+namespace NbtToObj.Nbt.Tags
 {
     /// <summary> A tag containing an array of bytes. </summary>
     public sealed class NbtByteArray : NbtTag

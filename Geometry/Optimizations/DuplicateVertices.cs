@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MC2UE.Geometry.Optimizations
+namespace NbtToObj.Geometry.Optimizations
 {
     static class DuplicateVertices
     {        

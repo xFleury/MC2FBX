@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2UE.Geometry
+namespace NbtToObj.Geometry
 {
     public struct CoordinateDecimal : IEquatable<CoordinateDecimal>
     {

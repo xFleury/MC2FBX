@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MC2UE.Geometry
+namespace NbtToObj.Geometry
 {
     class TexturedFace
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2UE.Nbt
+namespace NbtToObj.Nbt
 {
     /// <summary> Exception thrown when a format violation is detected while
     /// parsing or serializing an NBT file. </summary>

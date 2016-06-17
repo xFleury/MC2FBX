@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MC2UE.Geometry
+namespace NbtToObj.Geometry
 {
     public struct Volume : IEquatable<Volume>
     {

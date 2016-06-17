@@ -1,4 +1,4 @@
-﻿namespace MC2UE.Nbt
+﻿namespace NbtToObj.Nbt
 {
     internal enum NbtParseState
     {

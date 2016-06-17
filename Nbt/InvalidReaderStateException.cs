@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MC2UE.Nbt
+namespace NbtToObj.Nbt
 {
     /// <summary> Exception thrown when an operation is attempted on an NbtReader that
     /// cannot recover from a previous parsing error. </summary>

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace MC2UE.Nbt
+namespace NbtToObj.Nbt
 {
     /// <summary> BinaryReader wrapper that takes care of reading primitives from an NBT stream,
     /// while taking care of endianness, string encoding, and skipping. </summary>

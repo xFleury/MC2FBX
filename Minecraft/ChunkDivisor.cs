@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using MC2UE.Geometry;
+using NbtToObj.Geometry;
 
-namespace MC2UE
+namespace NbtToObj
 {
     class ChunkDivisor : IEnumerable<KeyValuePair<string, Dictionary<CoordinateInt, Block>>>
     {

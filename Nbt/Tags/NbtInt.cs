@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MC2UE.Nbt.Tags
+namespace NbtToObj.Nbt.Tags
 {
     /// <summary> A tag containing a single signed 32-bit integer. </summary>
     public sealed class NbtInt : NbtTag

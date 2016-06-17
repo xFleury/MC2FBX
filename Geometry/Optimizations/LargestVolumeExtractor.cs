@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MC2UE.Geometry.Optimizations
+namespace NbtToObj.Geometry.Optimizations
 {
     /// <summary>Extracts the largest volume contigious volume within a hashset of blocks.</summary>
     class LargestVolumeExtractor : IEnumerable<Volume>

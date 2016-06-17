@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MC2UE.Nbt.Tags
+namespace NbtToObj.Nbt.Tags
 {
     /// <summary> A tag containing a double-precision floating point number. </summary>
     public sealed class NbtDouble : NbtTag

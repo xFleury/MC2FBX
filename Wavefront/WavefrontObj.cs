@@ -2,10 +2,10 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
-using MC2UE.Geometry;
-using MC2UE.Geometry.Optimizations;
+using NbtToObj.Geometry;
+using NbtToObj.Geometry.Optimizations;
 
-namespace MC2UE.Wavefront
+namespace NbtToObj.Wavefront
 {
     class WavefrontObj
     {

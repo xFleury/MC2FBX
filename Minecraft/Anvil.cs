@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MC2UE.Nbt;
-using MC2UE.Nbt.Tags;
-using MC2UE.Geometry;
+using NbtToObj.Nbt;
+using NbtToObj.Nbt.Tags;
+using NbtToObj.Geometry;
 
-namespace MC2UE
+namespace NbtToObj
 {
     /// <summary>Minecraft's Anvil region file format.</summary>
     class Anvil

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using MC2UE.Nbt.Tags;
+using NbtToObj.Nbt.Tags;
 
-namespace MC2UE.Nbt
+namespace NbtToObj.Nbt
 {
     /// <summary> Represents a reader that provides fast, non-cached, forward-only access to NBT data.
     /// Each instance of NbtReader reads one complete file. </summary>

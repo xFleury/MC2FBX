@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace MC2UE.Wavefront
+namespace NbtToObj.Wavefront
 {
     /// <summary>Attempts to use the fewest possible "vt" texture coordinates.</summary>
     class TextureCoordinateDictionary
