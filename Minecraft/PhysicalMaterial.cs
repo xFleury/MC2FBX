@@ -2,9 +2,9 @@
 {
     enum PhysicalMaterial
     {
-        Wood,
-        Stone,
-        Grass,
-        Dirt
+        WoodMaterial,
+        StoneMaterial,
+        GrassMaterial,
+        DirtMaterial
     }
 }

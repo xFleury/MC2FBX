@@ -69,7 +69,7 @@ namespace NbtToObj.Minecraft
             offsetX = -bounds.minX;
             offsetY = -bounds.minY;
             offsetZ = -bounds.minZ;
-            Console.WriteLine("Extracting blocks within boundary.");
+
             foreach (KeyValuePair<CoordinateInt, Block[]> pair in chunks)
             {
                 CoordinateInt chunkCoord = pair.Key;

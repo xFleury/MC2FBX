@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gui\MapPartition.cs" />
     <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
-    <Compile Include="Wavefront\MapPartitioner.cs" />
+    <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
+    <Compile Include="Wavefront\BlockPartitioner.cs" />
+    <Compile Include="Wavefront\PhysicalMaterialPartitioner.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Helpers\Endian.cs" />
     <Compile Include="Minecraft\PhysicalMaterial.cs" />
@@ -96,6 +99,7 @@
   <ItemGroup>
     <Content Include="Nbt\Docs\README %28fNbt%29.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

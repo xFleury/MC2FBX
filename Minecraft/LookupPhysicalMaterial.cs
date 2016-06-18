@@ -14,9 +14,9 @@
                 case BlockIdentifier.StoneBrickStairs:
                 case BlockIdentifier.StonePlate:
                 case BlockIdentifier.StoneSlab:
-                    return PhysicalMaterial.Stone;
+                    return PhysicalMaterial.StoneMaterial;
 
-                default: return PhysicalMaterial.Dirt;
+                default: return PhysicalMaterial.DirtMaterial;
             }
 
         }
