@@ -42,12 +42,27 @@ namespace NbtToObj
                     Console.WriteLine($"    {pair.Key.ToString()}: {pair.Value.Count} blocks");
             }
 
-            //foreach (MapPartition mapPartition in mapPartitions)
-            //{
-            //    Dictionary<Block, List<Volume>> volumizedWorld = new Dictionary<Block, List<Volume>>();
-            //    foreach (KeyValuePair<Block, HashSet<CoordinateInt>> pair in mapPartition.organizedBlocks)
-            //        volumizedWorld.Add(pair.Key, new List<Volume>(new LargestVolumeExtractor(pair.Value, invisibleBricks)));
-            //}
+
+            Console.WriteLine("Voluming blocks (slow):");
+            int volumedBlocks = 0;
+            int totalBlocks = mapPartitions.Sum(s => s.rawBlocks.Count);
+
+            foreach (MapPartition mapPartition in mapPartitions)
+            {
+                foreach (KeyValuePair<Block, HashSet<CoordinateInt>> organizedBlocks in mapPartition.organizedBlocks)
+                {
+                    Volume largestVolume;
+
+                    do
+                    {
+                        Console.Write($"\r  {volumedBlocks}/{totalBlocks}");
+                        largestVolume = LargestVolumeExtractor.ExtractAndSubtract(organizedBlocks.Value);
+                        volumedBlocks += largestVolume.TotalVolume;
+                        mapPartition.volumizedWorld.Add(organizedBlocks.Key, largestVolume);
+                    }
+                    while (largestVolume.TotalVolume > 0);
+                }
+            }
 
 
             //    ProcessBlocks(pair.Key, pair.Value);

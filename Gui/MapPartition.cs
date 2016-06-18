@@ -1,4 +1,5 @@
 ﻿using NbtToObj.Geometry;
+using NbtToObj.Helpers;
 using NbtToObj.Minecraft;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,7 @@ namespace NbtToObj.Gui
         public Dictionary<Block, HashSet<CoordinateInt>> organizedBlocks;
 
         public static HashSet<CoordinateInt> invisibleBricks;
+
+        public readonly MultiValueDictionary<Block, Volume> volumizedWorld = new MultiValueDictionary<Block, Volume>();
     }
 }

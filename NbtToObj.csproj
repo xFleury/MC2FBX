@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gui\MapPartition.cs" />
+    <Compile Include="Helpers\MultiValueDictionary.cs" />
     <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
     <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
     <Compile Include="Wavefront\BlockPartitioner.cs" />
