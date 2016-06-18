@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NbtToObj.Geometry;
 using NbtToObj.Geometry.Optimizations;
 using NbtToObj.Wavefront;
+using NbtToObj.Minecraft;
 
 namespace NbtToObj
 {
@@ -20,11 +21,12 @@ namespace NbtToObj
             }
 
             Anvil anvil = new Anvil(args[0]);
-            //Console.WriteLine("Defining new chunk boundaries.");
-            //ChunkDivisor chunkDivisor = new ChunkDivisor(args[1]);
+            Console.WriteLine("Defining new chunk boundaries.");
+            //MapPartitioner mapPartitioner = new MapPartitioner(args[1]);
             //foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
-            //    chunkDivisor.Add(pair.Key, pair.Value);
-            //foreach (KeyValuePair<string, Dictionary<CoordinateInt, Block>> pair in chunkDivisor)
+            //    mapPartitioner.Add(pair.Key, pair.Value);
+            //foreach (KeyValuePair<string, Dictionary<CoordinateInt, Block>> pair in mapPartitioner)
+            //    ProcessBlocks(pair.Key, pair.Value);
             ProcessBlocks(args[1], anvil.blocks);
         }
 

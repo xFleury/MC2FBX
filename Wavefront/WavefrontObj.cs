@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using NbtToObj.Geometry;
 using NbtToObj.Geometry.Optimizations;
+using NbtToObj.Minecraft;
 
 namespace NbtToObj.Wavefront
 {

@@ -2,36 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using NbtToObj.Geometry;
+using NbtToObj.Minecraft;
 
-namespace NbtToObj
+namespace NbtToObj.Wavefront
 {
-    class ChunkDivisor : IEnumerable<KeyValuePair<string, Dictionary<CoordinateInt, Block>>>
+    class MapPartitioner : IEnumerable<KeyValuePair<string, Dictionary<CoordinateInt, Block>>>
     {
-        const int chunkSize = 64;
-
-        public readonly Dictionary<CoordinateInt, Dictionary<CoordinateInt, Block>> chunks =
-            new Dictionary<CoordinateInt, Dictionary<CoordinateInt, Block>>();
+        public readonly Dictionary<PhysicalMaterial, Dictionary<CoordinateInt, Block>> partitions =
+            new Dictionary<PhysicalMaterial, Dictionary<CoordinateInt, Block>>();
         private readonly string outputPath;
 
-        public ChunkDivisor(string outputPath)
+        public MapPartitioner(string outputPath)
         {
             this.outputPath = outputPath;
         }
 
         public void Add(CoordinateInt coord, Block block)
         {
-            CoordinateInt chunkIndex = new CoordinateInt(
-                coord.X / chunkSize,
-                coord.Y / chunkSize,
-                coord.Z / chunkSize);
+            PhysicalMaterial physicalMaterial = LookupPhysicalMaterial.FromBlockIdentifier(block.id);
+
             Dictionary<CoordinateInt, Block> blockDict;
-            if (chunks.TryGetValue(chunkIndex, out blockDict))
+            if (partitions.TryGetValue(physicalMaterial, out blockDict))
                 blockDict.Add(coord, block);
             else
             {
                 blockDict = new Dictionary<CoordinateInt, Block>();
                 blockDict.Add(coord,block);
-                chunks.Add(chunkIndex, blockDict);
+                partitions.Add(physicalMaterial, blockDict);
             }
         }
 
@@ -40,10 +37,10 @@ namespace NbtToObj
             string combinedPath = Path.Combine(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
             string extension = Path.GetExtension(outputPath);
 
-            foreach (KeyValuePair<CoordinateInt, Dictionary<CoordinateInt, Block>> pair in chunks)
+            foreach (KeyValuePair<PhysicalMaterial, Dictionary<CoordinateInt, Block>> pair in partitions)
             {
-                string newOutput = string.Format("{0}.{1}.{2}.{3}{4}",
-                    combinedPath, pair.Key.X, pair.Key.Y, pair.Key.Z, extension);
+                string newOutput = string.Format("{0}.{1}{2}",
+                    combinedPath, pair.Key.ToString(), extension);
                 yield return new KeyValuePair<string, Dictionary<CoordinateInt, Block>>(newOutput, pair.Value);
             }
         }

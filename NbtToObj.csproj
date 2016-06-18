@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Minecraft\ChunkDivisor.cs" />
+    <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
+    <Compile Include="Wavefront\MapPartitioner.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
-    <Compile Include="Minecraft\Endian.cs" />
+    <Compile Include="Helpers\Endian.cs" />
+    <Compile Include="Minecraft\PhysicalMaterial.cs" />
     <Compile Include="Nbt\Tags\NbtDouble.cs" />
     <Compile Include="Nbt\Tags\NbtFloat.cs" />
     <Compile Include="Geometry\CoordinateDecimal.cs" />

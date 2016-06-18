@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace NbtToObj
+namespace NbtToObj.Helpers
 {
     static class Endian
     {

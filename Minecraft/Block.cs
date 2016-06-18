@@ -1,7 +1,7 @@
 ﻿using System;
 using NbtToObj.Geometry;
 
-namespace NbtToObj
+namespace NbtToObj.Minecraft
 {    
     struct Block : IEquatable<Block>
     {

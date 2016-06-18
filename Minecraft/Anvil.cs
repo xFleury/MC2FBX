@@ -4,8 +4,9 @@ using System.IO;
 using NbtToObj.Nbt;
 using NbtToObj.Nbt.Tags;
 using NbtToObj.Geometry;
+using NbtToObj.Helpers;
 
-namespace NbtToObj
+namespace NbtToObj.Minecraft
 {
     /// <summary>Minecraft's Anvil region file format.</summary>
     class Anvil

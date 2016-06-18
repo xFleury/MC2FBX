@@ -1,4 +1,4 @@
-﻿namespace NbtToObj
+﻿namespace NbtToObj.Minecraft
 {
     enum BlockIdentifier : byte
     {

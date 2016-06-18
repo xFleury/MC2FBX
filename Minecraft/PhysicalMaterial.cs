@@ -1,4 +1,4 @@
-﻿namespace MC2UE
+﻿namespace NbtToObj.Minecraft
 {
     enum PhysicalMaterial
     {
