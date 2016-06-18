@@ -7,6 +7,7 @@ using NbtToObj.Optimizer;
 using NbtToObj.Wavefront;
 using NbtToObj.Minecraft;
 using NbtToObj.Gui;
+using NbtToObj.Helpers;
 
 namespace NbtToObj
 {
@@ -42,13 +43,11 @@ namespace NbtToObj
                     Console.WriteLine($"    {pair.Key.ToString()}: {pair.Value.Count} blocks");
             }
 
-
             Console.WriteLine("Voluming blocks (slow):");
             int volumedBlocks = 0;
             int totalBlocks = mapPartitions.Sum(s => s.rawBlocks.Count);
 
             foreach (MapPartition mapPartition in mapPartitions)
-            {
                 foreach (KeyValuePair<Block, HashSet<CoordinateInt>> organizedBlocks in mapPartition.organizedBlocks)
                 {
                     Volume largestVolume;
@@ -62,8 +61,23 @@ namespace NbtToObj
                     }
                     while (largestVolume.TotalVolume > 0);
                 }
+
+            /* Compile a list of all the opaque blocks on the map. */
+            HashSet<CoordinateInt> opaqueBlocks = new HashSet<CoordinateInt>();
+            foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
+                if (pair.Value.IsOpaque)
+                    opaqueBlocks.Add(pair.Key);
+
+            foreach (MapPartition mapPartition in mapPartitions)
+            {
+                Console.WriteLine("Identifying interior faces.");
+                MultiValueDictionary<Block, FacedVolume> facedVolumizedWorld = UnobstructedFaces.DetectHiddenFaces(mapPartition, opaqueBlocks);                
             }
 
+            int totalVisibleFaces = mapPartitions.Sum(s => s.visibleFaces);
+            int totalHiddenFaces = mapPartitions.Sum(s => s.hiddenFaces);
+
+            Console.WriteLine($"{totalVisibleFaces} visible faces, {totalHiddenFaces} hidden faces");
 
             //    ProcessBlocks(pair.Key, pair.Value);
             //ProcessBlocks(args[1], anvil.blocks);
@@ -71,17 +85,11 @@ namespace NbtToObj
 
         private static void ProcessBlocks(string outputPath, Dictionary<CoordinateInt, Block> rawBlocks)
         {
-            ///* Before we can start expanding cubes, we need to organize by block type. */
-            Console.WriteLine("Extracting largest volumes.");
-            Dictionary<Block, List<Volume>> volumizedWorld = new Dictionary<Block, List<Volume>>();
-            //foreach (KeyValuePair<Block, HashSet<CoordinateInt>> pair in OrganizeRawBlocks(rawBlocks))
-            //    volumizedWorld.Add(pair.Key, new List<Volume>(new LargestVolumeExtractor(pair.Value, invisibleBricks)));
-
             /* Scan for interior faces that we can remove. */
-            HiddenFaces.totalHiddenFaces = 0;
+            //UnobstructedFaces.totalHiddenFaces = 0;
             Console.WriteLine("Identifying interior faces.");
-            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld = HiddenFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
-            Console.WriteLine("Identified {0} interior faces.", HiddenFaces.totalHiddenFaces);
+            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld = null;// UnobstructedFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
+            //Console.WriteLine("Identified {0} interior faces.", UnobstructedFaces.totalHiddenFaces);
 
             /* Storage for the actual 3D geometry. */
             List<CoordinateDecimal> vertices = new List<CoordinateDecimal>();

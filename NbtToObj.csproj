@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Gui\MapPartition.cs" />
     <Compile Include="Helpers\MultiValueDictionary.cs" />
+    <Compile Include="Helpers\NumberOfSetBits.cs" />
     <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
     <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
     <Compile Include="Wavefront\BlockPartitioner.cs" />
@@ -55,13 +56,13 @@
     <Compile Include="Geometry\CoordinateDecimal.cs" />
     <Compile Include="Geometry\FaceVertices.cs" />
     <Compile Include="Optimizer\DuplicateVertices.cs" />
-    <Compile Include="Optimizer\FacedVolume.cs" />
+    <Compile Include="Geometry\FacedVolume.cs" />
     <Compile Include="Geometry\Face.cs" />
-    <Compile Include="Optimizer\HiddenFaces.cs" />
+    <Compile Include="Optimizer\UnobstructedFaces.cs" />
     <Compile Include="Minecraft\BlockIdentifier.cs" />
     <Compile Include="Minecraft\Block.cs" />
     <Compile Include="Geometry\TexturedFace.cs" />
-    <Compile Include="Geometry\Iterators.cs" />
+    <Compile Include="Helpers\Iterators.cs" />
     <Compile Include="Geometry\Bounds.cs" />
     <Compile Include="Optimizer\LargestVolumeExtractor.cs" />
     <Compile Include="Geometry\CoordinateInt.cs" />

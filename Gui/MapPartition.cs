@@ -22,5 +22,11 @@ namespace NbtToObj.Gui
         public static HashSet<CoordinateInt> invisibleBricks;
 
         public readonly MultiValueDictionary<Block, Volume> volumizedWorld = new MultiValueDictionary<Block, Volume>();
+
+        public MultiValueDictionary<Block, FacedVolume> facedVolumes;
+
+        public int hiddenFaces;
+
+        public int visibleFaces;
     }
 }

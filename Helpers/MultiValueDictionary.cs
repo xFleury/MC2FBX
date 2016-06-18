@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NbtToObj.Helpers
 {
-    class MultiValueDictionary<TKey, TValue>
+    class MultiValueDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, List<TValue>>>
     {
         public Dictionary<TKey, List<TValue>> dict = new Dictionary<TKey, List<TValue>>();
 
@@ -21,6 +22,16 @@ namespace NbtToObj.Helpers
             {
                 dict.Add(key, new List<TValue>() { value });
             }
+        }
+
+        public IEnumerator<KeyValuePair<TKey, List<TValue>>> GetEnumerator()
+        {
+            return dict.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

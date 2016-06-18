@@ -1,32 +1,33 @@
 ﻿using NbtToObj.Geometry;
+using NbtToObj.Gui;
+using NbtToObj.Helpers;
 using NbtToObj.Minecraft;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NbtToObj.Optimizer
 {
-    static class HiddenFaces
+    static class UnobstructedFaces
     {
-        public static int totalHiddenFaces = 0;
-
-        public static Dictionary<Block, List<FacedVolume>> DetectHiddenFaces(Dictionary<Block, List<Volume>> volumizedWorld,
-            Dictionary<CoordinateInt, Block> rawBlocks)
+        public static MultiValueDictionary<Block, FacedVolume> DetectHiddenFaces(MapPartition mapPartition,
+            HashSet<CoordinateInt> opaqueBlocks)
         {
-            HashSet<CoordinateInt> opaqueBlocks = new HashSet<CoordinateInt>();
-            foreach (KeyValuePair<CoordinateInt, Block> pair in rawBlocks)
-                if (pair.Value.IsOpaque)
-                    opaqueBlocks.Add(pair.Key);
-
-            Dictionary<Block, List<FacedVolume>> facedVolumes = new Dictionary<Block, List<FacedVolume>>();
-            foreach (KeyValuePair<Block, List<Volume>> pair in volumizedWorld)
+            MultiValueDictionary<Block, FacedVolume> facedVolumes = new MultiValueDictionary<Block, FacedVolume>();
+            foreach (KeyValuePair<Block, List<Volume>> pair in mapPartition.volumizedWorld)
             {
-                List<FacedVolume> faceVolumeList = new List<FacedVolume>();
                 for (int idx = 0; idx < pair.Value.Count; idx++)
                 {
                     Volume volume = pair.Value[idx];
                     Face excludedFaces = ObstructedFaces(volume, opaqueBlocks);
-                    faceVolumeList.Add(new FacedVolume(volume, excludedFaces));
+
+                    int hiddenFaces = NumberOfSetBits.Count((int)excludedFaces);
+                    Debug.Assert(hiddenFaces >= 0 && hiddenFaces <= 6);
+                    int visibleFaces = 6 - hiddenFaces;
+                    mapPartition.hiddenFaces += hiddenFaces;
+                    mapPartition.visibleFaces += visibleFaces;
+
+                    facedVolumes.Add(pair.Key, new FacedVolume(volume, excludedFaces));
                 }
-                facedVolumes.Add(pair.Key, faceVolumeList);
             }
 
             return facedVolumes;
@@ -57,7 +58,6 @@ namespace NbtToObj.Optimizer
             for (int dY = 0; dY < height; dY++)
                 for (int dZ = 0; dZ < length; dZ++)
                     if (!blockCheck.Contains(coord.Offset(offsetX, dY, dZ))) return false;
-            totalHiddenFaces++;
             return true;
         }
 
@@ -66,7 +66,6 @@ namespace NbtToObj.Optimizer
             for (int dX = 0; dX < width; dX++)
                 for (int dY = 0; dY < height; dY++)
                     if (!blockCheck.Contains(coord.Offset(dX, dY, offsetZ))) return false;
-            totalHiddenFaces++;
             return true;
         }
 
@@ -75,7 +74,6 @@ namespace NbtToObj.Optimizer
             for (int dX = 0; dX < width; dX++)
                 for (int dZ = 0; dZ < length; dZ++)
                     if (!blockCheck.Contains(coord.Offset(dX, offsetY, dZ))) return false;
-            totalHiddenFaces++;
             return true;
         }
     }

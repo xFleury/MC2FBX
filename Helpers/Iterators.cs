@@ -1,6 +1,7 @@
-﻿using System;
+﻿using NbtToObj.Geometry;
+using System;
 
-namespace NbtToObj.Geometry
+namespace NbtToObj.Helpers
 {
     static class Iterators
     {

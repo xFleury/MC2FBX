@@ -1,6 +1,5 @@
 ﻿using NbtToObj.Geometry;
-using System;
-using System.Collections;
+using NbtToObj.Helpers;
 using System.Collections.Generic;
 
 namespace NbtToObj.Optimizer
