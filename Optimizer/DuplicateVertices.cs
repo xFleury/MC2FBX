@@ -1,7 +1,8 @@
-﻿using NbtToObj.Minecraft;
+﻿using NbtToObj.Geometry;
+using NbtToObj.Minecraft;
 using System.Collections.Generic;
 
-namespace NbtToObj.Geometry.Optimizations
+namespace NbtToObj.Optimizer
 {
     static class DuplicateVertices
     {        

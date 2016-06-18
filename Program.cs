@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using NbtToObj.Geometry;
-using NbtToObj.Geometry.Optimizations;
+using NbtToObj.Optimizer;
 using NbtToObj.Wavefront;
 using NbtToObj.Minecraft;
 

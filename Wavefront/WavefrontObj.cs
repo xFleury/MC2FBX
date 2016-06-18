@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using NbtToObj.Geometry;
-using NbtToObj.Geometry.Optimizations;
+using NbtToObj.Optimizer;
 using NbtToObj.Minecraft;
 
 namespace NbtToObj.Wavefront

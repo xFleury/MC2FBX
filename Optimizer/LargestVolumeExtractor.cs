@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NbtToObj.Geometry;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NbtToObj.Geometry.Optimizations
+namespace NbtToObj.Optimizer
 {
     /// <summary>Extracts the largest volume contigious volume within a hashset of blocks.</summary>
     class LargestVolumeExtractor : IEnumerable<Volume>

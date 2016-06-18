@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NbtToObj.Geometry;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NbtToObj.Geometry.Optimizations
+namespace NbtToObj.Optimizer
 {
     struct FacedVolume
     {
