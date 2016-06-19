@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geometry\SizeD.cs" />
+    <Compile Include="Geometry\TextureCoordinate.cs" />
     <Compile Include="Gui\MapPartition.cs" />
     <Compile Include="Helpers\MultiValueDictionary.cs" />
     <Compile Include="Helpers\NumberOfSetBits.cs" />

@@ -97,7 +97,7 @@ namespace NbtToObj
                             (CoordinateDecimal a) => { mapPartition.vertices.Add(a); });
                     }
                 }
-            Console.WriteLine(mapPartitions.Sum(s => s.textureCoordinates.mappingList.Count) + " unique texture coordinates.");
+            Console.WriteLine(mapPartitions.Sum(s => s.textureCoordinates.mappingDict.Count) + " unique texture coordinates.");
 
             int duplicatesRemoved = 0;
             foreach (MapPartition mapPartition in mapPartitions)
@@ -146,7 +146,7 @@ namespace NbtToObj
                 texturedFacesList.Add(texturedFace);
                 texturedFaces.Add(blockFaceTexture, texturedFacesList);
             }
-            textureCoordinates.EnsureExists(texturedFace.textureMapping);
+            textureCoordinates.EnsureExists(texturedFace.textureCoord, texturedFace.textureSize);
         }
     }
 }

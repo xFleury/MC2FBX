@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NbtToObj.Geometry;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -7,39 +9,34 @@ namespace NbtToObj.Wavefront
     /// <summary>Attempts to use the fewest possible "vt" texture coordinates.</summary>
     class TextureCoordinateDictionary
     {
-        public readonly List<Point> mappingList = new List<Point>{Point.Empty};
-        private readonly Dictionary<int, int> mappingDX = new Dictionary<int, int>();
-        private readonly Dictionary<int, int> mappingDY = new Dictionary<int, int>();
-        private readonly Dictionary<Size, int> mappingDXY = new Dictionary<Size, int>();
+        public readonly Dictionary<TextureCoordinate, int> mappingDict = new Dictionary<TextureCoordinate, int>();
 
-        public void GetMapping(Size mappingSize, out int index1, out int index2, out int index3, out int index4)
+        public void GetMapping(TextureCoordinate texCoord, SizeD texSize, out int index1, out int index2, out int index3, out int index4)
         {
+            TextureCoordinate[] coords = IterateTextureCoordinates(texCoord, texSize).ToArray();
             /* UV mapping has 0,0 the bottom-left, but we defined it top-left. */
-            index1 = mappingDY[mappingSize.Height];
-            index2 = 0;
-            index3 = mappingDX[mappingSize.Width];
-            index4 = mappingDXY[mappingSize];
+            index1 = mappingDict[coords[0]];
+            index2 = mappingDict[coords[1]];
+            index3 = mappingDict[coords[2]];
+            index4 = mappingDict[coords[3]];
         }
 
-        public void EnsureExists(Size mappingSize)
+        public void EnsureExists(TextureCoordinate texCoord, SizeD texSize)
         {
-            if (!mappingDX.ContainsKey(mappingSize.Width))
-            {
-                mappingList.Add(new Point(mappingSize.Width, 0));
-                mappingDX.Add(mappingSize.Width, mappingList.Count - 1);
-            }
+            foreach (TextureCoordinate coord in IterateTextureCoordinates(texCoord, texSize))
+                if (!mappingDict.ContainsKey(coord))
+                {
+                    mappingDict.Add(coord, mappingDict.Count);
+                }
+        }
 
-            if (!mappingDY.ContainsKey(mappingSize.Height))
-            {
-                mappingList.Add(new Point(0, mappingSize.Height));
-                mappingDY.Add(mappingSize.Height, mappingList.Count - 1);
-            }
-
-            if (!mappingDXY.ContainsKey(mappingSize))
-            {
-                mappingList.Add(new Point(mappingSize.Width, mappingSize.Height));
-                mappingDXY.Add(mappingSize, mappingList.Count - 1);
-            }
+        private static IEnumerable<TextureCoordinate> IterateTextureCoordinates(TextureCoordinate texCoord, SizeD texSize)
+        {
+            /* UV mapping has 0,0 the bottom-left, but we defined it top-left. */
+            yield return new TextureCoordinate(texCoord.U, texCoord.V + texSize.Height);
+            yield return texCoord;
+            yield return new TextureCoordinate(texCoord.U + texSize.Width, texCoord.V);
+            yield return new TextureCoordinate(texCoord.U + texSize.Width, texCoord.V + texSize.Height);
         }
     }
 }

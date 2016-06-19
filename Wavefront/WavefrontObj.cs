@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
@@ -44,11 +45,12 @@ namespace NbtToObj.Wavefront
                     Math.Round(coord.Z, maxDecimalPlaces)));
             }
 
-            for (int idx = 0; idx < textureCoordinates.mappingList.Count; idx++)
+            foreach(TextureCoordinate texCoord in textureCoordinates.mappingDict
+                .OrderBy(o => o.Value)
+                .Select(s => s.Key))
             {
-                Point point = textureCoordinates.mappingList[idx];
-                sb.AppendLine(string.Format("vt {0:0.0#####} {1:0.0#####}", 
-                    point.X, point.Y));
+                sb.AppendLine(string.Format("vt {0:0.0#####} {1:0.0#####}",
+                    texCoord.U, texCoord.V));
             }
 
             foreach (KeyValuePair<string, List<FaceVertices>> pair in collisionBoxes)
@@ -58,7 +60,6 @@ namespace NbtToObj.Wavefront
                 for (int idx = 0; idx < listOfTexturedFaces.Count; idx++)
                 {
                     FaceVertices faceVertices = listOfTexturedFaces[idx];
-
 
                     sb.AppendLine(string.Format("f {0} {1} {2} {3}",
                         1 + faceVertices.index1,
@@ -82,7 +83,7 @@ namespace NbtToObj.Wavefront
                     int texIndex2;
                     int texIndex3;
                     int texIndex4;
-                    textureCoordinates.GetMapping(texturedFace.textureMapping,
+                    textureCoordinates.GetMapping(texturedFace.textureCoord, texturedFace.textureSize,
                         out texIndex1, out texIndex2, out texIndex3, out texIndex4);
 
                     sb.AppendLine(string.Format("f {0}/{4} {1}/{5} {2}/{6} {3}/{7}",
