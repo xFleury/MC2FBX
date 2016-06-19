@@ -6,6 +6,12 @@
         {
             switch (blockIdentifier)
             {
+                case BlockIdentifier.Wood:
+                case BlockIdentifier.WoodStairs:
+                case BlockIdentifier.WoodSlab:
+                case BlockIdentifier.WoodPlank:
+                    return PhysicalMaterial.WoodMaterial;
+
                 case BlockIdentifier.Cobblestone:
                 case BlockIdentifier.CobblestoneStairs:
                 case BlockIdentifier.CobblestoneWall:

@@ -25,12 +25,16 @@ namespace NbtToObj.Minecraft
                 case BlockIdentifier.Wood: return BlockFaceTexture.Wood;
                 case BlockIdentifier.Leaves: return BlockFaceTexture.Leaves;
 
+
                 case BlockIdentifier.CobblestoneStairs:
                 case BlockIdentifier.Cobblestone:
                     return BlockFaceTexture.Cobblestone;
                 
                 case BlockIdentifier.WoodPlank: return BlockFaceTexture.WoodPlank;
-                case BlockIdentifier.StoneBrick: return BlockFaceTexture.StoneBrick;
+
+                case BlockIdentifier.StoneBrickStairs:
+                case BlockIdentifier.StoneBrick:
+                    return BlockFaceTexture.StoneBrick;
                 case BlockIdentifier.Grass:
                     switch (face)
                     {

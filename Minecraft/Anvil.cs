@@ -5,6 +5,7 @@ using NbtToObj.Nbt;
 using NbtToObj.Nbt.Tags;
 using NbtToObj.Geometry;
 using NbtToObj.Helpers;
+using System.Diagnostics;
 
 namespace NbtToObj.Minecraft
 {
@@ -87,6 +88,14 @@ namespace NbtToObj.Minecraft
                                 blocks[blockCoord] = new CompositeBlock(pair.Value[idx].id, pair.Value[idx].data);
                             }
                         }
+                        else
+                        {
+                            BlockIdentifier unsupportedBlock = pair.Value[idx].id;
+                            if (unsupportedBlock != BlockIdentifier.Air && unsupportedBlock != BlockIdentifier.Bedrock)
+                            {
+                                Debug.WriteLine("Unsupported block type: " + pair.Value[idx].id.ToString());
+                            }
+                        }
             }
         }
 
@@ -96,10 +105,15 @@ namespace NbtToObj.Minecraft
             blockID == BlockIdentifier.Dirt ||
             blockID == BlockIdentifier.Cobblestone ||
             blockID == BlockIdentifier.CobblestoneStairs ||
+            blockID == BlockIdentifier.Wood ||
+            blockID == BlockIdentifier.WoodStairs ||
             blockID == BlockIdentifier.WoodPlank ||
             blockID == BlockIdentifier.StoneBrick ||
+            blockID == BlockIdentifier.StoneBrickStairs ||
+            blockID == BlockIdentifier.StoneSlab ||
             blockID == BlockIdentifier.BrickBlock ||
-            blockID == BlockIdentifier.Wood ||
+            blockID == BlockIdentifier.BrickStairs ||
+            
             blockID == BlockIdentifier.Leaves ||
             blockID == BlockIdentifier.Grass;
         }

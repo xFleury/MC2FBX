@@ -127,8 +127,10 @@ namespace NbtToObj
                 /* Save the OBJ file to the specified destination. */
                 File.WriteAllText(Path.Combine(args[1], $"World.{mapPartition.physicalMaterial.ToString()}.obj"), objFile.ToString());
             }
-        }
 
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
 
         private static void AppendTexturedFaces(Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces, 
             TextureCoordinateDictionary textureCoordinates,

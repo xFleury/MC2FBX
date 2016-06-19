@@ -24,28 +24,28 @@ namespace NbtToObj.Minecraft
             {
                 hasDiagonals = true;
                 rotation = 0;
-                isCornerstone = blocks.ContainsKey(loc.Offset(-1, -1, 0));
+                isCornerstone = IsFullBlock(blocks, loc.Offset(-1, -1, 0));
             }
             else if (IsSameBlock(blocks, id, currentBlock.Key.Offset(1, 0, 0)) &&
                 IsSameBlock(blocks, id, currentBlock.Key.Offset(0, 1, 0)))
             {
                 hasDiagonals = true;
                 rotation = 1;
-                isCornerstone = blocks.ContainsKey(loc.Offset(1, 1, 0));
+                isCornerstone = IsFullBlock(blocks, loc.Offset(1, 1, 0));
             }
             else if (IsSameBlock(blocks, id, currentBlock.Key.Offset(1, 0, 0)) &&
                IsSameBlock(blocks, id, currentBlock.Key.Offset(0, -1, 0)))
             {
                 hasDiagonals = true;
                 rotation = 2;
-                isCornerstone = blocks.ContainsKey(loc.Offset(1, -1, 0));
+                isCornerstone = IsFullBlock(blocks, loc.Offset(1, -1, 0));
             }
             else if (IsSameBlock(blocks, id, currentBlock.Key.Offset(-1, 0, 0)) &&
                IsSameBlock(blocks, id, currentBlock.Key.Offset(0, 1, 0)))
             {
                 hasDiagonals = true;
                 rotation = 3;
-                isCornerstone = blocks.ContainsKey(loc.Offset(-1, 1, 0));
+                isCornerstone = IsFullBlock(blocks, loc.Offset(-1, 1, 0));
             }
             else
             {
@@ -62,6 +62,13 @@ namespace NbtToObj.Minecraft
             if (!blocks.TryGetValue(location, out block))
                 return false;
             return block.id == id;
+        }
+        private static bool IsFullBlock(Dictionary<CoordinateInt, CompositeBlock> blocks, CoordinateInt location)
+        {
+            CompositeBlock block;
+            if (!blocks.TryGetValue(location, out block))
+                return false;
+            return !block.IsHalfBlock;
         }
     }
 }

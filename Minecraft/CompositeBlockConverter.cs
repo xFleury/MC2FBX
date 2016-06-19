@@ -25,6 +25,8 @@ namespace NbtToObj.Minecraft
 
         private static int[] prefabStaircase = new int[] { 0, 1, 2, 3, 6, 7 };
 
+        private static int[] prefabSlab = new int[] { 0, 1, 2, 3 };
+
         private static int[] rotate90 = new int[] { 1, 3, 0, 2, 5, 7, 4, 6 };
 
         private static int[] rotate180 = new int[] { 3, 2, 1, 0, 7, 6, 5, 4 };
@@ -41,16 +43,39 @@ namespace NbtToObj.Minecraft
 
                 BlockIdentifier id = block.Value.id;
 
-                if (id == BlockIdentifier.CobblestoneStairs)
+                if (id == BlockIdentifier.CobblestoneStairs || 
+                    id == BlockIdentifier.StoneBrickStairs || 
+                    id == BlockIdentifier.WoodStairs)
                 {
-                    BlockState state = new BlockState(blocks, block);
-                    if (state.hasDiagonals)
+                    BlockIdentifier stairBlockType;
+                    if (id == BlockIdentifier.CobblestoneStairs)
                     {
-                        BuildBlocks(convertedBlocks, BlockIdentifier.Cobblestone, block.Key, state.isCornerstone ? prefabOuterCorner : prefabInnerCorner, state.rotation);
+                        stairBlockType = BlockIdentifier.Cobblestone;
+                    }
+                    else if (id == BlockIdentifier.WoodStairs)
+                    {
+                        stairBlockType = BlockIdentifier.WoodPlank;
                     }
                     else
                     {
-                        BuildBlocks(convertedBlocks, BlockIdentifier.Cobblestone, block.Key, prefabStaircase, rotation);
+                        stairBlockType = BlockIdentifier.StoneBrick;
+                    }
+
+                    BlockState state = new BlockState(blocks, block);
+                    if (state.hasDiagonals)
+                    {
+                        BuildBlocks(convertedBlocks, stairBlockType, block.Key, state.isCornerstone ? prefabOuterCorner : prefabInnerCorner, state.rotation);
+                    }
+                    else
+                    {
+                        BuildBlocks(convertedBlocks, stairBlockType, block.Key, prefabStaircase, rotation);
+                    }
+                }
+                else if (id == BlockIdentifier.StoneSlab)
+                {
+                    if(block.Value.data == 3)
+                    {
+                        BuildBlocks(convertedBlocks, BlockIdentifier.Cobblestone, block.Key, prefabSlab, rotation);
                     }
                 }
                 else

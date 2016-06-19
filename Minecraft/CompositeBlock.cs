@@ -13,6 +13,14 @@ namespace NbtToObj.Minecraft
 
         public bool IsOpaque { get { return LookupOpaqueBlock.IsOpaque(id); } }
 
+        public bool IsHalfBlock
+        {
+            get
+            {
+                return id == BlockIdentifier.StoneSlab;
+            }
+        }
+
         public CompositeBlock(BlockIdentifier id, byte data)
         {
             this.id = id;
