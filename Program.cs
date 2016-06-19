@@ -113,7 +113,7 @@ namespace NbtToObj
                 {
                     List<FacedVolume> volumes = pair.Value;
                     for (int idx = 0; idx < volumes.Count; idx++)
-                        MakeCollisionUBX("UBX_" + pair.Key.ToString() + string.Format("_{0:00}", idx), 
+                        UnrealBoxCollision.MakeCollisionUBX("UBX_" + pair.Key.ToString() + string.Format("_{0:00}", idx), 
                             volumes[idx].volume, mapPartition.vertices, mapPartition.collisionBoxes);
                 }
             }
@@ -129,24 +129,6 @@ namespace NbtToObj
             }
         }
 
-        private static void MakeCollisionUBX(string name, Volume volume, List<CoordinateDecimal> vertices,
-            Dictionary<string, List<FaceVertices>> collisionBoxes)
-        {
-            const decimal collisionPadding = 0.05m;
-            List<FaceVertices> listOfFaceVertices = new List<FaceVertices>();
-
-            Iterators.FacesInVolume(vertices.Count, Face.None, (Face face, FaceVertices faceVertices) =>
-                { listOfFaceVertices.Add(faceVertices); });
-                    
-            Iterators.VerticesInVolume(((CoordinateDecimal)volume.Coord).Offset(
-                collisionPadding, collisionPadding, collisionPadding),
-                volume.ScaleX - 2*collisionPadding, 
-                volume.ScaleY - 2*collisionPadding,
-                volume.ScaleZ - 2*collisionPadding,
-                (CoordinateDecimal a) => { vertices.Add(a); });
-
-            collisionBoxes.Add(name, listOfFaceVertices);
-        }
 
         private static void AppendTexturedFaces(Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces, 
             TextureCoordinateDictionary textureCoordinates,
@@ -165,16 +147,6 @@ namespace NbtToObj
                 texturedFaces.Add(blockFaceTexture, texturedFacesList);
             }
             textureCoordinates.EnsureExists(texturedFace.textureMapping);
-        }
-
-        private static void AppendVertices(List<CoordinateDecimal> vertices, List<FacedVolume> volumes)
-        {
-            for (int idx = 0; idx < volumes.Count; idx++)
-            {
-                Volume volume = volumes[idx].volume;
-                vertices.Add(new CoordinateDecimal(
-                    volume.Coord.X, volume.Coord.Y, volume.Coord.Z));
-            }
         }
     }
 }
