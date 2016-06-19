@@ -5,6 +5,7 @@ using System.Text;
 using NbtToObj.Geometry;
 using NbtToObj.Optimizer;
 using NbtToObj.Minecraft;
+using NbtToObj.Helpers;
 
 namespace NbtToObj.Wavefront
 {
@@ -20,7 +21,7 @@ namespace NbtToObj.Wavefront
             Dictionary<string, List<FaceVertices>> collisionBoxes,
             Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces,
             TextureCoordinateDictionary textureCoordinates,
-            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld)
+            MultiValueDictionary<Block, FacedVolume> facedVolumizedWorld)
         {
             this.vertices = vertices;
             this.collisionBoxes = collisionBoxes;

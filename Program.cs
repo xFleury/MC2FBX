@@ -17,7 +17,7 @@ namespace NbtToObj
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("Usage: MC2UE <world-directory> <output>");
+                Console.WriteLine("Usage: MC2UE <world-directory> <output-directory>");
                 return;
             }
 
@@ -70,8 +70,8 @@ namespace NbtToObj
 
             foreach (MapPartition mapPartition in mapPartitions)
             {
-                Console.WriteLine("Identifying interior faces.");
-                MultiValueDictionary<Block, FacedVolume> facedVolumizedWorld = UnobstructedFaces.DetectHiddenFaces(mapPartition, opaqueBlocks);                
+                Console.WriteLine("\nIdentifying interior faces.");
+                mapPartition.facedVolumes = UnobstructedFaces.DetectHiddenFaces(mapPartition, opaqueBlocks);                
             }
 
             int totalVisibleFaces = mapPartitions.Sum(s => s.visibleFaces);
@@ -79,58 +79,50 @@ namespace NbtToObj
 
             Console.WriteLine($"{totalVisibleFaces} visible faces, {totalHiddenFaces} hidden faces");
 
-            //    ProcessBlocks(pair.Key, pair.Value);
-            //ProcessBlocks(args[1], anvil.blocks);
-        }
-
-        private static void ProcessBlocks(string outputPath, Dictionary<CoordinateInt, Block> rawBlocks)
-        {
-            /* Scan for interior faces that we can remove. */
-            //UnobstructedFaces.totalHiddenFaces = 0;
-            Console.WriteLine("Identifying interior faces.");
-            Dictionary<Block, List<FacedVolume>> facedVolumizedWorld = null;// UnobstructedFaces.DetectHiddenFaces(volumizedWorld, rawBlocks);
-            //Console.WriteLine("Identified {0} interior faces.", UnobstructedFaces.totalHiddenFaces);
-
-            /* Storage for the actual 3D geometry. */
-            List<CoordinateDecimal> vertices = new List<CoordinateDecimal>();
-            Dictionary<string, List<FaceVertices>> collisionBoxes = new Dictionary<string, List<FaceVertices>>();
-            Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces = new Dictionary<BlockFaceTexture, List<TexturedFace>>();
-            TextureCoordinateDictionary textureCoordinates = new TextureCoordinateDictionary();
-
             /* Build the textured faces from the volumes. */
-            foreach (KeyValuePair<Block, List<FacedVolume>> pair in facedVolumizedWorld)
-            {
-                List<FacedVolume> volumes = pair.Value;
-                for (int idx = 0; idx < volumes.Count; idx++)
+            foreach (MapPartition mapPartition in mapPartitions)
+                foreach (KeyValuePair<Block, List<FacedVolume>> pair in mapPartition.facedVolumes)
                 {
-                    FacedVolume facedVolume = volumes[idx];
-                    Iterators.FacesInVolume(vertices.Count, facedVolume.excludedFaces, (Face face, FaceVertices faceVertices) =>
-                        { AppendTexturedFaces(texturedFaces, textureCoordinates, pair.Key, facedVolume.volume, face, faceVertices); });
-                    Iterators.VerticesInVolume(volumes[idx].volume,
-                        (CoordinateDecimal a) => { vertices.Add(a); });
+                    List<FacedVolume> volumes = pair.Value;
+                    for (int idx = 0; idx < volumes.Count; idx++)
+                    {
+                        FacedVolume facedVolume = volumes[idx];
+                        Iterators.FacesInVolume(mapPartition.vertices.Count, facedVolume.excludedFaces, (Face face, FaceVertices faceVertices) =>
+                            { AppendTexturedFaces(mapPartition.texturedFaces, mapPartition.textureCoordinates, pair.Key, facedVolume.volume, face, faceVertices); });
+                        Iterators.VerticesInVolume(volumes[idx].volume,
+                            (CoordinateDecimal a) => { mapPartition.vertices.Add(a); });
+                    }
                 }
-            }
-            Console.WriteLine(textureCoordinates.mappingList.Count + " unique texture coordinates.");
+            Console.WriteLine(mapPartitions.Sum(s => s.textureCoordinates.mappingList.Count) + " unique texture coordinates.");
 
-            /* Delete duplicate vertices before adding collision UBXs because the UBX vertices will all be unique. */
-            Console.WriteLine("Detecting duplicate vertices.");
-            int duplicatesRemoved = DuplicateVertices.DetectAndErase(vertices, texturedFaces);
+            int duplicatesRemoved = 0;
+            foreach (MapPartition mapPartition in mapPartitions)
+            {
+                /* Delete duplicate vertices before adding collision UBXs because the UBX vertices will all be unique. */
+                duplicatesRemoved += DuplicateVertices.DetectAndErase(mapPartition.vertices, mapPartition.texturedFaces);                
+            }
             Console.WriteLine(duplicatesRemoved + " duplicate vertices removed.");
 
-            Console.WriteLine("Generate UBX collision volumes.");
-            foreach (KeyValuePair<Block, List<FacedVolume>> pair in facedVolumizedWorld)
+            foreach (MapPartition mapPartition in mapPartitions)
             {
-                List<FacedVolume> volumes = pair.Value;
-                for (int idx = 0; idx < volumes.Count; idx++)
-                    #warning Potential for collision meshes to be far from visual mesh!
-                    MakeCollisionUBX("UBX_" + pair.Key.ToString() + string.Format("_{0:00}", idx), volumes[idx].volume, vertices, collisionBoxes);
+                foreach (KeyValuePair<Block, List<FacedVolume>> pair in mapPartition.facedVolumes)
+                {
+                    List<FacedVolume> volumes = pair.Value;
+                    for (int idx = 0; idx < volumes.Count; idx++)
+                        MakeCollisionUBX("UBX_" + pair.Key.ToString() + string.Format("_{0:00}", idx), 
+                            volumes[idx].volume, mapPartition.vertices, mapPartition.collisionBoxes);
+                }
             }
 
-            /* Export the geometry to Wavefront's OBJ format. */
-            WavefrontObj objFile = new WavefrontObj(vertices, collisionBoxes, texturedFaces, textureCoordinates, facedVolumizedWorld);
+            foreach (MapPartition mapPartition in mapPartitions)
+            {
+                /* Export the geometry to Wavefront's OBJ format. */
+                WavefrontObj objFile = new WavefrontObj(mapPartition.vertices, mapPartition.collisionBoxes, 
+                    mapPartition.texturedFaces, mapPartition.textureCoordinates, mapPartition.facedVolumes);
 
-            /* Save the OBJ file to the specified destination. */
-            File.WriteAllText(outputPath, objFile.ToString());
+                /* Save the OBJ file to the specified destination. */
+                File.WriteAllText(Path.Combine(args[1], $"World.{mapPartition.physicalMaterial.ToString()}.obj"), objFile.ToString());
+            }
         }
 
         private static void MakeCollisionUBX(string name, Volume volume, List<CoordinateDecimal> vertices,
