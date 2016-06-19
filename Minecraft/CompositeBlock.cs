@@ -2,19 +2,21 @@
 using NbtToObj.Geometry;
 
 namespace NbtToObj.Minecraft
-{
-    struct Block : IEquatable<Block>
+{    
+    /// <summary>
+    /// Minecraft blocks are made up of several smaller blocks; a staircase consists of 6 (of 8) sub-blocks.
+    /// </summary>
+    struct CompositeBlock : IEquatable<CompositeBlock>
     {
-        private static BlockIdentifier[] nonOpaqueBlocks = new BlockIdentifier[] {
-            BlockIdentifier.Air, BlockIdentifier.Glass};
-
         public BlockIdentifier id;
+        public byte data;
 
-        public bool IsOpaque { get { return Array.IndexOf(nonOpaqueBlocks, id) == -1; } }
+        public bool IsOpaque { get { return LookupOpaqueBlock.IsOpaque(id); } }
 
-        public Block(BlockIdentifier id)
+        public CompositeBlock(BlockIdentifier id, byte data)
         {
             this.id = id;
+            this.data = data;
         }
 
         public BlockFaceTexture GetFaceTexture(Face face)
@@ -24,15 +26,11 @@ namespace NbtToObj.Minecraft
                 case BlockIdentifier.Dirt: return BlockFaceTexture.Dirt;
                 case BlockIdentifier.Wood: return BlockFaceTexture.Wood;
                 case BlockIdentifier.Leaves: return BlockFaceTexture.Leaves;
-
-                case BlockIdentifier.CobblestoneStairs:
-                case BlockIdentifier.Cobblestone:
-                    return BlockFaceTexture.Cobblestone;
-                
+                case BlockIdentifier.Cobblestone: return BlockFaceTexture.Cobblestone;
                 case BlockIdentifier.WoodPlank: return BlockFaceTexture.WoodPlank;
                 case BlockIdentifier.StoneBrick: return BlockFaceTexture.StoneBrick;
                 case BlockIdentifier.Grass:
-                    switch (face)
+                    switch(face)
                     {
                         case Face.PositiveX:
                         case Face.NegativeX:
@@ -49,25 +47,25 @@ namespace NbtToObj.Minecraft
             }
         }
 
-        public bool Equals(Block other)
+        public bool Equals(CompositeBlock other)
         {
-            return id == other.id;
+            return id == other.id && data == other.data;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Block)
-                return Equals((Block)obj);
+            if (obj is CompositeBlock)
+                return Equals((CompositeBlock)obj);
             else return false;
         }
 
-        public static bool operator ==(Block a, Block b) { return a.Equals(b); }
+        public static bool operator ==(CompositeBlock a, CompositeBlock b) { return a.Equals(b); }
 
-        public static bool operator !=(Block a, Block b) { return !a.Equals(b); }
+        public static bool operator !=(CompositeBlock a, CompositeBlock b) { return !a.Equals(b); }
 
         public override int GetHashCode()
         {
-            return (int)id;
+            return ((int)id << 8) | data;
         }
 
         public override string ToString()

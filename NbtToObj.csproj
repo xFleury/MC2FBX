@@ -44,6 +44,10 @@
     <Compile Include="Gui\MapPartition.cs" />
     <Compile Include="Helpers\MultiValueDictionary.cs" />
     <Compile Include="Helpers\NumberOfSetBits.cs" />
+    <Compile Include="Minecraft\BlockState.cs" />
+    <Compile Include="Minecraft\CompositeBlockConverter.cs" />
+    <Compile Include="Minecraft\Block.cs" />
+    <Compile Include="Minecraft\LookupOpaqueBlock.cs" />
     <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
     <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
     <Compile Include="Wavefront\BlockPartitioner.cs" />
@@ -60,7 +64,7 @@
     <Compile Include="Geometry\Face.cs" />
     <Compile Include="Optimizer\UnobstructedFaces.cs" />
     <Compile Include="Minecraft\BlockIdentifier.cs" />
-    <Compile Include="Minecraft\Block.cs" />
+    <Compile Include="Minecraft\CompositeBlock.cs" />
     <Compile Include="Geometry\TexturedFace.cs" />
     <Compile Include="Helpers\Iterators.cs" />
     <Compile Include="Geometry\Bounds.cs" />

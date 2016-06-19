@@ -21,9 +21,13 @@ namespace NbtToObj
                 return;
             }
 
-            Anvil anvil = new Anvil(args[0]);
+            Dictionary<CoordinateInt, Block> visibleAndInvisibleBlocks;
+            {
+                Anvil anvil = new Anvil(args[0]);
+                visibleAndInvisibleBlocks = CompositeBlockConverter.Convert(anvil.blocks);
+            }
 
-            Dictionary<CoordinateInt, Block> visibleBlocks = InvisibleBlockDetection.DetectAndFilterInvisible(anvil.blocks);
+            Dictionary<CoordinateInt, Block> visibleBlocks = InvisibleBlockDetection.DetectAndFilterInvisible(visibleAndInvisibleBlocks);
             Console.WriteLine("{0} invisible bricks.", MapPartition.invisibleBricks.Count);
 
             List<MapPartition> mapPartitions = new List<MapPartition>();
@@ -64,7 +68,7 @@ namespace NbtToObj
 
             /* Compile a list of all the opaque blocks on the map. */
             HashSet<CoordinateInt> opaqueBlocks = new HashSet<CoordinateInt>();
-            foreach (KeyValuePair<CoordinateInt, Block> pair in anvil.blocks)
+            foreach (KeyValuePair<CoordinateInt, Block> pair in visibleAndInvisibleBlocks)
                 if (pair.Value.IsOpaque)
                     opaqueBlocks.Add(pair.Key);
 
@@ -145,7 +149,7 @@ namespace NbtToObj
         }
 
         private static void AppendTexturedFaces(Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces, 
-            TextureCoordinateDictionary textureCoordinates, 
+            TextureCoordinateDictionary textureCoordinates,
             Block blockType, Volume volume, Face face, FaceVertices faceVertices)
         {
             BlockFaceTexture blockFaceTexture = blockType.GetFaceTexture(face);
