@@ -1,0 +1,22 @@
+﻿      Begin Actor Class=StaticMeshActor Name=StaticMeshActor_1 Archetype=StaticMeshActor'Engine.Default__StaticMeshActor'
+         Begin Object Class=StaticMeshComponent Name=StaticMeshComponent0 ObjName=StaticMeshComponent_1 Archetype=StaticMeshComponent'Engine.Default__StaticMeshActor:StaticMeshComponent0'
+            StaticMesh=StaticMesh'<!--MESHNAME-->'
+            VertexPositionVersionNumber=1
+            ReplacementPrimitive=None
+            bAllowApproximateOcclusion=True
+            bForceDirectLightMap=True
+            bUsePrecomputedShadows=True
+            RBCollideWithChannels=(Visibility=True)
+            bAcceptReflections=True
+            Name="StaticMeshComponent_3"
+            ObjectArchetype=StaticMeshComponent'Engine.Default__StaticMeshActor:StaticMeshComponent0'
+         End Object
+         StaticMeshComponent=StaticMeshComponent'StaticMeshComponent_1'
+         Components(0)=StaticMeshComponent'StaticMeshComponent_1'
+         Location=(X=0.000000,Y=0.000000,Z=0.000000)
+         CreationTime=16.401134
+         Tag="StaticMeshActor"
+         CollisionComponent=StaticMeshComponent'StaticMeshComponent_1'
+         Name="StaticMeshActor_1"
+         ObjectArchetype=StaticMeshActor'Engine.Default__StaticMeshActor'
+      End Actor

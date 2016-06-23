@@ -7,45 +7,27 @@ using NbtToObj.Geometry;
 using NbtToObj.Optimizer;
 using NbtToObj.Minecraft;
 using NbtToObj.Helpers;
+using NbtToObj.Gui;
 
 namespace NbtToObj.Wavefront
 {
-    class WavefrontObj
+    static class WavefrontObj
     {
-        private readonly List<CoordinateDecimal> vertices;
-        private readonly Dictionary<string, List<FaceVertices>> collisionBoxes;
-        private readonly Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces;
-        private readonly TextureCoordinateDictionary textureCoordinates;
-
-        public WavefrontObj(
-            List<CoordinateDecimal> vertices,
-            Dictionary<string, List<FaceVertices>> collisionBoxes,
-            Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces,
-            TextureCoordinateDictionary textureCoordinates,
-            MultiValueDictionary<Block, FacedVolume> facedVolumizedWorld)
-        {
-            this.vertices = vertices;
-            this.collisionBoxes = collisionBoxes;
-            this.texturedFaces = texturedFaces;
-            this.textureCoordinates = textureCoordinates;
-        }
-
-
-        public override string ToString()
+        public static string Generate(WorldState worldState, List<GroupState> groupStates)
         {
             const int maxDecimalPlaces = 6;
 
             StringBuilder sb = new StringBuilder();
-            for (int idx = 0; idx < vertices.Count; idx++)
+            for (int idx = 0; idx < worldState.vertices.Count; idx++)
             {
-                CoordinateDecimal coord = vertices[idx];
+                CoordinateDecimal coord = worldState.vertices[idx];
                 sb.AppendLine(string.Format("v {0:0.0#####} {1:0.0#####} {2:0.0#####}", 
                     Math.Round(coord.X, maxDecimalPlaces),
                     Math.Round(coord.Y, maxDecimalPlaces), 
                     Math.Round(coord.Z, maxDecimalPlaces)));
             }
 
-            foreach(TextureCoordinate texCoord in textureCoordinates.mappingDict
+            foreach(TextureCoordinate texCoord in worldState.textureCoordinates.mappingDict
                 .OrderBy(o => o.Value)
                 .Select(s => s.Key))
             {
@@ -53,7 +35,7 @@ namespace NbtToObj.Wavefront
                     texCoord.U, texCoord.V));
             }
 
-            foreach (KeyValuePair<string, List<FaceVertices>> pair in collisionBoxes)
+            foreach (KeyValuePair<string, List<FaceVertices>> pair in worldState.collisionBoxes)
             {
                 sb.AppendLine("g " + pair.Key);
                 List<FaceVertices> listOfTexturedFaces = pair.Value;
@@ -70,36 +52,41 @@ namespace NbtToObj.Wavefront
                 }
             }
 
-            foreach (KeyValuePair<BlockFaceTexture, List<TexturedFace>> pair in texturedFaces)
+            foreach (GroupState groupState in groupStates)
             {
-                sb.AppendLine("g " + pair.Key.ToString());
-                sb.AppendLine("usemtl " + pair.Key.ToString());
-                List<TexturedFace> listOfTexturedFaces = pair.Value;
-                for (int idx = 0; idx < listOfTexturedFaces.Count; idx++)
+                sb.AppendLine("g " + groupState.groupName);
+
+                foreach (FacedVolume facedVolume in groupState.facedVolumes)
                 {
-                    TexturedFace texturedFace = listOfTexturedFaces[idx];
+                    foreach (KeyValuePair<BlockFaceTexture, List<TexturedFace>> texturedFaces in worldState.texturedFacesOfFacedVolume[facedVolume])
+                    {
+                        sb.AppendLine("usemtl " + texturedFaces.Key.ToString());
+                        List<TexturedFace> listOfTexturedFaces = texturedFaces.Value;
+                        for (int idx = 0; idx < listOfTexturedFaces.Count; idx++)
+                        {
+                            TexturedFace texturedFace = listOfTexturedFaces[idx];
 
-                    int texIndex1;
-                    int texIndex2;
-                    int texIndex3;
-                    int texIndex4;
-                    textureCoordinates.GetMapping(texturedFace.textureCoord, texturedFace.textureSize,
-                        out texIndex1, out texIndex2, out texIndex3, out texIndex4);
+                            int texIndex1;
+                            int texIndex2;
+                            int texIndex3;
+                            int texIndex4;
+                            worldState.textureCoordinates.GetMapping(texturedFace.textureCoord, texturedFace.textureSize,
+                                out texIndex1, out texIndex2, out texIndex3, out texIndex4);
 
-                    sb.AppendLine(string.Format("f {0}/{4} {1}/{5} {2}/{6} {3}/{7}",
-                        1 + texturedFace.faceVertices.index1,
-                        1 + texturedFace.faceVertices.index2,
-                        1 + texturedFace.faceVertices.index3,
-                        1 + texturedFace.faceVertices.index4,
-                        1 + texIndex1,
-                        1 + texIndex2,
-                        1 + texIndex3,
-                        1 + texIndex4
-                    ));
+                            sb.AppendLine(string.Format("f {0}/{4} {1}/{5} {2}/{6} {3}/{7}",
+                                1 + texturedFace.faceVertices.index1,
+                                1 + texturedFace.faceVertices.index2,
+                                1 + texturedFace.faceVertices.index3,
+                                1 + texturedFace.faceVertices.index4,
+                                1 + texIndex1,
+                                1 + texIndex2,
+                                1 + texIndex3,
+                                1 + texIndex4
+                            ));
+                        }
+                    }
                 }
             }
-
-
                 
             return sb.ToString();
         }

@@ -10,20 +10,18 @@ namespace NbtToObj.Optimizer
     {
         private static BlockIdentifier[] transparentBlocks = new BlockIdentifier[] { BlockIdentifier.Leaves };
 
-        public static Dictionary<CoordinateInt, Block> DetectAndFilterInvisible(Dictionary<CoordinateInt, Block> blocks)
+        public static void DetectAndFilterInvisible(WorldState worldState)
         {
-            MapPartition.invisibleBricks = new HashSet<CoordinateInt>();
+            worldState.invisibleBricks = new HashSet<CoordinateInt>();
 
-            foreach (KeyValuePair<CoordinateInt, Block> pair in blocks)
-                if (IsInvisible(pair.Key, blocks))
-                    MapPartition.invisibleBricks.Add(pair.Key);
+            foreach (KeyValuePair<CoordinateInt, Block> pair in worldState.visibleAndInvisibleBlocks)
+                if (IsInvisible(pair.Key, worldState.visibleAndInvisibleBlocks))
+                    worldState.invisibleBricks.Add(pair.Key);
 
-            Dictionary<CoordinateInt, Block> visibleBlocks = new Dictionary<CoordinateInt, Block>(blocks);
+            worldState.visibleBlocks = new Dictionary<CoordinateInt, Block>(worldState.visibleAndInvisibleBlocks);
 
-            foreach (CoordinateInt coord in MapPartition.invisibleBricks)
-                visibleBlocks.Remove(coord);
-
-            return visibleBlocks;
+            foreach (CoordinateInt coord in worldState.invisibleBricks)
+                worldState.visibleBlocks.Remove(coord);
         }
 
 

@@ -9,11 +9,11 @@ namespace NbtToObj.Optimizer
 {
     static class UnobstructedFaces
     {
-        public static MultiValueDictionary<Block, FacedVolume> DetectHiddenFaces(MapPartition mapPartition,
+        public static MultiValueDictionary<Block, FacedVolume> DetectHiddenFaces(WorldState worldState,
             HashSet<CoordinateInt> opaqueBlocks)
         {
             MultiValueDictionary<Block, FacedVolume> facedVolumes = new MultiValueDictionary<Block, FacedVolume>();
-            foreach (KeyValuePair<Block, List<Volume>> pair in mapPartition.volumizedWorld)
+            foreach (KeyValuePair<Block, List<Volume>> pair in worldState.volumizedWorld)
             {
                 for (int idx = 0; idx < pair.Value.Count; idx++)
                 {
@@ -23,8 +23,8 @@ namespace NbtToObj.Optimizer
                     int hiddenFaces = NumberOfSetBits.Count((int)excludedFaces);
                     Debug.Assert(hiddenFaces >= 0 && hiddenFaces <= 6);
                     int visibleFaces = 6 - hiddenFaces;
-                    mapPartition.hiddenFaces += hiddenFaces;
-                    mapPartition.visibleFaces += visibleFaces;
+                    worldState.hiddenFaces += hiddenFaces;
+                    worldState.visibleFaces += visibleFaces;
 
                     facedVolumes.Add(pair.Key, new FacedVolume(volume, excludedFaces));
                 }

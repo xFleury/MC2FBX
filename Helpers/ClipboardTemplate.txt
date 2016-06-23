@@ -1,0 +1,7 @@
+﻿Begin Map
+   Begin Level
+<!--ACTORS-->
+   End Level
+Begin Surface
+End Surface
+End Map

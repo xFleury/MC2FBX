@@ -1,4 +1,5 @@
 ﻿using NbtToObj.Geometry;
+using NbtToObj.Helpers;
 using NbtToObj.Minecraft;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ namespace NbtToObj.Optimizer
 {
     static class DuplicateVertices
     {        
-        public static int DetectAndErase(List<CoordinateDecimal> vertices, Dictionary<BlockFaceTexture, List<TexturedFace>> texturedFaces)
+        public static int DetectAndErase(List<CoordinateDecimal> vertices, MultiValueDictionary<BlockFaceTexture, TexturedFace> texturedFaces)
         {            
             List<int> translationIndex = new List<int>();
             List<int> translationOffset = new List<int>();

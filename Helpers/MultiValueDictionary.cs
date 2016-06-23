@@ -11,6 +11,14 @@ namespace NbtToObj.Helpers
     {
         public Dictionary<TKey, List<TValue>> dict = new Dictionary<TKey, List<TValue>>();
 
+        public List<TValue> this[TKey key]
+        {
+            get
+            {
+                return dict[key];
+            }
+        }
+
         public void Add(TKey key, TValue value)
         {
             List<TValue> list;

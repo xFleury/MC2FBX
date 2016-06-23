@@ -1,6 +1,6 @@
 ﻿namespace NbtToObj.Geometry
 {
-    struct FacedVolume
+    class FacedVolume
     {
         public readonly Volume volume;
         public Face excludedFaces;

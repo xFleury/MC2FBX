@@ -43,20 +43,22 @@
   <ItemGroup>
     <Compile Include="Geometry\SizeD.cs" />
     <Compile Include="Geometry\TextureCoordinate.cs" />
+    <Compile Include="Gui\GroupState.cs" />
+    <Compile Include="Gui\GroupStateBuilder.cs" />
     <Compile Include="Gui\MapPartition.cs" />
+    <Compile Include="Gui\WorldState.cs" />
+    <Compile Include="Gui\WorldStateBuilder.cs" />
     <Compile Include="Helpers\MultiValueDictionary.cs" />
     <Compile Include="Helpers\NumberOfSetBits.cs" />
+    <Compile Include="Helpers\UnrealEditorClipboard.cs" />
     <Compile Include="Minecraft\BlockState.cs" />
     <Compile Include="Minecraft\CompositeBlockConverter.cs" />
     <Compile Include="Minecraft\Block.cs" />
     <Compile Include="Minecraft\LookupOpaqueBlock.cs" />
-    <Compile Include="Minecraft\LookupPhysicalMaterial.cs" />
     <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
     <Compile Include="Wavefront\BlockPartitioner.cs" />
-    <Compile Include="Wavefront\PhysicalMaterialPartitioner.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Helpers\Endian.cs" />
-    <Compile Include="Minecraft\PhysicalMaterial.cs" />
     <Compile Include="Nbt\Tags\NbtDouble.cs" />
     <Compile Include="Nbt\Tags\NbtFloat.cs" />
     <Compile Include="Geometry\CoordinateDecimal.cs" />
@@ -106,6 +108,8 @@
     <None Include="Nbt\Docs\LICENSE %28fNbt%29" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Helpers\ActorTemplate.txt" />
+    <EmbeddedResource Include="Helpers\ClipboardTemplate.txt" />
     <Content Include="Nbt\Docs\README %28fNbt%29.txt" />
   </ItemGroup>
   <ItemGroup />
