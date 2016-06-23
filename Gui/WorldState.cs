@@ -15,10 +15,12 @@ namespace NbtToObj.Gui
         public Dictionary<CoordinateInt, Block> visibleAndInvisibleBlocks;
         public Dictionary<CoordinateInt, Block> visibleBlocks;
         public HashSet<CoordinateInt> invisibleBricks;
-        public Dictionary<Block, HashSet<CoordinateInt>> organizedBlocks;
-        public readonly MultiValueDictionary<Block, Volume> volumizedWorld = new MultiValueDictionary<Block, Volume>();
+
+        public List<ChunkState> chunks;
+
+
         
-        public MultiValueDictionary<Block, FacedVolume> facedVolumes;
+        
 
         public int hiddenFaces;
 

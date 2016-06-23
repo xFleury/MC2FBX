@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Geometry\SizeD.cs" />
     <Compile Include="Geometry\TextureCoordinate.cs" />
-    <Compile Include="Gui\GroupState.cs" />
-    <Compile Include="Gui\GroupStateBuilder.cs" />
+    <Compile Include="Gui\ChunkState.cs" />
+    <Compile Include="Gui\ChunkStateBuilder.cs" />
     <Compile Include="Gui\MapPartition.cs" />
     <Compile Include="Gui\WorldState.cs" />
     <Compile Include="Gui\WorldStateBuilder.cs" />
@@ -56,7 +56,6 @@
     <Compile Include="Minecraft\Block.cs" />
     <Compile Include="Minecraft\LookupOpaqueBlock.cs" />
     <Compile Include="Optimizer\InvisibleBlockDetection.cs" />
-    <Compile Include="Wavefront\BlockPartitioner.cs" />
     <Compile Include="Minecraft\BlockFaceTexture.cs" />
     <Compile Include="Helpers\Endian.cs" />
     <Compile Include="Nbt\Tags\NbtDouble.cs" />

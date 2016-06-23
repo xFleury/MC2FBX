@@ -11,7 +11,7 @@ namespace NbtToObj.Helpers
 {
     static class UnrealEditorClipboard
     {
-        public static string GetClipoard(WorldState worldState, List<GroupState> groupStates)
+        public static string GetClipoard(WorldState worldState)
         {
             StringBuilder clipboard = new StringBuilder();
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -27,9 +27,9 @@ namespace NbtToObj.Helpers
             }
 
             StringBuilder actors = new StringBuilder();
-            foreach (GroupState groupState in groupStates)
+            foreach (ChunkState chunkState in worldState.chunks)
             {
-                string meshName = worldState.outputName + "_" + groupState.groupName;
+                string meshName = worldState.outputName + "_" + chunkState.chunkName;
                 actors.Append(actorTemplate.Replace("<!--MESHNAME-->", meshName));
             }
 

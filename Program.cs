@@ -23,21 +23,19 @@ namespace NbtToObj
 
             WorldState worldState = WorldStateBuilder.Build(args[0], args[2]);
 
-            List<GroupState> groupStates = GroupStateBuilder.Partition(worldState);
-
-            foreach (GroupState groupState in groupStates)
+            foreach (ChunkState chunkState in worldState.chunks)
             {
-                List<FacedVolume> volumes = groupState.facedVolumes;
+                List<FacedVolume> volumes = chunkState.facedVolumes;
                 for (int idx = 0; idx < volumes.Count; idx++)
-                    UnrealBoxCollision.MakeCollisionUBX("UBX_" + groupState.groupName + string.Format("_{0:00}", idx), 
+                    UnrealBoxCollision.MakeCollisionUBX("UBX_" + chunkState.chunkName + string.Format("_{0:00}", idx), 
                         volumes[idx].volume, worldState.vertices, worldState.collisionBoxes);
             }
 
             /* Export the geometry to Wavefront's OBJ format. */
-            File.WriteAllText(Path.Combine(args[1], $"{args[2]}.obj"), WavefrontObj.Generate(worldState, groupStates));
+            File.WriteAllText(Path.Combine(args[1], $"{args[2]}.obj"), WavefrontObj.Generate(worldState));
 
             /* Export the unreal editor clipboard txt. */
-            File.WriteAllText(Path.Combine(args[1], $"{args[2]}.txt"), UnrealEditorClipboard.GetClipoard(worldState, groupStates));
+            File.WriteAllText(Path.Combine(args[1], $"{args[2]}.txt"), UnrealEditorClipboard.GetClipoard(worldState));
 
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();

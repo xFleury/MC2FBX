@@ -10,10 +10,18 @@ using System.Threading.Tasks;
 
 namespace NbtToObj.Gui
 {
-    class GroupState
+    class ChunkState
     {
-        public string groupName;
+        public string chunkName;
+
+        public Block blockType;
+
+        public HashSet<CoordinateInt> visibleBlocks;
+
+        public readonly List<Volume> volumizedWorld = new List<Volume>();
 
         public List<FacedVolume> facedVolumes;
+
+        //public List<FacedVolume> facedVolumes;
     }
 }

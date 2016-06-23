@@ -13,7 +13,7 @@ namespace NbtToObj.Wavefront
 {
     static class WavefrontObj
     {
-        public static string Generate(WorldState worldState, List<GroupState> groupStates)
+        public static string Generate(WorldState worldState)
         {
             const int maxDecimalPlaces = 6;
 
@@ -52,11 +52,11 @@ namespace NbtToObj.Wavefront
                 }
             }
 
-            foreach (GroupState groupState in groupStates)
+            foreach (ChunkState chunkState in worldState.chunks)
             {
-                sb.AppendLine("g " + groupState.groupName);
+                sb.AppendLine("g " + chunkState.chunkName);
 
-                foreach (FacedVolume facedVolume in groupState.facedVolumes)
+                foreach (FacedVolume facedVolume in chunkState.facedVolumes)
                 {
                     foreach (KeyValuePair<BlockFaceTexture, List<TexturedFace>> texturedFaces in worldState.texturedFacesOfFacedVolume[facedVolume])
                     {
